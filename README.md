@@ -42,7 +42,7 @@ Open PR `Release - update bundle version` and update [patch_csv.yaml](./bundle-p
 Once the PR is merged and bundle is built. Open another PR `Release - update catalog` with:
  * Updated [catalog template](./catalog/catalog-template.yaml) with the new bundle (get the bundle pullspec from [Konflux](https://console.redhat.com/application-pipeline/workspaces/rhosdt/applications/otel/components/otel-bundle)):
     ```bash
-    opm alpha render-template basic --output yaml catalog/catalog-template.yaml > catalog/opentelemetry-product/catalog.yaml && \
+    opm alpha render-template basic --output yaml --migrate-level bundle-object-to-csv-metadata catalog/catalog-template.yaml > catalog/opentelemetry-product/catalog.yaml && \
     sed -i 's#quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle#registry.redhat.io/rhosdt/opentelemetry-operator-bundle#g' catalog/opentelemetry-product/catalog.yaml  && \
     opm validate catalog/opentelemetry-product/
    
@@ -212,7 +212,7 @@ skopeo inspect --raw docker://quay.io/redhat-user-workloads/rhosdt-tenant/otel/o
 ### Extract file based catalog from OpenShift index
 
 ```bash
-podman cp $(podman create --name tc registry.redhat.io/redhat/redhat-operator-index:v4.16):/configs/opentelemetry-product opentelemetry-product-4.16  && podman rm tc
-opm migrate opentelemetry-product-4.16 opentelemetry-product-4.16-migrated
-opm alpha convert-template basic --output yaml ./opentelemetry-product-4.16-migrated/opentelemetry-product/catalog.json > opentelemetry-product-4.16-migrated/opentelemetry-product/catalog-template.yaml
+podman cp $(podman create --name tc registry.redhat.io/redhat/redhat-operator-index:v4.17):/configs/opentelemetry-product opentelemetry-product-4.17  && podman rm tc
+opm migrate opentelemetry-product-4.17 opentelemetry-product-4.17-migrated
+opm alpha convert-template basic --output yaml ./opentelemetry-product-4.17-migrated/opentelemetry-product/catalog.json > opentelemetry-product-4.17-migrated/opentelemetry-product/catalog-template.yaml
 ```
