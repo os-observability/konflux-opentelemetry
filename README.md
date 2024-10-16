@@ -92,6 +92,35 @@ kubectl delete CatalogSource konflux-catalog-otel -n openshift-marketplace
 
 `Konflux catalog OTEL` menu should appear in the OCP console under Operators->OperatorHub.
 
+#### Mirror images
+
+The catalog uses pullspecs from `registry.redhat.io` which are not available before the release. Therefore the images need to be re-mapped.
+
+From https://konflux.pages.redhat.com/docs/users/getting-started/building-olm-products.html#releasing-a-fbc-component
+
+```yaml
+kubectl apply -f - <<EOF
+apiVersion: config.openshift.io/v1
+kind: ImageDigestMirrorSet
+metadata:
+  name: fbc-testing-idms
+spec:
+  imageDigestMirrors:
+  - source: registry.redhat.io/rhosdt/opentelemetry-collector-rhel8
+    mirrors:
+      - quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-collector
+  - source: registry.redhat.io/rhosdt/opentelemetry-target-allocator-rhel8
+    mirrors:
+      - quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-target-allocator
+  - source: registry.redhat.io/rhosdt/opentelemetry-rhel8-operator
+    mirrors:
+       - quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-operator
+  - source: registry.redhat.io/rhosdt/opentelemetry-operator-bundle
+    mirrors:
+       - quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle
+EOF
+```
+
 ### Inspect bundle image
 
 ```bash
