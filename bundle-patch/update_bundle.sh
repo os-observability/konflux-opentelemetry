@@ -7,7 +7,7 @@ export OTEL_COLLECTOR_IMAGE_PULLSPEC="quay.io/redhat-user-workloads/rhosdt-tenan
 # Separate due to merge conflicts
 export OTEL_TARGET_ALLOCATOR_IMAGE_PULLSPEC="quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-target-allocator@sha256:fad7476001960342a0fb055fa0a944e2ba38bde58c9564b523ad6cc44d057c0b"
 # Separate due to merge conflicts
-export OTEL_OPERATOR_IMAGE_PULLSPEC="quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-operator@sha256:aa31c6cf23091aa70da2b89a54e0f5448bbde8a93e11a16e0ded76de19f13664"
+export OTEL_OPERATOR_IMAGE_PULLSPEC="quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-operator@sha256:0285823dc77e2730e85db14bf1f263c685305ea3d31174cb2129a10fb83349c4"
 # Separate due to merge conflicts
 # TODO, we used to set the proxy image per OCP version
 export OSE_KUBE_RBAC_PROXY_PULLSPEC="registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:8204d45506297578c8e41bcc61135da0c7ca244ccbd1b39070684dfeb4c2f26c"
