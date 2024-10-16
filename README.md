@@ -101,6 +101,12 @@ tar xvf /tmp/bundle/image.tar -C /tmp/bundle
 tar xvf /tmp/bundle/c6f6e1b5441a6acfc03bb40f4b2d47b98dcfca1761e77e47fba004653eb596d7/layer.tar -C /tmp/bundle/c6f6e1b5441a6acfc03bb40f4b2d47b98dcfca1761e77e47fba004653eb596d7
 ```
 
+### List tags
+
+```bash
+skopeo list-tags docker://brew.registry.redhat.io/rh-osbs/openshift-golang-builder
+```
+
 ### Inspect multi-arch image
 
 The pinned image pullspec in [update-bundle.sh](bundle-patch/update_bundle.sh) should be image index digest.
