@@ -134,6 +134,7 @@ spec:
     ### Support & Troubleshooting
 
     Red Hat build of OpenTelemetry is available as part of a Red Hat OpenShift subscription.
+    Checking the [Red Hat Documentation](https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/red_hat_build_of_opentelemetry/index) is recommended when installing, configuring, and managing the Operator and instances.
   displayName: 'Red Hat build of OpenTelemetry'
   maintainers:
     - email: support@redhat.com
