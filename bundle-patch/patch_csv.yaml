@@ -161,8 +161,6 @@ spec:
                 containers:
                   - name: manager
                     image: opentelemetry-operator-container-pullspec
-                    remove_args:
-                      - '--enable-multi-instrumentation=true'
                     extra_args:
                       - '--enable-cr-metrics=true'
                       - '--fips-disabled-components=extension.oidc'
