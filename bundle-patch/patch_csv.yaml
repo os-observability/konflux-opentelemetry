@@ -165,6 +165,7 @@ spec:
                       - '--enable-multi-instrumentation=true'
                     extra_args:
                       - '--enable-cr-metrics=true'
+                      - '--fips-disabled-components=extension.oidc'
                     extra_env:
                       - name: RELATED_IMAGE_COLLECTOR
                         value: opentelemetry-collector-container-pullspec
