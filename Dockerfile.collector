@@ -1,18 +1,20 @@
-FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_8_golang_1.22 as builder
+FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_8_golang_1.22@sha256:99a63fb1eab333048e7f029dfacfe1054fc08b123b093e66a91ded52a908f781 as builder
 
 WORKDIR /opt/app-root/src
 USER root
 
-COPY redhat-opentelemetry-collector .
+COPY .git .git
+COPY redhat-opentelemetry-collector redhat-opentelemetry-collector
 # this directory is checked by ecosystem-cert-preflight-checks task in Konflux
 COPY redhat-opentelemetry-collector/LICENSE /licenses/
+WORKDIR /opt/app-root/src/redhat-opentelemetry-collector
 
 RUN CGO_ENABLED=1 GOEXPERIMENT=strictfipsruntime go build -C ./_build -mod=mod -tags strictfipsruntime -o opentelemetry-collector -trimpath -ldflags "-w"
 
 COPY fips_check.sh .
 RUN ./fips_check.sh
 
-FROM registry.redhat.io/ubi8/ubi-minimal@sha256:c12e67af6a7e15113d76bc72f10bef2045c026c71ec8b7124c8a075458188a83
+FROM registry.redhat.io/ubi8/ubi-minimal:latest@sha256:c12e67af6a7e15113d76bc72f10bef2045c026c71ec8b7124c8a075458188a83
 WORKDIR /
 
 # Install the systemd package which provides journalctl required by journald receiver and add user to systemd-journal group.
@@ -23,7 +25,7 @@ RUN microdnf update -y && rm -rf /var/cache/yum && \
 
 RUN mkdir /licenses
 COPY opentelemetry-operator/LICENSE /licenses/.
-COPY --from=builder /opt/app-root/src/_build/opentelemetry-collector /usr/bin/opentelemetry-collector
+COPY --from=builder /opt/app-root/src/redhat-opentelemetry-collector/_build/opentelemetry-collector /usr/bin/opentelemetry-collector
 COPY redhat-opentelemetry-collector/configs/otelcol.yaml /etc/otelcol/config.yaml
 
 ARG USER_UID=1001
@@ -40,4 +42,3 @@ LABEL com.redhat.component="opentelemetry-collector-container" \
       io.openshift.expose-services="4317:otlp,9411:zipkin" \
       io.openshift.tags="tracing" \
       io.k8s.display-name="OpenTelemetry Collector"
-

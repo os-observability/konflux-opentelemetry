@@ -12,6 +12,7 @@ metadata:
       ".tekton/otel-collector-pull-request.yaml".pathChanged() ||
       ".tekton/otel-otel-collector-push.yaml".pathChanged() ||
       "Dockerfile.collector".pathChanged() ||
+      "rpms.lock.yaml" ||
       "redhat-opentelemetry-collector".pathChanged())
   creationTimestamp: null
   labels:

@@ -12,6 +12,7 @@ metadata:
       ".tekton/otel-target-allocator-pull-request.yaml".pathChanged() ||
       ".tekton/otel-target-allocator-push.yaml".pathChanged() ||
       "Dockerfile.operator".pathChanged() ||
+      "rpms.lock.yaml" ||
       "opentelemetry-operator".pathChanged())
   creationTimestamp: null
   labels:
