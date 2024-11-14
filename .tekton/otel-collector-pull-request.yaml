@@ -12,6 +12,7 @@ metadata:
       ".tekton/otel-collector-pull-request.yaml".pathChanged() ||
       ".tekton/otel-collector-push.yaml".pathChanged() ||
       "Dockerfile.collector".pathChanged() ||
+      "rpms.lock.yaml".pathChanged() ||
       "redhat-opentelemetry-collector".pathChanged())
   creationTimestamp: null
   labels:
@@ -21,6 +22,14 @@ metadata:
   name: otel-collector-on-pull-request
   namespace: rhosdt-tenant
 spec:
+  taskRunSpecs:
+    - pipelineTaskName: prefetch-dependencies
+      computeResources:
+        requests:
+          cpu: 300m
+          memory: 256Mi
+        limits:
+          memory: 4Gi
   params:
   - name: git-url
     value: '{{source_url}}'

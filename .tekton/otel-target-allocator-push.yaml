@@ -12,6 +12,7 @@ metadata:
       ".tekton/otel-target-allocator-pull-request.yaml".pathChanged() ||
       ".tekton/otel-target-allocator-push.yaml".pathChanged() ||
       "Dockerfile.operator".pathChanged() ||
+      "rpms.lock.yaml".pathChanged() ||
       "opentelemetry-operator".pathChanged())
   creationTimestamp: null
   labels:
@@ -21,6 +22,14 @@ metadata:
   name: otel-target-allocator-on-push
   namespace: rhosdt-tenant
 spec:
+  taskRunSpecs:
+    - pipelineTaskName: prefetch-dependencies
+      computeResources:
+        requests:
+          cpu: 300m
+          memory: 256Mi
+        limits:
+          memory: 4Gi
   params:
   - name: git-url
     value: '{{source_url}}'

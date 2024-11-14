@@ -193,13 +193,13 @@ arches:
     name: libutempter
     evr: 1.1.6-14.el8
     sourcerpm: libutempter-1.1.6-14.el8.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/aarch64/baseos/os/Packages/o/openssl-1.1.1k-12.el8_9.aarch64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/aarch64/baseos/os/Packages/o/openssl-1.1.1k-14.el8_6.aarch64.rpm
     repoid: ubi-8-baseos-rpms
-    size: 708212
-    checksum: sha256:0fc85904be25bedbd131b568c3f34261d116df1d0ab91edf1c0374cb3f739388
+    size: 708628
+    checksum: sha256:1367e3cc6f59b4afa0a326455e2c381f7b5b9ca00e5de86663895cdaec70e52b
     name: openssl
-    evr: 1:1.1.1k-12.el8_9
-    sourcerpm: openssl-1.1.1k-12.el8_9.src.rpm
+    evr: 1:1.1.1k-14.el8_6
+    sourcerpm: openssl-1.1.1k-14.el8_6.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/aarch64/baseos/os/Packages/p/pam-1.3.1-34.el8_10.aarch64.rpm
     repoid: ubi-8-baseos-rpms
     size: 758924
@@ -344,12 +344,12 @@ arches:
     checksum: sha256:e252fdfdbcb2dfcedd3aa1eb009bbfb57f7e68a7ddead1cbb79f94c5c093fbd6
     name: lvm2
     evr: 8:2.03.14-14.el8
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/aarch64/baseos/source/SRPMS/Packages/o/openssl-1.1.1k-12.el8_9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/aarch64/baseos/source/SRPMS/Packages/o/openssl-1.1.1k-14.el8_6.src.rpm
     repoid: ubi-8-baseos-source
-    size: 7738034
-    checksum: sha256:dc072a144f8e63b314f20f3ef95f9d371f51dcf31417449831adeedd48f86020
+    size: 7741480
+    checksum: sha256:c97b10d6a034e025a19ec8443ef7c80755e3a407fe29a77dda95af958b199eed
     name: openssl
-    evr: 1:1.1.1k-12.el8_9
+    evr: 1:1.1.1k-14.el8_6
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/aarch64/baseos/source/SRPMS/Packages/p/pam-1.3.1-34.el8_10.src.rpm
     repoid: ubi-8-baseos-source
     size: 1154953
@@ -573,13 +573,13 @@ arches:
     name: libutempter
     evr: 1.1.6-14.el8
     sourcerpm: libutempter-1.1.6-14.el8.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/ppc64le/baseos/os/Packages/o/openssl-1.1.1k-12.el8_9.ppc64le.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/ppc64le/baseos/os/Packages/o/openssl-1.1.1k-14.el8_6.ppc64le.rpm
     repoid: ubi-8-baseos-rpms
-    size: 731608
-    checksum: sha256:88976a1aeafd107b50d0a7c19317f499a5bdef153844f19afc3f4be0a5f5e4b1
+    size: 731808
+    checksum: sha256:13616f555100e3a9b4617fe4d3aa13c4a1f46237708572b379749863ee1fb7ae
     name: openssl
-    evr: 1:1.1.1k-12.el8_9
-    sourcerpm: openssl-1.1.1k-12.el8_9.src.rpm
+    evr: 1:1.1.1k-14.el8_6
+    sourcerpm: openssl-1.1.1k-14.el8_6.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/ppc64le/baseos/os/Packages/p/pam-1.3.1-34.el8_10.ppc64le.rpm
     repoid: ubi-8-baseos-rpms
     size: 810840
@@ -730,12 +730,12 @@ arches:
     checksum: sha256:e252fdfdbcb2dfcedd3aa1eb009bbfb57f7e68a7ddead1cbb79f94c5c093fbd6
     name: lvm2
     evr: 8:2.03.14-14.el8
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/ppc64le/baseos/source/SRPMS/Packages/o/openssl-1.1.1k-12.el8_9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/ppc64le/baseos/source/SRPMS/Packages/o/openssl-1.1.1k-14.el8_6.src.rpm
     repoid: ubi-8-baseos-source
-    size: 7738034
-    checksum: sha256:dc072a144f8e63b314f20f3ef95f9d371f51dcf31417449831adeedd48f86020
+    size: 7741480
+    checksum: sha256:c97b10d6a034e025a19ec8443ef7c80755e3a407fe29a77dda95af958b199eed
     name: openssl
-    evr: 1:1.1.1k-12.el8_9
+    evr: 1:1.1.1k-14.el8_6
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/ppc64le/baseos/source/SRPMS/Packages/p/pam-1.3.1-34.el8_10.src.rpm
     repoid: ubi-8-baseos-source
     size: 1154953
@@ -952,13 +952,13 @@ arches:
     name: libutempter
     evr: 1.1.6-14.el8
     sourcerpm: libutempter-1.1.6-14.el8.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/s390x/baseos/os/Packages/o/openssl-1.1.1k-12.el8_9.s390x.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/s390x/baseos/os/Packages/o/openssl-1.1.1k-14.el8_6.s390x.rpm
     repoid: ubi-8-baseos-rpms
-    size: 714664
-    checksum: sha256:de1ba77d0e508528818581e94cc53324e18b9931dd6c0b68d94bfbd54fb3583d
+    size: 714804
+    checksum: sha256:2f7e70c08d50e1f6314e5d130d77c6285e3133c57903ee692e49579ecf09963b
     name: openssl
-    evr: 1:1.1.1k-12.el8_9
-    sourcerpm: openssl-1.1.1k-12.el8_9.src.rpm
+    evr: 1:1.1.1k-14.el8_6
+    sourcerpm: openssl-1.1.1k-14.el8_6.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/s390x/baseos/os/Packages/p/pam-1.3.1-34.el8_10.s390x.rpm
     repoid: ubi-8-baseos-rpms
     size: 744420
@@ -1103,12 +1103,12 @@ arches:
     checksum: sha256:e252fdfdbcb2dfcedd3aa1eb009bbfb57f7e68a7ddead1cbb79f94c5c093fbd6
     name: lvm2
     evr: 8:2.03.14-14.el8
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/s390x/baseos/source/SRPMS/Packages/o/openssl-1.1.1k-12.el8_9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/s390x/baseos/source/SRPMS/Packages/o/openssl-1.1.1k-14.el8_6.src.rpm
     repoid: ubi-8-baseos-source
-    size: 7738034
-    checksum: sha256:dc072a144f8e63b314f20f3ef95f9d371f51dcf31417449831adeedd48f86020
+    size: 7741480
+    checksum: sha256:c97b10d6a034e025a19ec8443ef7c80755e3a407fe29a77dda95af958b199eed
     name: openssl
-    evr: 1:1.1.1k-12.el8_9
+    evr: 1:1.1.1k-14.el8_6
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/s390x/baseos/source/SRPMS/Packages/p/pam-1.3.1-34.el8_10.src.rpm
     repoid: ubi-8-baseos-source
     size: 1154953
@@ -1325,13 +1325,13 @@ arches:
     name: libutempter
     evr: 1.1.6-14.el8
     sourcerpm: libutempter-1.1.6-14.el8.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/o/openssl-1.1.1k-12.el8_9.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/o/openssl-1.1.1k-14.el8_6.x86_64.rpm
     repoid: ubi-8-baseos-rpms
-    size: 727800
-    checksum: sha256:b3ebcd7861e92e2970e59a8db2b28c92532ae8bb9d8dbf31c5f07fca18d949f1
+    size: 728108
+    checksum: sha256:a8e4ff3346cfa24713f54d2a9e2b53ad7f3c9d84a6c639ba2150b7cb09550af0
     name: openssl
-    evr: 1:1.1.1k-12.el8_9
-    sourcerpm: openssl-1.1.1k-12.el8_9.src.rpm
+    evr: 1:1.1.1k-14.el8_6
+    sourcerpm: openssl-1.1.1k-14.el8_6.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/p/pam-1.3.1-34.el8_10.x86_64.rpm
     repoid: ubi-8-baseos-rpms
     size: 764668
@@ -1476,12 +1476,12 @@ arches:
     checksum: sha256:e252fdfdbcb2dfcedd3aa1eb009bbfb57f7e68a7ddead1cbb79f94c5c093fbd6
     name: lvm2
     evr: 8:2.03.14-14.el8
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/o/openssl-1.1.1k-12.el8_9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/o/openssl-1.1.1k-14.el8_6.src.rpm
     repoid: ubi-8-baseos-source
-    size: 7738034
-    checksum: sha256:dc072a144f8e63b314f20f3ef95f9d371f51dcf31417449831adeedd48f86020
+    size: 7741480
+    checksum: sha256:c97b10d6a034e025a19ec8443ef7c80755e3a407fe29a77dda95af958b199eed
     name: openssl
-    evr: 1:1.1.1k-12.el8_9
+    evr: 1:1.1.1k-14.el8_6
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/p/pam-1.3.1-34.el8_10.src.rpm
     repoid: ubi-8-baseos-source
     size: 1154953

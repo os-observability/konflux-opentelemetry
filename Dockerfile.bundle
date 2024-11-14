@@ -1,5 +1,5 @@
 # Based on ./gatekeeper-operator/bundle.Dockerfile
-FROM registry.redhat.io/ubi9/ubi@sha256:2bae9062eddbbc18e76555972e7026ffe02cef560a0076e6d7f72bed2c05723f as builder-runner
+FROM registry.redhat.io/ubi9/ubi@sha256:2bae9062eddbbc18e76555972e7026ffe02cef560a0076e6d7f72bed2c05723f as builder-deps
 
 USER root
 WORKDIR /
@@ -10,7 +10,7 @@ RUN mkdir /licenses
 COPY opentelemetry-operator/LICENSE /licenses/.
 
 # Use a new stage to enable caching of the package installations for local development
-FROM builder-runner as builder
+FROM builder-deps as builder
 
 COPY bundle-patch .
 COPY opentelemetry-operator/bundle/openshift/manifests /manifests/
@@ -24,9 +24,7 @@ ARG REGISTRY=quay.io/redhat-user-workloads
 
 RUN ./update_bundle.sh && cat /manifests/opentelemetry-operator.clusterserviceversion.yaml /metadata/annotations.yaml
 
-FROM registry.redhat.io/ubi8/ubi-minimal@sha256:c12e67af6a7e15113d76bc72f10bef2045c026c71ec8b7124c8a075458188a83
-# Change this when generating RPM pre-fetch
-#FROM registry.redhat.io/ubi9/ubi:latest as builder-runner
+FROM registry.redhat.io/ubi8/ubi-minimal:latest@sha256:c12e67af6a7e15113d76bc72f10bef2045c026c71ec8b7124c8a075458188a83
 
 WORKDIR /
 
@@ -47,8 +45,8 @@ LABEL operators.operatorframework.io.metrics.project_layout=go.kubebuilder.io/v3
 LABEL operators.operatorframework.io.test.mediatype.v1=scorecard+v1
 LABEL operators.operatorframework.io.test.config.v1=tests/scorecard/
 
-LABEL release="0.107.0-5" \
-      version="0.107.0-5" \
+LABEL release="0.112.0-1" \
+      version="0.112.0-1" \
       com.redhat.openshift.versions=v4.12 \
       name="rhosdt/opentelemetry-operator-bundle" \
       distribution-scope="public" \
@@ -71,5 +69,3 @@ COPY opentelemetry-operator/bundle/openshift/tests/scorecard /tests/scorecard/
 
 ARG USER_UID=1001
 USER ${USER_UID}
-
-

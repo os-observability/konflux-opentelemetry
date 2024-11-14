@@ -31,40 +31,59 @@ podman run --rm -v "$PWD:$PWD:z" -w "$PWD"  registry.redhat.io/ubi8/ubi-minimal:
 ```
 
 ## Release
+### Application
+Update all base images (merge renovatebot PRs).
 
-Open PR `Release - update bundle version` and update [patch_csv.yaml](./bundle-patch/patch_csv.yaml) by submitting a PR with follow-up changes:
-1. `spec.version` with the current version e.g. `opentelemetry-operator.v0.108.0`
-1. `spec.name` with the current version e.g. `opentelemetry-operator.v0.108.0`
+Create a PR `Release - update upstream sources x.y`:
+1. Update git submodules with upstream versions
+1. Update rpm lockfiles
+   ```bash
+   rpm-lockfile-prototype --arch x86_64 --arch aarch64 --arch s390x --arch ppc64le -f Dockerfile.operator rpms.in.yaml --outfile rpms.lock.yaml
+   cd bundle-patch; rpm-lockfile-prototype --arch x86_64 rpms.in.yaml --outfile rpms.lock.yaml
+   ```
+
+### Bundle
+Wait for renovatebot to create PRs to update the hash in the `bundle-patch/update_bundle.sh` file, and merge all of them.
+
+Create a PR `Release - update bundle version x.y` and update [patch_csv.yaml](./bundle-patch/patch_csv.yaml) by submitting a PR with follow-up changes:
+1. `metadata.name` with the current version e.g. `opentelemetry-operator.v0.108.0-1`
+1. `metadata.extra_annotations.olm.skipRange` with the version being productized e.g. `'>=0.33.0 <0.108.0-1'`
+1. `spec.version` with the current version e.g. `opentelemetry-operator.v0.108.0-1`
 1. `spec.replaces` with [the previous shipped version](https://catalog.redhat.com/software/containers/rhosdt/opentelemetry-operator-bundle/615618406feffc5384e84400) of CSV e.g. `opentelemetry-operator.v0.107.0-4`
-1. `metadata.extra_annotations.olm.skipRange` with the version being productized e.g. `'>=0.33.0 <0.108.0'`
-1. Update `release` and `version` labels in [bundle dockerfile](./Dockerfile.bundle)
+1. Update `release`, `version` and `com.redhat.openshift.versions` (minimum OCP version) labels in [bundle dockerfile](./Dockerfile.bundle)
+1. Verify diff of upstream and downstream ClusterServiceVersion
+   ```bash
+   podman build -t opentelemetry-bundle -f Dockerfile.bundle . && podman cp $(podman create opentelemetry-bundle):/manifests/opentelemetry-operator.clusterserviceversion.yaml .
+   git diff --no-index opentelemetry-operator/bundle/openshift/manifests/opentelemetry-operator.clusterserviceversion.yaml opentelemetry-operator.clusterserviceversion.yaml
+   rm opentelemetry-operator.clusterserviceversion.yaml
+   ```
 
-Once the PR is merged and bundle is built. Open another PR `Release - update catalog` with:
- * Updated [catalog template](./catalog/catalog-template.yaml) with the new bundle (get the bundle pullspec from [Konflux](https://console.redhat.com/application-pipeline/workspaces/rhosdt/applications/otel/components/otel-bundle)):
-    ```bash
-    opm alpha render-template basic --output yaml --migrate-level bundle-object-to-csv-metadata catalog/catalog-template.yaml > catalog/opentelemetry-product-4.17/catalog.yaml && \
-    opm alpha render-template basic --output yaml catalog/catalog-template.yaml > catalog/opentelemetry-product/catalog.yaml && \
-    sed -i 's#quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle#registry.redhat.io/rhosdt/opentelemetry-operator-bundle#g' catalog/opentelemetry-product/catalog.yaml  && \
-    sed -i 's#quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle#registry.redhat.io/rhosdt/opentelemetry-operator-bundle#g' catalog/opentelemetry-product-4.17/catalog.yaml  && \
-    opm validate catalog/opentelemetry-product && \
-    opm validate catalog/opentelemetry-product-4.17 
-   
-    # This does not generate valid catalog, e.g. it is smaller and missing relatedImages
-    docker run --rm -it -v $(pwd)/catalog:/tmp:Z  --entrypoint /bin/bash registry.redhat.io/openshift4/ose-operator-registry-rhel9:v4.16
-    opm alpha render-template basic /tmp/catalog-template.json > /tmp/opentelemetry-product/catalog-ose-operator.json
-    ```
+### Catalog
+Once the PR is merged and bundle is built, create another PR `Release - update catalog x.y` with:
+* Updated [catalog template](./catalog/catalog-template.yaml) with the new bundle (get the bundle pullspec from [Konflux](https://console.redhat.com/application-pipeline/workspaces/rhosdt/applications/otel/components/otel-bundle)):
+   ```bash
+   opm alpha render-template basic --output yaml catalog/catalog-template.yaml > catalog/opentelemetry-product/catalog.yaml && \
+   opm alpha render-template basic --output yaml --migrate-level bundle-object-to-csv-metadata catalog/catalog-template.yaml > catalog/opentelemetry-product-4.7/catalog.yaml && \
+   sed -i 's#quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle#registry.redhat.io/rhosdt/opentelemetry-operator-bundle#g' catalog/opentelemetry-product/catalog.yaml  && \
+   sed -i 's#quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle#registry.redhat.io/rhosdt/opentelemetry-operator-bundle#g' catalog/opentelemetry-product-4.17/catalog.yaml  && \
+   opm validate catalog/opentelemetry-product && \
+   opm validate catalog/opentelemetry-product-4.17
 
-(TODO verify) After konflux builds the bundle create one more PR to change the registry to `registry.redhat.io` see https://konflux-ci.dev/docs/advanced-how-tos/releasing/maintaining-references-before-release/
+   # This does not generate valid catalog, e.g. it is smaller and missing relatedImages
+   docker run --rm -it -v $(pwd)/catalog:/tmp:Z  --entrypoint /bin/bash registry.redhat.io/openshift4/ose-operator-registry-rhel9:v4.16
+   opm alpha render-template basic /tmp/catalog-template.json > /tmp/opentelemetry-product/catalog-ose-operator.json
+   ```
 
 ## Test locally
 
-Images can be found at https://quay.io/organization/redhat-user-workloads
+Images can be found at https://quay.io/organization/redhat-user-workloads (search for `rhosdt-tenant/otel`).
 
 ### Deploy bundle
 
 ```bash
-operator-sdk olm install 
-operator-sdk run bundle quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-bundle@sha256:a09e1fa7c42b3f89b8a74e83d9d8c5b501ef9cd356612d6e146646df1f3d5800
+operator-sdk olm install
+# get latest image pullspec from https://console.redhat.com/application-pipeline/workspaces/rhosdt/applications/otel/components/otel-bundle-quay
+operator-sdk run bundle quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-bundle-quay@sha256:a09e1fa7c42b3f89b8a74e83d9d8c5b501ef9cd356612d6e146646df1f3d5800
 operator-sdk cleanup opentelemetry-product
 ```
 
@@ -252,5 +271,5 @@ skopeo inspect --raw docker://quay.io/redhat-user-workloads/rhosdt-tenant/otel/o
 ```bash
 podman cp $(podman create --name tc registry.redhat.io/redhat/redhat-operator-index:v4.17):/configs/opentelemetry-product opentelemetry-product-4.17  && podman rm tc
 opm migrate opentelemetry-product-4.17 opentelemetry-product-4.17-migrated
-opm alpha convert-template basic --output yaml ./opentelemetry-product-4.17-migrated/opentelemetry-product/catalog.json > opentelemetry-product-4.17-migrated/opentelemetry-product/catalog-template.yaml
+opm alpha convert-template basic --output yaml ./opentelemetry-product-4.17-migrated/opentelemetry-product/catalog.json > catalog/catalog-template.yaml
 ```
