@@ -1,5 +1,5 @@
 # Based on ./gatekeeper-operator/bundle.Dockerfile
-FROM registry.redhat.io/ubi9/ubi@sha256:2bae9062eddbbc18e76555972e7026ffe02cef560a0076e6d7f72bed2c05723f as builder-deps
+FROM registry.redhat.io/ubi9/ubi:latest@sha256:2bae9062eddbbc18e76555972e7026ffe02cef560a0076e6d7f72bed2c05723f as builder-deps
 
 USER root
 WORKDIR /
@@ -45,8 +45,8 @@ LABEL operators.operatorframework.io.metrics.project_layout=go.kubebuilder.io/v3
 LABEL operators.operatorframework.io.test.mediatype.v1=scorecard+v1
 LABEL operators.operatorframework.io.test.config.v1=tests/scorecard/
 
-LABEL release="0.112.0-1" \
-      version="0.112.0-1" \
+LABEL release="0.113.0-1" \
+      version="0.113.0-1" \
       com.redhat.openshift.versions=v4.12 \
       name="rhosdt/opentelemetry-operator-bundle" \
       distribution-scope="public" \

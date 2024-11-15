@@ -4,6 +4,7 @@ from sys import exit as sys_exit
 from datetime import datetime
 from ruamel.yaml import YAML
 yaml = YAML()
+yaml.preserve_quotes = True
 
 def load_manifest(pathn):
    if not pathn.endswith(".yaml"):
@@ -84,7 +85,7 @@ with open('./patch_csv.yaml') as pf:
     # volumes
     if not upstream_csv['spec']['install']['spec']['deployments'][0]['spec']['template']['spec'].get('volumes'):
         upstream_csv['spec']['install']['spec']['deployments'][0]['spec']['template']['spec']['volumes']=[]
-    upstream_csv['spec']['install']['spec']['deployments'][0]['spec']['template']['spec']['volumes'].extend(patch['spec']['install']['spec']['deployments'][0]['spec']['template']['spec']['extra_volumes'])
+    upstream_csv['spec']['install']['spec']['deployments'][0]['spec']['template']['spec']['volumes'].extend(patch['spec']['install']['spec']['deployments'][0]['spec']['template']['spec'].get('extra_volumes', []))
 
     upstream_containers = upstream_csv['spec']['install']['spec']['deployments'][0]['spec']['template']['spec']['containers']
     for container in             patch['spec']['install']['spec']['deployments'][0]['spec']['template']['spec']['containers']:
@@ -99,7 +100,7 @@ with open('./patch_csv.yaml') as pf:
             upstream_container['image'] = container.get('image')
 
         # args
-        if container['extra_args'] is not None:
+        if container.get('extra_args') is not None:
             upstream_container['args'] = upstream_container['args'] + container['extra_args']
         for arg in container.get('remove_args', []):
             upstream_container['args'].remove(arg)
@@ -113,7 +114,7 @@ with open('./patch_csv.yaml') as pf:
         # volume mounts
         if container.get('extra_volumeMounts') is not None:
             if  upstream_container.get('volumeMounts') is not None:
-                upstream_container['volumeMounts'] = upstream_container.get('volumeMounts') + info.get('extra_volumeMounts')
+                upstream_container['volumeMounts'] = upstream_container.get('volumeMounts') + container.get('extra_volumeMounts')
             else:
                 upstream_container['volumeMounts'] = container.get('extra_volumeMounts')
 
