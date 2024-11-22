@@ -76,9 +76,10 @@ Images can be found at https://quay.io/organization/redhat-user-workloads (searc
 ### Deploy bundle
 
 ```bash
+kubectl create namespace openshift-opentelemetry-operator
 operator-sdk olm install
 # get latest image pullspec from https://console.redhat.com/application-pipeline/workspaces/rhosdt/applications/otel/components/otel-bundle-quay
-operator-sdk run bundle quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-bundle-quay@sha256:a09e1fa7c42b3f89b8a74e83d9d8c5b501ef9cd356612d6e146646df1f3d5800
+operator-sdk run bundle -n openshift-opentelemetry-operator quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-bundle-quay@sha256:a09e1fa7c42b3f89b8a74e83d9d8c5b501ef9cd356612d6e146646df1f3d5800
 operator-sdk cleanup opentelemetry-product
 ```
 
