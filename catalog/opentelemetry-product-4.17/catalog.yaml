@@ -2140,7 +2140,7 @@ relatedImages:
   name: target-allocator
 schema: olm.bundle
 ---
-image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:621e8568b9c996cee49b6e3e01c9d52abf135d2f5a3362ca2ae81c516cd7182f
+image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:ae12d308db4ebeaef248efbeaf6d0446835755ded408fb17391c9f71175d5dca
 name: opentelemetry-operator.v0.113.0-1
 package: opentelemetry-product
 properties:
@@ -2267,8 +2267,8 @@ properties:
       capabilities: Deep Insights
       categories: Logging & Tracing,Monitoring
       certified: "false"
-      containerImage: registry.redhat.io/rhosdt/opentelemetry-rhel8-operator@sha256:e4845083b5620b47ab372e9272d9b0933dc3fe4e28f870970a7d94055cb64400
-      createdAt: 22 Nov 2024, 11:17
+      containerImage: registry.redhat.io/rhosdt/opentelemetry-rhel8-operator@sha256:8eccc902479cf0fdf6a3f16afcfd2dcb335ed74783771c1f8e49a45affd56d84
+      createdAt: 04 Dec 2024, 12:34
       description: Provides the OpenTelemetry components, including the Collector
       features.operators.openshift.io/cnf: "false"
       features.operators.openshift.io/cni: "false"
@@ -2476,15 +2476,15 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:621e8568b9c996cee49b6e3e01c9d52abf135d2f5a3362ca2ae81c516cd7182f
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:ae12d308db4ebeaef248efbeaf6d0446835755ded408fb17391c9f71175d5dca
   name: ""
 - image: registry.redhat.io/openshift4/ose-kube-rbac-proxy:latest@sha256:7efeeb8b29872a6f0271f651d7ae02c91daea16d853c50e374c310f044d8c76c
   name: ose-rbac-proxy
 - image: registry.redhat.io/rhosdt/opentelemetry-collector-rhel8@sha256:502b2fd78f8ddf42b52af5f0e7151032c87546d7644b5d01185f2ce5358d5b82
   name: collector
-- image: registry.redhat.io/rhosdt/opentelemetry-rhel8-operator@sha256:e4845083b5620b47ab372e9272d9b0933dc3fe4e28f870970a7d94055cb64400
+- image: registry.redhat.io/rhosdt/opentelemetry-rhel8-operator@sha256:8eccc902479cf0fdf6a3f16afcfd2dcb335ed74783771c1f8e49a45affd56d84
   name: operator
-- image: registry.redhat.io/rhosdt/opentelemetry-target-allocator-rhel8@sha256:73a8dfee0fe08f5ee5413b8f3e70fb78554ea2c67fa32957ab4d8cc39e001dab
+- image: registry.redhat.io/rhosdt/opentelemetry-target-allocator-rhel8@sha256:db4480066ef4dba03be661e93becf995cf5dda843bbd60bc6f8d6acc6f398ab5
   name: target-allocator
 schema: olm.bundle
 ---
