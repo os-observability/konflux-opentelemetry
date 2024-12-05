@@ -3,4 +3,4 @@
 	url = https://github.com/os-observability/redhat-opentelemetry-collector.git
 [submodule "opentelemetry-operator"]
 	path = opentelemetry-operator
-	url = https://github.com/open-telemetry/opentelemetry-operator.git
+	url = https://github.com/os-observability/opentelemetry-operator.git
