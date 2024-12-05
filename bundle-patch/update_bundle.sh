@@ -3,11 +3,11 @@
 set -e
 
 # The pullspec should be image index, check if all architectures are there with: skopeo inspect --raw docker://$IMG | jq
-export OTEL_COLLECTOR_IMAGE_PULLSPEC="quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-collector@sha256:502b2fd78f8ddf42b52af5f0e7151032c87546d7644b5d01185f2ce5358d5b82"
+export OTEL_COLLECTOR_IMAGE_PULLSPEC="quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-collector@sha256:0ab555c563743c67a75972cc486c684c2f1e9438f076f687dbb7d086515075e4"
 # Separate due to merge conflicts
-export OTEL_TARGET_ALLOCATOR_IMAGE_PULLSPEC="quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-target-allocator@sha256:73a8dfee0fe08f5ee5413b8f3e70fb78554ea2c67fa32957ab4d8cc39e001dab"
+export OTEL_TARGET_ALLOCATOR_IMAGE_PULLSPEC="quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-target-allocator@sha256:ad972ba663c270f445c79fe2c30d4a64f8f4db036f9dac006f83aab0f18b974d"
 # Separate due to merge conflicts
-export OTEL_OPERATOR_IMAGE_PULLSPEC="quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-operator@sha256:e4845083b5620b47ab372e9272d9b0933dc3fe4e28f870970a7d94055cb64400"
+export OTEL_OPERATOR_IMAGE_PULLSPEC="quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-operator@sha256:f38d0e4315fffb315a6307592eefeba4ef1c561e18274376adbb427e196a81f3"
 # Separate due to merge conflicts
 # TODO, we used to set the proxy image per OCP version
 export OSE_KUBE_RBAC_PROXY_PULLSPEC="registry.redhat.io/openshift4/ose-kube-rbac-proxy:latest@sha256:7efeeb8b29872a6f0271f651d7ae02c91daea16d853c50e374c310f044d8c76c"

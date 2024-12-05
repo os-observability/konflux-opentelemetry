@@ -1,4 +1,4 @@
-FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_8_golang_1.22@sha256:99a63fb1eab333048e7f029dfacfe1054fc08b123b093e66a91ded52a908f781 as builder
+FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_8_golang_1.22@sha256:414352c89e06f25f79b4927328504edcdbfe676cd9596b44afff2eb4117c17e0 as builder
 
 WORKDIR /opt/app-root/src
 USER root
@@ -12,7 +12,7 @@ WORKDIR /opt/app-root/src/opentelemetry-operator
 RUN exportOrFail() { echo $1; if [[ $1 == *= ]]; then echo "Error: empty variable assignment"; exit 1; else export "$1"; fi } && \
     exportOrFail VERSION_PKG="github.com/open-telemetry/opentelemetry-operator/internal/version" && \
     exportOrFail BUILD_DATE=`date -u +'%Y-%m-%dT%H:%M:%SZ'` && \
-    exportOrFail GIT_LATEST_TAG_AND_SHA=`git describe --tags --always | sed 's/^v//'` && \
+    exportOrFail GIT_LATEST_TAG_AND_SHA=0.113.0 && \
     exportOrFail OTELCOL_VERSION=`grep -v '\#' versions.txt | grep opentelemetry-collector | awk -F= '{print $2}'` && \
     exportOrFail TARGETALLOCATOR_VERSION=`grep -v '\#' versions.txt | grep targetallocator | awk -F= '{print $2}'` && \
     exportOrFail OPERATOR_OPAMP_BRIDGE_VERSION=`grep -v '\#' versions.txt | grep operator-opamp-bridge | awk -F= '{print $2}'` && \

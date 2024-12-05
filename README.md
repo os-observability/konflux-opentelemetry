@@ -55,7 +55,7 @@ Create a PR `Release - update bundle version x.y` and update [patch_csv.yaml](./
 
 ### Catalog
 Once the PR is merged and bundle is built, create another PR `Release - update catalog x.y` with:
-* Updated [catalog template](./catalog/catalog-template.yaml) with the new bundle (get the bundle pullspec from [Konflux](https://console.redhat.com/application-pipeline/workspaces/rhosdt/applications/otel/components/otel-bundle)):
+* Updated [catalog template](./catalog/catalog-template.yaml) with the new bundle (get the bundle pullspec from `kubectl get component otel-bundle -o yaml`):
    ```bash
    opm alpha render-template basic --output yaml catalog/catalog-template.yaml > catalog/opentelemetry-product/catalog.yaml && \
    opm alpha render-template basic --output yaml --migrate-level bundle-object-to-csv-metadata catalog/catalog-template.yaml > catalog/opentelemetry-product-4.17/catalog.yaml && \
@@ -75,12 +75,11 @@ Images can be found at https://quay.io/organization/redhat-user-workloads (searc
 
 ### Deploy bundle
 
+get latest pullspec from `kubectl get component otel-bundle-quay -o yaml`, then run:
 ```bash
 kubectl create namespace openshift-opentelemetry-operator
-operator-sdk olm install
-# get latest image pullspec from https://console.redhat.com/application-pipeline/workspaces/rhosdt/applications/otel/components/otel-bundle-quay
-operator-sdk run bundle -n openshift-opentelemetry-operator quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-bundle-quay@sha256:a09e1fa7c42b3f89b8a74e83d9d8c5b501ef9cd356612d6e146646df1f3d5800
-operator-sdk cleanup opentelemetry-product
+operator-sdk run bundle -n openshift-opentelemetry-operator quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle-quay@sha256:7177eceb4ab73de1bda2bc2c648e02bbcbd90f09efc645cff2524b1546bc765c
+operator-sdk cleanup -n openshift-opentelemetry-operator opentelemetry-product
 ```
 
 ### Deploy catalog
