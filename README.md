@@ -27,7 +27,7 @@ From [document](https://docs.google.com/document/d/1c58NGQPuuni2hFgz0Ll0vDj0IUvB
 podman run --rm -v "$PWD:$PWD:z" -w "$PWD"  registry.redhat.io/ubi8/ubi-minimal:8.10-1052.1724178568  cp -r /etc/yum.repos.d/. .
 # Enable -source repositories: `enabled = 1`
 # Generate lock file
-~/.local/bin/rpm-lockfile-prototype --arch x86_64 --arch aarch64 --arch s390x --arch ppc64le -f Dockerfile.collector  rpms.in.yaml --outfile rpms.lock.yaml
+~/.local/bin/rpm-lockfile-prototype -f Dockerfile.collector  rpms.in.yaml --outfile rpms.lock.yaml
 ```
 
 ## Release
