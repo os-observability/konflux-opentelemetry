@@ -1,0 +1,422 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  annotations:
+    pipelinesascode.tekton.dev/task: "[opentelemetry-install, operators-install, opentelemetry-e2e-tests]"
+  name: opentelemetry-operator-e2e-tests-pipeline
+spec:
+  description: |
+    This pipeline automates the process of running end-to-end tests for OpenShift OpenTelemetry Operator
+    using a ROSA (Red Hat OpenShift Service on AWS) cluster. The pipeline provisions
+    the ROSA cluster, installs the OpenShift OpenTelemetry operator using the installer, installs dependent operators, runs the tests, collects artifacts,
+    and finally deprovisions the ROSA cluster.
+  params:
+    - name: SNAPSHOT
+      description: 'The JSON string representing the snapshot of the application under test.'
+      default: '{"components": [{"name":"test-app", "containerImage": "quay.io/example/repo:latest"}]}'
+      type: string
+    - name: test-name
+      description: 'The name of the test corresponding to a defined Konflux integration test.'
+      default: 'opentelemetry-operator-e2e-tests'
+    - name: namespace
+      description: 'Namespace to run tests in'
+      default: 'openshift-opentelemetry-operator'
+  tasks:
+    - name: eaas-provision-space
+      taskRef:
+        resolver: git
+        params:
+          - name: url
+            value: https://github.com/konflux-ci/build-definitions.git
+          - name: revision
+            value: main
+          - name: pathInRepo
+            value: task/eaas-provision-space/0.1/eaas-provision-space.yaml
+      params:
+        - name: ownerKind
+          value: PipelineRun
+        - name: ownerName
+          value: $(context.pipelineRun.name)
+        - name: ownerUid
+          value: $(context.pipelineRun.uid)
+    - name: provision-cluster
+      runAfter:
+        - eaas-provision-space
+      taskSpec:
+        results:
+          - name: clusterName
+            value: "$(steps.create-cluster.results.clusterName)"
+        steps:
+          - name: get-supported-versions
+            ref:
+              resolver: git
+              params:
+                - name: url
+                  value: https://github.com/konflux-ci/build-definitions.git
+                - name: revision
+                  value: main
+                - name: pathInRepo
+                  value: stepactions/eaas-get-supported-ephemeral-cluster-versions/0.1/eaas-get-supported-ephemeral-cluster-versions.yaml
+            params:
+              - name: eaasSpaceSecretRef
+                value: $(tasks.eaas-provision-space.results.secretRef)
+          - name: pick-version
+            ref:
+              resolver: git
+              params:
+                - name: url
+                  value: https://github.com/konflux-ci/build-definitions.git
+                - name: revision
+                  value: main
+                - name: pathInRepo
+                  value: stepactions/eaas-get-latest-openshift-version-by-prefix/0.1/eaas-get-latest-openshift-version-by-prefix.yaml
+            params:
+              - name: prefix
+                value: "4.17."
+          - name: create-cluster
+            ref:
+              resolver: git
+              params:
+                - name: url
+                  value: https://github.com/konflux-ci/build-definitions.git
+                - name: revision
+                  value: main
+                - name: pathInRepo
+                  value: stepactions/eaas-create-ephemeral-cluster-hypershift-aws/0.1/eaas-create-ephemeral-cluster-hypershift-aws.yaml
+            params:
+              - name: eaasSpaceSecretRef
+                value: $(tasks.eaas-provision-space.results.secretRef)
+              - name: version
+                value: "$(steps.pick-version.results.version)"
+              - name: instanceType
+                value: "m5.2xlarge"
+              - name: timeout
+                value: "40m"
+              - name: imageContentSources
+                value: |
+                  - source: registry.redhat.io/rhosdt/opentelemetry-collector-rhel8
+                    mirrors:
+                      - quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-collector
+                  - source: registry.redhat.io/rhosdt/opentelemetry-target-allocator-rhel8
+                    mirrors:
+                      - quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-target-allocator
+                  - source: registry.redhat.io/rhosdt/opentelemetry-rhel8-operator
+                    mirrors:
+                      - quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-operator
+                  - source: registry.redhat.io/rhosdt/opentelemetry-operator-bundle
+                    mirrors:
+                      - quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle
+    - name: opentelemetry-install
+      description: Task to install bundle onto ephemeral namespace
+      runAfter:
+        - provision-cluster
+      params:
+        - name: SNAPSHOT
+          value: $(params.SNAPSHOT)
+        - name: namespace
+          value: "$(params.namespace)"
+      taskSpec:
+        params:
+          - name: SNAPSHOT
+          - name: namespace
+            type: string
+        volumes:
+          - name: credentials
+            emptyDir: {}
+        steps:
+          - name: get-kubeconfig
+            ref:
+              resolver: git
+              params:
+                - name: url
+                  value: https://github.com/konflux-ci/build-definitions.git
+                - name: revision
+                  value: main
+                - name: pathInRepo
+                  value: stepactions/eaas-get-ephemeral-cluster-credentials/0.1/eaas-get-ephemeral-cluster-credentials.yaml
+            params:
+              - name: eaasSpaceSecretRef
+                value: $(tasks.eaas-provision-space.results.secretRef)
+              - name: clusterName
+                value: "$(tasks.provision-cluster.results.clusterName)"
+              - name: credentials
+                value: credentials
+          - name: install-operator
+            env:
+              - name: SNAPSHOT
+                value: $(params.SNAPSHOT)
+              - name: KONFLUX_COMPONENT_NAME
+                valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.labels['appstudio.openshift.io/component']
+              - name: KUBECONFIG
+                value: "/credentials/$(steps.get-kubeconfig.results.kubeconfig)"
+            volumeMounts:
+              - name: credentials
+                mountPath: /credentials
+            image: registry.redhat.io/openshift4/ose-cli:latest
+            script: |
+              echo "Kubeconfig file"
+              cat $KUBECONFIG
+              
+              echo "Install operator-sdk and dependencies"
+              dnf -y install jq python3-pip
+              export OPERATOR_SDK_VERSION=1.36.1
+              export ARCH=$(case $(uname -m) in x86_64) echo -n amd64 ;; aarch64) echo -n arm64 ;; *) echo -n $(uname -m) ;; esac)
+              export OPERATOR_SDK_DL_URL=https://github.com/operator-framework/operator-sdk/releases/download/v${OPERATOR_SDK_VERSION}
+              curl -Lo /usr/local/bin/operator-sdk ${OPERATOR_SDK_DL_URL}/operator-sdk_linux_${ARCH}
+              chmod +x /usr/local/bin/operator-sdk
+              operator-sdk version
+
+              echo "Create namespace to install OpenTelemetry Operator"
+              oc create namespace $(params.namespace)
+              oc label namespaces $(params.namespace) openshift.io/cluster-monitoring=true --overwrite=true
+
+              echo "Get the bundle image"
+              echo ${KONFLUX_COMPONENT_NAME}
+              export BUNDLE_IMAGE="$(jq -r --arg component_name "$KONFLUX_COMPONENT_NAME" '.components[] | select(.name == $component_name) | .containerImage' <<< "$SNAPSHOT")"
+              echo "${BUNDLE_IMAGE}"
+
+              echo "Install OpenTelemetry Operator"
+              operator-sdk run bundle --timeout=5m --namespace "$(params.namespace)" "$BUNDLE_IMAGE" --verbose
+              oc wait --for condition=Available -n "$(params.namespace)" deployment opentelemetry-operator-controller-manager
+    - name: operators-install
+      description: Task to install dependent operators onto ephemeral namespace
+      runAfter:
+        - opentelemetry-install
+      params:
+        - name: SNAPSHOT
+          value: $(params.SNAPSHOT)
+        - name: namespace
+          value: "$(params.namespace)"
+      taskSpec:
+        params:
+          - name: SNAPSHOT
+          - name: namespace
+            type: string
+        volumes:
+          - name: credentials
+            emptyDir: {}
+        steps:
+          - name: get-kubeconfig
+            ref:
+              resolver: git
+              params:
+                - name: url
+                  value: https://github.com/konflux-ci/build-definitions.git
+                - name: revision
+                  value: main
+                - name: pathInRepo
+                  value: stepactions/eaas-get-ephemeral-cluster-credentials/0.1/eaas-get-ephemeral-cluster-credentials.yaml
+            params:
+              - name: eaasSpaceSecretRef
+                value: $(tasks.eaas-provision-space.results.secretRef)
+              - name: clusterName
+                value: "$(tasks.provision-cluster.results.clusterName)"
+              - name: credentials
+                value: credentials
+          - name: install-operators
+            env:
+              - name: SNAPSHOT
+                value: $(params.SNAPSHOT)
+              - name: KONFLUX_COMPONENT_NAME
+                valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.labels['appstudio.openshift.io/component']
+              - name: KUBECONFIG
+                value: "/credentials/$(steps.get-kubeconfig.results.kubeconfig)"
+            volumeMounts:
+              - name: credentials
+                mountPath: /credentials
+            image: registry.redhat.io/openshift4/ose-cli:latest
+            script: |
+              echo "Kubeconfig file"
+              cat $KUBECONFIG
+              
+              echo "Installing dependent operators"
+              export OPERATORS_INSTALL=https://raw.githubusercontent.com/os-observability/konflux-opentelemetry/refs/heads/main/.tekton/integration-tests/resources/install.yaml
+              curl -Lo /tmp/install.yaml "$OPERATORS_INSTALL"
+              oc apply -f /tmp/install.yaml
+
+              retry_count=30
+              sleep_duration=30
+
+              check_operator_installed() {
+                local operator=$1
+                local namespace=$2
+                local csv=""
+                local retries=0
+
+                for i in $(seq $retry_count); do
+                  if [[ -z "$csv" ]]; then
+                    csv=$(oc get subscription -n $namespace $operator -o jsonpath='{.status.installedCSV}')
+                  fi
+
+                  if [[ -z "$csv" ]]; then
+                    echo "Try ${i}/${retry_count}: can't get the $operator yet. Checking again in $sleep_duration seconds"
+                    sleep $sleep_duration
+                  else
+                    if [[ $(oc get csv -n $namespace $csv -o jsonpath='{.status.phase}') == "Succeeded" ]]; then
+                      echo "$operator is successfully installed in namespace $namespace"
+                      return 0
+                    else
+                      echo "Try ${i}/${retry_count}: $operator is not deployed yet. Checking again in $sleep_duration seconds"
+                      sleep $sleep_duration
+                    fi
+                  fi
+                done
+
+                echo "$operator installation failed after $retry_count retries in namespace $namespace."
+                return 1
+              }
+
+              echo "Checking installation status of operators..."
+              check_operator_installed "tempo-product" openshift-tempo-operator
+              check_operator_installed "jaeger-product" openshift-distributed-tracing
+              check_operator_installed "amq-streams" openshift-operators
+              check_operator_installed "cluster-observability-operator" openshift-operators
+              check_operator_installed "loki-operator" openshift-operators-redhat
+              check_operator_installed "cluster-logging" openshift-logging
+              echo "Operator installation check completed."
+    - name: opentelemetry-e2e-tests
+      description: Task to run tests from service repository
+      runAfter:
+        - operators-install
+      taskSpec:
+        volumes:
+          - name: credentials
+            emptyDir: {}
+        steps:
+          - name: get-kubeconfig
+            ref:
+              resolver: git
+              params:
+                - name: url
+                  value: https://github.com/konflux-ci/build-definitions.git
+                - name: revision
+                  value: main
+                - name: pathInRepo
+                  value: stepactions/eaas-get-ephemeral-cluster-credentials/0.1/eaas-get-ephemeral-cluster-credentials.yaml
+            params:
+              - name: eaasSpaceSecretRef
+                value: $(tasks.eaas-provision-space.results.secretRef)
+              - name: clusterName
+                value: "$(tasks.provision-cluster.results.clusterName)"
+              - name: credentials
+                value: credentials
+          - name: run-e2e-tests
+            volumeMounts:
+              - name: credentials
+                mountPath: /credentials
+            env:
+              - name: KUBECONFIG
+                value: "/credentials/$(steps.get-kubeconfig.results.kubeconfig)"
+            image: registry.redhat.io/openshift4/ose-cli:latest
+            script: |
+              echo "Kubeconfig file"
+              cat $KUBECONFIG
+              
+              echo "Intall dependencies"
+              dnf -y install jq vim unzip git make
+
+              echo "Install GO"
+              curl -Lo /go.tar.gz https://go.dev/dl/go1.22.10.linux-amd64.tar.gz
+              tar -C /usr/local -xzf /go.tar.gz
+              export PATH=$PATH:/usr/local/go/bin
+              # Set the Go path and Go cache environment variables
+              export GOPATH=/tmp/go
+              export GOBIN=/tmp/go/bin
+              export GOCACHE=/tmp/.cache/go-build
+              export PATH=$PATH:/tmp/go/bin
+
+              # Create the /tmp/go/bin and build cache directories, and grant read and write permissions to all users
+              mkdir -p /tmp/go/bin $GOCACHE \
+                && chmod -R 777 /tmp/go/bin $GOPATH $GOCACHE
+              go version
+
+              echo "Install Chainsaw"
+              go install github.com/kyverno/chainsaw@v0.2.6
+
+              echo "Install kubectl and oc"
+              cd /tmp/ \
+              && curl -L -o oc.tar.gz https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-client-linux-amd64-rhel8.tar.gz \
+              && tar -xvzf oc.tar.gz \
+              && chmod +x kubectl oc \
+              && mv oc kubectl /usr/local/bin/
+
+              echo "Install the latest version of logcli"
+              curl -LO https://github.com/grafana/loki/releases/latest/download/logcli-linux-amd64.zip \
+              && unzip logcli-linux-amd64.zip \
+              && chmod +x logcli-linux-amd64 \
+              && mv logcli-linux-amd64 /usr/local/bin/logcli
+
+              echo "Run e2e tests"
+              git clone https://github.com/IshwarKanse/opentelemetry-operator.git /tmp/otel-tests
+              cd /tmp/otel-tests 
+              git checkout rhosdt-3-4-downstream
+
+              #Enable user workload monitoring
+              oc apply -f tests/e2e-openshift/otlp-metrics-traces/01-workload-monitoring.yaml
+              unset NAMESPACE
+
+              # Remove test cases to be skipped from the test run
+              SKIP_TESTS="tests/e2e-targetallocator/targetallocator-features tests/e2e-multi-instrumentation/instrumentation-multi-multicontainer tests/e2e/smoke-ip-families"
+              IFS=' ' read -ra SKIP_TEST_ARRAY <<< "$SKIP_TESTS"
+              SKIP_TESTS_TO_REMOVE=""
+              INVALID_TESTS=""
+              for test in "${SKIP_TEST_ARRAY[@]}"; do
+                if [[ "$test" == tests/* ]]; then
+                  SKIP_TESTS_TO_REMOVE+=" $test"
+                else
+                  INVALID_TESTS+=" $test"
+                fi
+              done
+
+              if [[ -n "$INVALID_TESTS" ]]; then
+                echo "These test cases are not valid to be skipped: $INVALID_TESTS"
+              fi
+
+              if [[ -n "$SKIP_TESTS_TO_REMOVE" ]]; then
+                rm -rf $SKIP_TESTS_TO_REMOVE
+              fi
+
+              # Initialize a variable to keep track of errors
+              any_errors=false
+              
+              # Execute OpenTelemetry e2e tests
+              chainsaw test \
+              --test-dir \
+              tests/e2e \
+              tests/e2e-autoscale \
+              tests/e2e-openshift \
+              tests/e2e-prometheuscr \
+              tests/e2e-instrumentation \
+              tests/e2e-pdb \
+              tests/e2e-otel \
+              tests/e2e-multi-instrumentation \
+              tests/e2e-targetallocator || any_errors=true
+
+              # Set the operator args required for tests execution.
+              OTEL_CSV_NAME=$(oc get csv -n openshift-opentelemetry-operator | grep "opentelemetry-operator" | awk '{print $1}')
+              oc -n openshift-opentelemetry-operator patch csv $OTEL_CSV_NAME --type=json -p "[{\"op\":\"replace\",\"path\":\"/spec/install/spec/deployments/0/spec/template/spec/containers/0/args\",\"value\":[\"--metrics-addr=127.0.0.1:8080\", \"--enable-leader-election\", \"--zap-log-level=info\", \"--zap-time-encoding=rfc3339nano\", \"--annotations-filter=.*filter.out\", \"--annotations-filter=config.*.gke.io.*\", \"--labels-filter=.*filter.out\"]}]"
+              sleep 60
+              if oc -n openshift-opentelemetry-operator describe csv --selector=operators.coreos.com/opentelemetry-product.openshift-opentelemetry-operator= | tail -n 1 | grep -qi "InstallSucceeded"; then
+                  echo "CSV updated successfully, continuing script execution..."
+              else
+                  echo "Operator CSV update failed, exiting with error."
+                  exit 1
+              fi
+
+              # Execute OpenTelemetry e2e tests
+              chainsaw test \
+              --test-dir \
+              tests/e2e-metadata-filters || any_errors=true
+
+              # Check if any errors occurred
+              if $any_errors; then
+                echo "Tests failed, check the logs for more details."
+                exit 1
+              else
+                echo "All the tests passed."
+              fi
