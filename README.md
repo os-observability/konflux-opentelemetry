@@ -51,6 +51,7 @@ Create a PR `Release - update bundle version x.y` and update [patch_csv.yaml](./
    podman build -t opentelemetry-bundle -f Dockerfile.bundle . && podman cp $(podman create opentelemetry-bundle):/manifests/opentelemetry-operator.clusterserviceversion.yaml .
    git diff --no-index opentelemetry-operator/bundle/openshift/manifests/opentelemetry-operator.clusterserviceversion.yaml opentelemetry-operator.clusterserviceversion.yaml
    rm opentelemetry-operator.clusterserviceversion.yaml
+1. Update hardcoded version in [Dockerfile.operator](./Dockerfile.operator)
    ```
 
 ### Catalog
@@ -63,10 +64,6 @@ Once the PR is merged and bundle is built, create another PR `Release - update c
    sed -i 's#quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle#registry.redhat.io/rhosdt/opentelemetry-operator-bundle#g' catalog/opentelemetry-product-4.17/catalog.yaml  && \
    opm validate catalog/opentelemetry-product && \
    opm validate catalog/opentelemetry-product-4.17
-
-   # This does not generate valid catalog, e.g. it is smaller and missing relatedImages
-   docker run --rm -it -v $(pwd)/catalog:/tmp:Z  --entrypoint /bin/bash registry.redhat.io/openshift4/ose-operator-registry-rhel9:v4.16
-   opm alpha render-template basic /tmp/catalog-template.json > /tmp/opentelemetry-product/catalog-ose-operator.json
    ```
 
 ## Test locally
