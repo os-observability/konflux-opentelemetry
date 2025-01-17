@@ -12,7 +12,7 @@ WORKDIR /opt/app-root/src/opentelemetry-operator
 RUN exportOrFail() { echo $1; if [[ $1 == *= ]]; then echo "Error: empty variable assignment"; exit 1; else export "$1"; fi } && \
     exportOrFail VERSION_PKG="github.com/open-telemetry/opentelemetry-operator/internal/version" && \
     exportOrFail BUILD_DATE=`date -u +'%Y-%m-%dT%H:%M:%SZ'` && \
-    exportOrFail GIT_LATEST_TAG_AND_SHA=0.113.0 && \
+    exportOrFail OPERATOR_VERSION=`git describe --tags --abbrev=0 | sed 's/^v//'` && \
     exportOrFail OTELCOL_VERSION=`grep -v '\#' versions.txt | grep opentelemetry-collector | awk -F= '{print $2}'` && \
     exportOrFail TARGETALLOCATOR_VERSION=`grep -v '\#' versions.txt | grep targetallocator | awk -F= '{print $2}'` && \
     exportOrFail OPERATOR_OPAMP_BRIDGE_VERSION=`grep -v '\#' versions.txt | grep operator-opamp-bridge | awk -F= '{print $2}'` && \
@@ -24,7 +24,7 @@ RUN exportOrFail() { echo $1; if [[ $1 == *= ]]; then echo "Error: empty variabl
     exportOrFail AUTO_INSTRUMENTATION_APACHE_HTTPD_VERSION=`grep -v '\#' versions.txt | grep autoinstrumentation-apache-httpd | awk -F= '{print $2}'` && \
     exportOrFail AUTO_INSTRUMENTATION_NGINX_VERSION=`grep -v '\#' versions.txt | grep autoinstrumentation-nginx | awk -F= '{print $2}'` && \
     CGO_ENABLED=1 GOEXPERIMENT=strictfipsruntime go build -mod=mod -tags strictfipsruntime -o ./opentelemetry-operator -trimpath -ldflags "-s -w \
-              -X ${VERSION_PKG}.version=${GIT_LATEST_TAG_AND_SHA} \
+              -X ${VERSION_PKG}.version=${OPERATOR_VERSION} \
               -X ${VERSION_PKG}.buildDate=${BUILD_DATE} \
               -X ${VERSION_PKG}.otelCol=${OTELCOL_VERSION} \
               -X ${VERSION_PKG}.targetAllocator=${TARGETALLOCATOR_VERSION} \
