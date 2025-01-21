@@ -36,6 +36,8 @@ Update all base images (merge renovatebot PRs).
 
 Create a PR `Release - update upstream sources x.y`:
 1. Update git submodules with upstream versions
+  **Note:** If you use a forked repository instead of upstream, you must sync the git tags.
+  The version information is set dynamically using `git describe --tags` in the Dockerfile, and is crucial for e.g. the upgrade process of the operator.
 
 ### Bundle
 Wait for renovatebot to create PRs to update the hash in the `bundle-patch/update_bundle.sh` file, and merge all of them.
@@ -51,7 +53,6 @@ Create a PR `Release - update bundle version x.y` and update [patch_csv.yaml](./
    podman build -t opentelemetry-bundle -f Dockerfile.bundle . && podman cp $(podman create opentelemetry-bundle):/manifests/opentelemetry-operator.clusterserviceversion.yaml .
    git diff --no-index opentelemetry-operator/bundle/openshift/manifests/opentelemetry-operator.clusterserviceversion.yaml opentelemetry-operator.clusterserviceversion.yaml
    rm opentelemetry-operator.clusterserviceversion.yaml
-1. Update hardcoded version in [Dockerfile.operator](./Dockerfile.operator)
    ```
 
 ### Catalog
