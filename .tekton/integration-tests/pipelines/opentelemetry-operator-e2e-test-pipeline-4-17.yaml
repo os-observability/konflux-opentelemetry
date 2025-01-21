@@ -22,6 +22,14 @@ spec:
     - name: namespace
       description: 'Namespace to run tests in'
       default: 'openshift-opentelemetry-operator'
+    - name: operator_version
+      description: Version of OpenTelemetry Operator
+    - name: operator_otel_collector_version
+      description: Version of the OTEL collector in the operator
+    - name: operator_targetallocator_version
+      description: Version of OTEL TargetAllocator
+    - name: otel_collector_version
+      description: Version of OpenTelemetry collector
   tasks:
     - name: eaas-provision-space
       taskRef:
@@ -181,6 +189,156 @@ spec:
               echo "Install OpenTelemetry Operator"
               operator-sdk run bundle --timeout=5m --namespace "$(params.namespace)" "$BUNDLE_IMAGE" --verbose
               oc wait --for condition=Available -n "$(params.namespace)" deployment opentelemetry-operator-controller-manager
+    - name: check-opentelemetry-version
+      description: The task checks OpenTelemetry operator and operand version details and image info
+      runAfter:
+        - opentelemetry-install
+      params:
+        - name: SNAPSHOT
+          value: $(params.SNAPSHOT)
+        - name: namespace
+          value: "$(params.namespace)"
+        - name: OPERATOR_VERSION
+          value: "$(params.operator_version)"
+        - name: OPERATOR_OTEL_COLLECTOR_VERSION
+          value: "$(params.operator_otel_collector_version)"
+        - name: OPERATOR_TARGETALLOCATOR_VERSION
+          value: "$(params.operator_targetallocator_version)"
+        - name: OTEL_COLLECTOR_VERSION
+          value: "$(params.otel_collector_version)"
+      taskSpec:
+        params:
+          - name: SNAPSHOT
+          - name: namespace
+            type: string
+          - name: OPERATOR_VERSION
+            type: string
+          - name: OPERATOR_OTEL_COLLECTOR_VERSION
+            type: string
+          - name: OPERATOR_TARGETALLOCATOR_VERSION
+            type: string
+          - name: OTEL_COLLECTOR_VERSION
+            type: string
+        volumes:
+          - name: credentials
+            emptyDir: {}
+        steps:
+          - name: get-kubeconfig
+            ref:
+              resolver: git
+              params:
+                - name: url
+                  value: https://github.com/konflux-ci/build-definitions.git
+                - name: revision
+                  value: main
+                - name: pathInRepo
+                  value: stepactions/eaas-get-ephemeral-cluster-credentials/0.1/eaas-get-ephemeral-cluster-credentials.yaml
+            params:
+              - name: eaasSpaceSecretRef
+                value: $(tasks.eaas-provision-space.results.secretRef)
+              - name: clusterName
+                value: "$(tasks.provision-cluster.results.clusterName)"
+              - name: credentials
+                value: credentials
+          - name: check-version
+            env:
+              - name: KUBECONFIG
+                value: "/credentials/$(steps.get-kubeconfig.results.kubeconfig)"
+            volumeMounts:
+              - name: credentials
+                mountPath: /credentials
+            image: registry.redhat.io/openshift4/ose-cli:latest
+            script: |
+              #!/bin/bash
+              set -eu
+
+              # Variables for strings to check
+              OPERATOR_VERSION=$(params.OPERATOR_VERSION)
+              OPERATOR_OTEL_COLLECTOR_VERSION=$(params.OPERATOR_OTEL_COLLECTOR_VERSION)
+              OPERATOR_TARGETALLOCATOR_VERSION=$(params.OPERATOR_TARGETALLOCATOR_VERSION)
+              OTEL_COLLECTOR_VERSION=$(params.OTEL_COLLECTOR_VERSION)
+
+              function log_cmd() {
+                  echo "\$ $*"
+                  "$@"
+              }
+              function exit_error() {
+                  >&2 echo -e "ERROR: $*"
+                  exit 1
+              }
+
+              function generate_random_name() {
+                  echo "random-name-$RANDOM"
+              }
+
+              function wait_for_pod_running() {
+                  local pod_name=$1
+                  local namespace=$2
+                  while true; do
+                      pod_status=$(oc get pod $pod_name -n $namespace -o jsonpath='{.status.phase}')
+                      if [ "$pod_status" == "Running" ]; then
+                          break
+                      elif [ "$pod_status" == "Failed" ] || [ "$pod_status" == "Unknown" ]; then
+                          exit_error "Pod $pod_name failed to start. Status: $pod_status"
+                      fi
+                      sleep 2
+                  done
+              }
+
+              function check_strings_in_logs() {
+                  local pod_name=$1
+                  local namespace=$2
+                  shift 2
+                  local strings=("$@")
+
+                  logs=$(oc logs pod/$pod_name -n $namespace)
+                  for string in "${strings[@]}"; do
+                      if ! echo "$logs" | grep -q "$string"; then
+                          exit_error "String '$string' not found in logs of pod $pod_name"
+                      fi
+                  done
+              }
+
+              echo "Install kubectl and oc"
+              cd /tmp/ \
+              && curl -L -o oc.tar.gz https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-client-linux-amd64-rhel8.tar.gz \
+              && tar -xvzf oc.tar.gz \
+              && chmod +x kubectl oc \
+              && mv oc kubectl /usr/local/bin/
+
+              echo
+              echo
+              echo "OPENTELEMETRY IMAGE DETAILS AND VERSION INFO"
+              echo
+
+              otel_images=$(oc get deployment opentelemetry-operator-controller-manager -n openshift-opentelemetry-operator -o yaml | grep -o "registry.redhat.io/rhosdt/.*" | sort | uniq)
+              [ $(echo "$otel_images" | wc -l) -eq 3 ] || exit_error "Expected 3 images, found:\n$otel_images"
+
+              oc project default
+
+              for image in $otel_images; do
+                  oc image info "$image" --filter-by-os linux/amd64
+                  echo
+
+                  random_name=$(generate_random_name)
+
+                  if [[ $image == *opentelemetry-rhel8-operator* ]]; then
+                      log_cmd oc run $random_name --image=$image
+                      wait_for_pod_running $random_name default
+                      log_cmd oc logs pod/$random_name | head -n 2
+                      check_strings_in_logs $random_name default $OPERATOR_VERSION $OPERATOR_OTEL_COLLECTOR_VERSION $OPERATOR_TARGETALLOCATOR_VERSION
+                  elif [[ $image == *opentelemetry-target-allocator-rhel8* ]]; then
+                      echo "SKIPPED: $image doesn't have a version command"
+                  else
+                      log_cmd oc run $random_name --image=$image -- --version
+                      wait_for_pod_running $random_name default
+                      log_cmd oc logs pod/$random_name
+                      check_strings_in_logs $random_name default $OTEL_COLLECTOR_VERSION
+                  fi
+
+                  echo
+                  echo
+              done
     - name: operators-install
       description: Task to install dependent operators onto ephemeral namespace
       runAfter:
