@@ -13,6 +13,7 @@ import subprocess
 import json
 import argparse
 import yaml
+import sys
 
 repository = Path().absolute().name
 application = repository.replace("konflux-", "").replace("opentelemetry", "otel")
@@ -35,10 +36,20 @@ def update_catalog_template(bundle_pullspec):
     with open("catalog/catalog-template.yaml", "r") as f:
         catalog_template = yaml.safe_load(f)
 
+    name = bundle_patch["metadata"]["name"]
+    replaces = bundle_patch["spec"]["replaces"]
+    skipRange = bundle_patch["metadata"]["extra_annotations"]["olm.skipRange"]
+
+    # exit if the CSV is already present in the catalog template
+    for bundle in catalog_template["entries"][1]["entries"]:
+        if bundle["name"] == name:
+            print(f"ERROR: Catalog already contains {name}, exiting...")
+            sys.exit(1)
+
     catalog_template["entries"][1]["entries"].append({
-        "name": bundle_patch["metadata"]["name"],
-        "replaces": bundle_patch["spec"]["replaces"],
-        "skipRange": bundle_patch["metadata"]["extra_annotations"]["olm.skipRange"]
+        "name": name,
+        "replaces": replaces,
+        "skipRange": skipRange
     })
     catalog_template["entries"].append({
         "image": bundle_pullspec,
