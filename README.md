@@ -35,37 +35,37 @@ podman run --rm -v "$PWD:$PWD:z" -w "$PWD"  registry.redhat.io/ubi8/ubi-minimal:
 Update all base images (merge renovatebot PRs).
 
 Create a PR `Release - update upstream sources x.y`:
-1. Update git submodules with upstream versions
-  **Note:** If you use a forked repository instead of upstream, you must sync the git tags.
-  The version information is set dynamically using `git describe --tags` in the Dockerfile, and is crucial for e.g. the upgrade process of the operator.
+1. Update git submodules with upstream versions.
+   **Note:** If you use a forked repository instead of upstream, you must sync the git tags.
+   The version information is set dynamically using `git describe --tags` in the Dockerfile, and is crucial for e.g. the upgrade process of the operator.
+1. Merge the PR and wait until all builds were successful.
+   Retrigger failed builds by adding a comment `/test <name>` on the commit (or `/test` to retrigger all pipelines).
 
 ### Bundle
-Wait for renovatebot to create PRs to update the hash in the `bundle-patch/update_bundle.sh` file, and merge all of them.
-
 Create a PR `Release - update bundle version x.y` and update [patch_csv.yaml](./bundle-patch/patch_csv.yaml) by submitting a PR with follow-up changes:
 1. `metadata.name` with the current version e.g. `opentelemetry-operator.v0.108.0-1`
 1. `metadata.extra_annotations.olm.skipRange` with the version being productized e.g. `'>=0.33.0 <0.108.0-1'`
 1. `spec.version` with the current version e.g. `opentelemetry-operator.v0.108.0-1`
-1. `spec.replaces` with [the previous shipped version](https://catalog.redhat.com/software/containers/rhosdt/opentelemetry-operator-bundle/615618406feffc5384e84400) of CSV e.g. `opentelemetry-operator.v0.107.0-4`
+1. `spec.replaces` with [the previous shipped version](./catalog/catalog-template.yaml) of CSV e.g. `opentelemetry-operator.v0.107.0-4`
 1. Update `release`, `version` and `com.redhat.openshift.versions` (minimum OCP version) labels in [bundle dockerfile](./Dockerfile.bundle)
-1. Verify diff of upstream and downstream ClusterServiceVersion
+1. Update image pullspecs of all components:
    ```bash
-   podman build -t opentelemetry-bundle -f Dockerfile.bundle . && podman cp $(podman create opentelemetry-bundle):/manifests/opentelemetry-operator.clusterserviceversion.yaml .
-   git diff --no-index opentelemetry-operator/bundle/openshift/manifests/opentelemetry-operator.clusterserviceversion.yaml opentelemetry-operator.clusterserviceversion.yaml
-   rm opentelemetry-operator.clusterserviceversion.yaml
+   ./scripts/snapshot-tool.py --update-bundle-pullspecs
    ```
+   Verify the commit date and hashes of each component.
+1. Compare the diff between upstream and downstream ClusterServiceVersion:
+   ```bash
+   ./scripts/diff-csv.sh
+   ```
+1. Merge the PR and wait until all builds were successful.
 
 ### Catalog
-Once the PR is merged and bundle is built, create another PR `Release - update catalog x.y` with:
-* Updated [catalog template](./catalog/catalog-template.yaml) with the new bundle (get the bundle pullspec from `kubectl get component otel-bundle -o yaml`):
+Once the components are released to prod, create another PR `Release - update catalog x.y` with:
+1. Update the catalog:
    ```bash
-   opm alpha render-template basic --output yaml catalog/catalog-template.yaml > catalog/opentelemetry-product/catalog.yaml && \
-   opm alpha render-template basic --output yaml --migrate-level bundle-object-to-csv-metadata catalog/catalog-template.yaml > catalog/opentelemetry-product-4.17/catalog.yaml && \
-   sed -i 's#quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle#registry.redhat.io/rhosdt/opentelemetry-operator-bundle#g' catalog/opentelemetry-product/catalog.yaml  && \
-   sed -i 's#quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle#registry.redhat.io/rhosdt/opentelemetry-operator-bundle#g' catalog/opentelemetry-product-4.17/catalog.yaml  && \
-   opm validate catalog/opentelemetry-product && \
-   opm validate catalog/opentelemetry-product-4.17
+   ./scripts/update-catalog.py --snapshot <released_snapshot>
    ```
+1. Merge the PR and wait until all builds were successful.
 
 ## Test locally
 
