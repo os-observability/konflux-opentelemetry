@@ -16,8 +16,8 @@ metadata:
       "opentelemetry-operator".pathChanged())
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: otel
-    appstudio.openshift.io/component: otel-target-allocator
+    appstudio.openshift.io/application: otel-main
+    appstudio.openshift.io/component: otel-target-allocator-main
     pipelines.appstudio.openshift.io/type: build
   name: otel-target-allocator-on-push
   namespace: rhosdt-tenant
@@ -42,7 +42,7 @@ spec:
   - name: prefetch-dev-package-managers-enabled
     value: "true"
   - name: output-image
-    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-target-allocator:{{revision}}
+    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-target-allocator-main:{{revision}}
   - name: dockerfile
     value: Dockerfile.targetallocator
   - name: path-context

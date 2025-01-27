@@ -16,8 +16,8 @@ metadata:
       "opentelemetry-operator".pathChanged())
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: otel
-    appstudio.openshift.io/component: otel-bundle-quay
+    appstudio.openshift.io/application: otel-main
+    appstudio.openshift.io/component: otel-bundle-quay-main
     pipelines.appstudio.openshift.io/type: build
   name: otel-bundle-quay-on-pull-request
   namespace: rhosdt-tenant
@@ -34,7 +34,7 @@ spec:
   - name: prefetch-dev-package-managers-enabled
     value: "true"
   - name: output-image
-    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle-quay:on-pr-{{revision}}
+    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle-quay-main:on-pr-{{revision}}
   - name: image-expires-after
     value: 5d
   - name: dockerfile
