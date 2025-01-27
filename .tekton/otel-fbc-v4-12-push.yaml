@@ -13,8 +13,8 @@ metadata:
       "catalog/***".pathChanged())
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: otel-fbc-v4-12
-    appstudio.openshift.io/component: otel-fbc-v4-12
+    appstudio.openshift.io/application: otel-fbc-v4-12-main
+    appstudio.openshift.io/component: otel-fbc-v4-12-main
     pipelines.appstudio.openshift.io/type: build
   name: otel-fbc-v4-12-on-push
   namespace: rhosdt-tenant
@@ -27,7 +27,7 @@ spec:
   - name: hermetic
     value: "true"
   - name: output-image
-    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-12:{{revision}}
+    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-12-main:{{revision}}
   - name: dockerfile
     value: Dockerfile-v4-12.catalog
   - name: path-context
