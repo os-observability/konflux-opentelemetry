@@ -18,7 +18,7 @@ metadata:
     appstudio.openshift.io/application: otel-main
     appstudio.openshift.io/component: otel-bundle-quay-main
     pipelines.appstudio.openshift.io/type: build
-  name: otel-bundle-quay-on-push
+  name: otel-bundle-quay-main-on-push
   namespace: rhosdt-tenant
 spec:
   params:
