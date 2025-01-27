@@ -27,7 +27,7 @@ spec:
   - name: hermetic
     value: "true"
   - name: output-image
-    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-16-main:{{revision}}
+    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-16:{{revision}}
   - name: dockerfile
     value: Dockerfile-v4-16.catalog
   - name: path-context
