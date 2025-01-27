@@ -22,7 +22,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-bundle-main:{{revision}}
+    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle:{{revision}}
   - name: dockerfile
     value: Dockerfile.bundle
   - name: path-context
