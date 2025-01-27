@@ -4,19 +4,20 @@ metadata:
   annotations:
     build.appstudio.openshift.io/repo: https://github.com/os-observability/konflux-opentelemetry?rev={{revision}}
     build.appstudio.redhat.com/commit_sha: '{{revision}}'
+    build.appstudio.redhat.com/pull_request_number: '{{pull_request_number}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" &&
-      (".tekton/otel-fbc-v4-14-pull-request.yaml".pathChanged() ||
-      ".tekton/otel-fbc-v4-14-push.yaml".pathChanged() ||
-      "Dockerfile-v4-14.catalog".pathChanged() ||
+    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "main" && 
+      (".tekton/otel-fbc-v4-12-main-pull-request.yaml".pathChanged() ||
+      ".tekton/otel-fbc-v4-12-main-push.yaml".pathChanged() ||
+      "Dockerfile-v4-12.catalog".pathChanged() ||
       "catalog/***".pathChanged())
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: otel-fbc-v4-14-main
-    appstudio.openshift.io/component: otel-fbc-v4-14-main
+    appstudio.openshift.io/application: otel-fbc-v4-12-main
+    appstudio.openshift.io/component: otel-fbc-v4-12-main
     pipelines.appstudio.openshift.io/type: build
-  name: otel-fbc-v4-14-on-push
+  name: otel-fbc-v4-12-on-pull-request
   namespace: rhosdt-tenant
 spec:
   params:
@@ -27,18 +28,17 @@ spec:
   - name: hermetic
     value: "true"
   - name: output-image
-    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-14-main:{{revision}}
+    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-12-main:on-pr-{{revision}}
+  - name: image-expires-after
+    value: 5d
   - name: dockerfile
-    value: Dockerfile-v4-14.catalog
+    value: Dockerfile-v4-12.catalog
   - name: path-context
     value: .
   - name: build-platforms
     value:
       - localhost
-      #      - linux/x86_64
       - linux/arm64
-      - linux/ppc64le
-      - linux/s390x
   pipelineRef:
     name: fbc-build-pipeline
   taskRunTemplate: {}

@@ -5,43 +5,59 @@ metadata:
     build.appstudio.openshift.io/repo: https://github.com/os-observability/konflux-opentelemetry?rev={{revision}}
     build.appstudio.redhat.com/commit_sha: '{{revision}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
+    build.appstudio.openshift.io/build-nudge-files: "bundle-patch/bundle.env"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" &&
-      (".tekton/single-arch-build-pipeline.yaml".pathChanged() ||
-      ".tekton/otel-bundle-quay-pull-request.yaml".pathChanged() ||
-      ".tekton/otel-bundle-quay-push.yaml".pathChanged() ||
-      "Dockerfile.bundle".pathChanged() ||
-      "bundle-patch/***".pathChanged() ||
+      (".tekton/multi-arch-build-pipeline.yaml".pathChanged() ||
+      ".tekton/otel-target-allocator-main-pull-request.yaml".pathChanged() ||
+      ".tekton/otel-target-allocator-main-push.yaml".pathChanged() ||
+      "Dockerfile.operator".pathChanged() ||
+      "rpms.lock.yaml".pathChanged() ||
       "opentelemetry-operator".pathChanged())
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: otel-main
-    appstudio.openshift.io/component: otel-bundle-quay-main
+    appstudio.openshift.io/component: otel-target-allocator-main
     pipelines.appstudio.openshift.io/type: build
-  name: otel-bundle-quay-on-push
+  name: otel-target-allocator-on-push
   namespace: rhosdt-tenant
 spec:
+  taskRunSpecs:
+    - pipelineTaskName: prefetch-dependencies
+      computeResources:
+        requests:
+          cpu: 300m
+          memory: 256Mi
+        limits:
+          memory: 4Gi
   params:
   - name: git-url
     value: '{{source_url}}'
   - name: revision
     value: '{{revision}}'
   - name: prefetch-input
-    value: '[{"type": "rpm", "path": "./bundle-patch"}]'
+    value: '[{"type": "gomod", "path": "./opentelemetry-operator"}, {"type": "rpm"}]'
   - name: hermetic
     value: "true"
   - name: prefetch-dev-package-managers-enabled
     value: "true"
   - name: output-image
-    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle-quay-main:{{revision}}
+    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-target-allocator-main:{{revision}}
   - name: dockerfile
-    value: Dockerfile.bundle
+    value: Dockerfile.targetallocator
   - name: path-context
     value: .
   - name: build-source-image
     value: "true"
+  - name: build-platforms
+    value:
+      - localhost
+      - linux/arm64
+      - linux/ppc64le
+      - linux/s390x
   pipelineRef:
-    name: single-arch-build-pipeline
+    name: build-pipeline
+  taskRunTemplate: {}
   workspaces:
     - name: git-auth
       secret:
