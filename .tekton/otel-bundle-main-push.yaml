@@ -33,7 +33,7 @@ spec:
   - name: prefetch-dev-package-managers-enabled
     value: "true"
   - name: output-image
-    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle-main:{{revision}}
+    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle:{{revision}}
   - name: dockerfile
     value: Dockerfile.bundle
   - name: build-source-image
