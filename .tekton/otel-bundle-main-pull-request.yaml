@@ -10,7 +10,7 @@ metadata:
     pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "main" &&
       (".tekton/single-arch-build-pipeline.yaml".pathChanged() ||
       ".tekton/otel-bundle-main-pull-request.yaml".pathChanged() ||
-      ".tekton/otel-bundle-main-push.yaml".pathChanged() ||
+      ".tekton/otel-bundle-push.yaml".pathChanged() ||
       "Dockerfile.bundle".pathChanged() ||
       "bundle-patch/***".pathChanged() ||
       "opentelemetry-operator".pathChanged())
