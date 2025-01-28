@@ -8,7 +8,7 @@ metadata:
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" &&
       (".tekton/single-arch-build-pipeline.yaml".pathChanged() ||
-      ".tekton/otel-bundle-main-pull-request.yaml".pathChanged() ||
+      ".tekton/otel-bundle-pull-request.yaml".pathChanged() ||
       ".tekton/otel-bundle-push.yaml".pathChanged() ||
       "Dockerfile.bundle".pathChanged() ||
       "bundle-patch/***".pathChanged() ||

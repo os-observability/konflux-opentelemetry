@@ -9,17 +9,17 @@ metadata:
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" &&
       (".tekton/multi-arch-build-pipeline.yaml".pathChanged() ||
-      ".tekton/otel-collector-main-pull-request.yaml".pathChanged() ||
-      ".tekton/otel-otel-collector-main-push.yaml".pathChanged() ||
-      "Dockerfile.collector".pathChanged() ||
+      ".tekton/otel-target-allocator-pull-request.yaml".pathChanged() ||
+      ".tekton/otel-target-allocator-push.yaml".pathChanged() ||
+      "Dockerfile.operator".pathChanged() ||
       "rpms.lock.yaml".pathChanged() ||
-      "redhat-opentelemetry-collector".pathChanged())
+      "opentelemetry-operator".pathChanged())
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: otel-main
-    appstudio.openshift.io/component: otel-collector-main
+    appstudio.openshift.io/component: otel-target-allocator-main
     pipelines.appstudio.openshift.io/type: build
-  name: otel-collector-main-on-push
+  name: otel-target-allocator-{{target_branch}}-on-push
   namespace: rhosdt-tenant
 spec:
   taskRunSpecs:
@@ -36,15 +36,15 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: prefetch-input
-    value: '[{"type": "gomod", "path": "./redhat-opentelemetry-collector/_build"}, {"type": "rpm"}]'
+    value: '[{"type": "gomod", "path": "./opentelemetry-operator"}, {"type": "rpm"}]'
   - name: hermetic
     value: "true"
   - name: prefetch-dev-package-managers-enabled
     value: "true"
   - name: output-image
-    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-collector:{{revision}}
+    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-target-allocator:{{revision}}
   - name: dockerfile
-    value: Dockerfile.collector
+    value: Dockerfile.targetallocator
   - name: path-context
     value: .
   - name: build-source-image
