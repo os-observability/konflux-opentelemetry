@@ -22,7 +22,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-12-main:{{revision}}
+    value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-12:{{revision}}
   - name: build-platforms
     value:
     - linux/x86_64
