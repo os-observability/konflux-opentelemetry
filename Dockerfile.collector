@@ -42,3 +42,4 @@ LABEL com.redhat.component="opentelemetry-collector-container" \
       io.openshift.expose-services="4317:otlp,9411:zipkin" \
       io.openshift.tags="tracing" \
       io.k8s.display-name="OpenTelemetry Collector"
+
