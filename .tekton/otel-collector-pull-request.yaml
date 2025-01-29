@@ -19,7 +19,7 @@ metadata:
     appstudio.openshift.io/application: otel-main
     appstudio.openshift.io/component: otel-collector-main
     pipelines.appstudio.openshift.io/type: build
-  name: otel-collector-{{target_branch}}-on-pull-request
+  name: otel-collector-main-on-pull-request
   namespace: rhosdt-tenant
 spec:
   taskRunSpecs:
