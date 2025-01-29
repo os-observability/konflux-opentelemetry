@@ -6,7 +6,7 @@ metadata:
     build.appstudio.redhat.com/commit_sha: '{{revision}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "development" &&
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" &&
       (".tekton/single-arch-build-pipeline.yaml".pathChanged() ||
       ".tekton/otel-bundle-pull-request.yaml".pathChanged() ||
       ".tekton/otel-bundle-push.yaml".pathChanged() ||
@@ -15,10 +15,10 @@ metadata:
       "opentelemetry-operator".pathChanged())
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: otel-development
-    appstudio.openshift.io/component: otel-bundle-development
+    appstudio.openshift.io/application: otel-main
+    appstudio.openshift.io/component: otel-bundle-main
     pipelines.appstudio.openshift.io/type: build
-  name: otel-bundle-development-on-push
+  name: otel-bundle-main-on-push
   namespace: rhosdt-tenant
 spec:
   params:

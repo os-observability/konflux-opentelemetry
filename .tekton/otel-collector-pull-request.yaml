@@ -7,7 +7,7 @@ metadata:
     build.appstudio.redhat.com/pull_request_number: '{{pull_request_number}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "development" &&
+    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "main" &&
       (".tekton/multi-arch-build-pipeline.yaml".pathChanged() ||
       ".tekton/otel-collector-pull-request.yaml".pathChanged() ||
       ".tekton/otel-collector-push.yaml".pathChanged() ||
@@ -16,10 +16,10 @@ metadata:
       "redhat-opentelemetry-collector".pathChanged())
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: otel-development
-    appstudio.openshift.io/component: otel-collector-development
+    appstudio.openshift.io/application: otel-main
+    appstudio.openshift.io/component: otel-collector-main
     pipelines.appstudio.openshift.io/type: build
-  name: otel-collector-development-on-pull-request
+  name: otel-collector-main-on-pull-request
   namespace: rhosdt-tenant
 spec:
   taskRunSpecs:
