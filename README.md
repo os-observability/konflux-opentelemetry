@@ -9,7 +9,7 @@ The build pipelines are identical except the value of pipeline trigger `pipeline
 
 The branch name can be changed by:
 ```bash
-sed -i 's/target_branch == \"main\"/target_branch == \"development\"/g' .tekton/*.yaml
+sed -i 's/main/development/g' .tekton/*.yaml
 ```
 
 ## Build locally
