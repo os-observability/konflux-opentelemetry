@@ -25,19 +25,17 @@ options:
                         
 Example:
 
-$ ~/redhat/dist/konflux/konflux/scripts/snapshot-tool.py
+$ ../konflux-opentelemetry/scripts/snapshot-tool.py
+Snapshot tempo-main-dxv8s
 
-Snapshot tempo-t4pmt
-
-COMPONENT                COMMIT DATE           REVISION                                  COMMIT MESSAGE
-tempo-gateway            2025-01-15T13:31:43Z  5326dff5bf2854725b7b085c648082f4acfa5009  Fix CVE-2024-45338 and CVE-2024-45337 (#191)
-tempo-jaeger-query       2025-01-15T13:31:43Z  5326dff5bf2854725b7b085c648082f4acfa5009  Fix CVE-2024-45338 and CVE-2024-45337 (#191)
-tempo-opa                2025-01-15T13:31:43Z  5326dff5bf2854725b7b085c648082f4acfa5009  Fix CVE-2024-45338 and CVE-2024-45337 (#191)
-tempo-operator           2025-01-15T13:31:43Z  5326dff5bf2854725b7b085c648082f4acfa5009  Fix CVE-2024-45338 and CVE-2024-45337 (#191)
-tempo-query              2025-01-15T13:31:43Z  5326dff5bf2854725b7b085c648082f4acfa5009  Fix CVE-2024-45338 and CVE-2024-45337 (#191)
-tempo-tempo              2025-01-15T13:31:43Z  5326dff5bf2854725b7b085c648082f4acfa5009  Fix CVE-2024-45338 and CVE-2024-45337 (#191)
-tempo-bundle             2025-01-15T17:55:36Z  c4ff84d4494165ec0ae54c7ce31fe7e92aef954f  Update bundle refs (#196)
-tempo-bundle-quay        2025-01-15T17:55:36Z  c4ff84d4494165ec0ae54c7ce31fe7e92aef954f  Update bundle refs (#196)
+COMPONENT                   COMMIT DATE           REVISION                                  COMMIT MESSAGE
+tempo-bundle-main           2025-01-29T09:00:33Z  15029564f5ed5706cc55d53dc9b005b2436814df  Pin branch name to main
+tempo-bundle-quay-main      2025-01-29T09:00:33Z  15029564f5ed5706cc55d53dc9b005b2436814df  Pin branch name to main
+tempo-gateway-main          2025-01-29T09:00:33Z  15029564f5ed5706cc55d53dc9b005b2436814df  Pin branch name to main
+tempo-opa-main              2025-01-29T09:00:33Z  15029564f5ed5706cc55d53dc9b005b2436814df  Pin branch name to main
+tempo-operator-main         2025-01-29T09:00:33Z  15029564f5ed5706cc55d53dc9b005b2436814df  Pin branch name to main
+tempo-query-main            2025-01-29T09:00:33Z  15029564f5ed5706cc55d53dc9b005b2436814df  Pin branch name to main
+tempo-tempo-main            2025-01-29T09:00:33Z  15029564f5ed5706cc55d53dc9b005b2436814df  Pin branch name to main
 """
 from pathlib import Path
 import subprocess
@@ -73,13 +71,13 @@ def get_snapshot(args):
         p = subprocess.run(["kubectl", "get", "snapshot", args.snapshot, "-o", "json"], capture_output=True, text=True, check=True)
         return json.loads(p.stdout)
     elif args.commit:
-        p = subprocess.run(["kubectl", "get", "snapshot", "-l", f"appstudio.openshift.io/application={application},pac.test.appstudio.openshift.io/sha={args.commit}", "-o", "json"], capture_output=True, text=True, check=True)
+        p = subprocess.run(["kubectl", "get", "snapshot", "-l", f"appstudio.openshift.io/application={application}-{args.version},pac.test.appstudio.openshift.io/sha={args.commit}", "-o", "json"], capture_output=True, text=True, check=True)
         snapshots = json.loads(p.stdout)
         if len(snapshots["items"]) == 0:
             raise Exception("No snapshot found.")
         return get_latest_resource(snapshots)
     else:
-        p = subprocess.run(["kubectl", "get", "snapshot", "-l", f"appstudio.openshift.io/application={application},pac.test.appstudio.openshift.io/event-type=push", "-o", "json"], capture_output=True, text=True, check=True)
+        p = subprocess.run(["kubectl", "get", "snapshot", "-l", f"appstudio.openshift.io/application={application}-{args.version},pac.test.appstudio.openshift.io/event-type=push", "-o", "json"], capture_output=True, text=True, check=True)
         snapshots = json.loads(p.stdout)
         if len(snapshots["items"]) == 0:
             raise Exception("No snapshot found.")
@@ -97,6 +95,7 @@ def get_commit_info(commit):
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--version", default="main", help="Version, supported values: main, development")
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--snapshot", help="Fetch the specified snapshot by name")
     group.add_argument("--commit", help="Fetch the latest snapshot of the specified commit")
@@ -111,18 +110,18 @@ def main():
     components_sorted = sorted(components, key=lambda component: component["commit_info"]["commit"]["committer"]["date"]+component["name"])
 
     print(f"Snapshot {snapshot['metadata']['name']}\n")
-    print(f"{'COMPONENT':<23}  {'COMMIT DATE':<20}  {'REVISION':<40}  {'COMMIT MESSAGE'}")
+    print(f"{'COMPONENT':<26}  {'COMMIT DATE':<20}  {'REVISION':<40}  {'COMMIT MESSAGE'}")
     for component in components_sorted:
         name = component["name"]
         pullspec = component["containerImage"]
         revision = component["source"]["git"]["revision"]
         commit_date = component["commit_info"]["commit"]["committer"]["date"]
         commit_message = component["commit_info"]["commit"]["message"].split("\n")[0]
-        env_name = f"{name.upper().replace("-", "_")}_IMAGE_PULLSPEC"
+        env_name = name.replace(f"-{args.version}", "").replace("-", "_").upper() +  "_IMAGE_PULLSPEC"
         line_regexp = f"^{env_name}=.+$"
 
-        print(f"{name:<23}  {commit_date:<20}  {revision:<40}  {commit_message}")
-        if name.endswith("-bundle") or name.endswith("-bundle-quay"):
+        print(f"{name:<26}  {commit_date:<20}  {revision:<40}  {commit_message}")
+        if "-bundle-" in name:
             continue
 
         if not re.search(line_regexp, bundle_env, flags=re.MULTILINE):
