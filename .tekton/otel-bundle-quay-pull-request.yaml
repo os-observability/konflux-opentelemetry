@@ -16,10 +16,10 @@ metadata:
       "opentelemetry-operator".pathChanged())
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: otel
-    appstudio.openshift.io/component: otel-bundle-quay
+    appstudio.openshift.io/application: otel-main
+    appstudio.openshift.io/component: otel-bundle-quay-main
     pipelines.appstudio.openshift.io/type: build
-  name: otel-bundle-quay-on-pull-request
+  name: otel-bundle-quay-main-on-pull-request
   namespace: rhosdt-tenant
 spec:
   params:

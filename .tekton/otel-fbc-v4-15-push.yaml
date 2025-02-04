@@ -9,14 +9,14 @@ metadata:
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" &&
       (".tekton/otel-fbc-v4-15-pull-request.yaml".pathChanged() ||
       ".tekton/otel-fbc-v4-15-push.yaml".pathChanged() ||
-      "Dockerfile-4.15.catalog".pathChanged() ||
+      "Dockerfile-v4-15.catalog".pathChanged() ||
       "catalog/***".pathChanged())
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: otel-fbc-v4-15
-    appstudio.openshift.io/component: otel-fbc-v4-15
+    appstudio.openshift.io/application: otel-fbc-v4-15-main
+    appstudio.openshift.io/component: otel-fbc-v4-15-main
     pipelines.appstudio.openshift.io/type: build
-  name: otel-fbc-v4-15-on-push
+  name: otel-fbc-v4-15-main-on-push
   namespace: rhosdt-tenant
 spec:
   params:
@@ -29,7 +29,7 @@ spec:
   - name: output-image
     value: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-15:{{revision}}
   - name: dockerfile
-    value: Dockerfile-4.15.catalog
+    value: Dockerfile-v4-15.catalog
   - name: path-context
     value: .
   - name: build-platforms

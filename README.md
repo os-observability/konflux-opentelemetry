@@ -2,6 +2,16 @@
 
 This repository contains Konflux configuration to build Red Hat build of OpenTelemetry.
 
+## Multiple release versions
+
+The Konflux project is configured to maintain builds in the `main` and `development` branch.
+The build pipelines are identical except the value of pipeline trigger `pipelinesascode.tekton.dev/on-cel-expression` which defines branch name.
+
+The branch name can be changed by:
+```bash
+sed -i 's/main/development/g' .tekton/*.yaml
+```
+
 ## Build locally
 
 ```bash
