@@ -1,9 +1,8 @@
 import os
+import yaml
 from collections import OrderedDict
 from sys import exit as sys_exit
 from datetime import datetime
-from ruamel.yaml import YAML
-yaml = YAML()
 
 annotations_file = "/metadata/annotations.yaml"
 

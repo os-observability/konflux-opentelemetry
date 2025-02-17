@@ -1,10 +1,11 @@
 # Based on ./gatekeeper-operator/bundle.Dockerfile
-FROM registry.redhat.io/ubi9/ubi:latest@sha256:be214e191bbe3f4d0f16a5a4f5642e1f32fccd6fae7d2b6c6acb066ba51fb507 as builder
+FROM registry.redhat.io/ubi8/ubi:latest@sha256:881aaf5fa0d1f85925a1b9668a1fc7f850a11ca30fd3e37ea194db4edff892a5 as builder
 
 USER root
 WORKDIR /
 
-RUN dnf install -y python3 python3-ruamel-yaml-clib python3-ruamel-yaml patch
+# TODO use python3-ruamel-yaml-clib python3-ruamel-yaml once on RHEL9 and cleanup python scripts
+RUN dnf install -y python3 python3-pyyaml patch
 
 RUN mkdir /licenses
 COPY opentelemetry-operator/LICENSE /licenses/.
