@@ -4,7 +4,7 @@ FROM registry.redhat.io/ubi8/ubi:latest@sha256:881aaf5fa0d1f85925a1b9668a1fc7f85
 USER root
 WORKDIR /
 
-# TODO use python3-ruamel-yaml-clib python3-ruamel-yaml once on RHEL9 and cleanup python scripts
+# TODO use python3-ruamel-yaml-clib python3-ruamel-yaml once on RHEL9 which is easier to use
 RUN dnf install -y python3 python3-pyyaml patch
 
 RUN mkdir /licenses

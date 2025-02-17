@@ -23,12 +23,6 @@ def _str_presenter(dumper, data):
 yaml.add_representer(str, _str_presenter)
 yaml.representer.SafeRepresenter.add_representer(str, _str_presenter)
 
-# define a custom representer for strings
-# def quoted_presenter(dumper, data):
-#     return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='"')
-#
-# yaml.add_representer(str, quoted_presenter)
-
 def load_manifest(pathn):
    if not pathn.endswith(".yaml"):
       return None
