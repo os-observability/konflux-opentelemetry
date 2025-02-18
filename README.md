@@ -23,12 +23,6 @@ git submodule update --init --recursive
 podman build -t docker.io/user/otel-operator:$(date +%s) -f Dockerfile.operator 
 ```
 
-### Generate `requirements.txt` for python
-
-```bash
- ~/.local/bin/pip-compile requirements-build.in --generate-hashes  --allow-unsafe 
-```
-
 ### Generate prefetch for RPM
 
 From [document](https://docs.google.com/document/d/1c58NGQPuuni2hFgz0Ll0vDj0IUvBHa7uF4eKnTVa5Sw/edit).
@@ -60,7 +54,7 @@ Create a PR `Release - update bundle version x.y` and update [patch_csv.yaml](./
 1. Update `release`, `version` and `com.redhat.openshift.versions` (minimum OCP version) labels in [bundle dockerfile](./Dockerfile.bundle)
 1. Update image pullspecs of all components:
    ```bash
-   ./scripts/snapshot-tool.py --update-bundle-pullspecs
+   KUBECONFIG=~/.kube/kubeconfig-konflux-public-rhosdt.yaml ./scripts/snapshot-tool.py --update-bundle-pullspecs
    ```
    Verify the commit date and hashes of each component.
 1. Compare the diff between upstream and downstream ClusterServiceVersion:
@@ -73,7 +67,7 @@ Create a PR `Release - update bundle version x.y` and update [patch_csv.yaml](./
 Once the components are released to prod, create another PR `Release - update catalog x.y` with:
 1. Update the catalog:
    ```bash
-   ./scripts/update-catalog.py --snapshot <released_snapshot>
+   KUBECONFIG=~/.kube/kubeconfig-konflux-public-rhosdt.yaml ./scripts/update-catalog.py --snapshot <released_snapshot>
    ```
 1. Merge the PR and wait until all builds were successful.
 
