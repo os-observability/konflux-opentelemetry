@@ -276,3 +276,18 @@ podman cp $(podman create --name tc registry.redhat.io/redhat/redhat-operator-in
 opm migrate opentelemetry-product-4.17 opentelemetry-product-4.17-migrated
 opm alpha convert-template basic --output yaml ./opentelemetry-product-4.17-migrated/opentelemetry-product/catalog.json > catalog/catalog-template.yaml
 ```
+
+### Change git submodule to another repository
+
+```bash
+git submodule set-url opentelemetry-operator https://github.com/os-observability/opentelemetry-operator.git
+```
+
+Now change to a different branch:
+
+```bash
+cd opentelemetry-operator
+git remote -v
+git fetch
+git checkout rhosdt-3.5
+```
