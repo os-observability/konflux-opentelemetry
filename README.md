@@ -4,8 +4,8 @@ This repository contains Konflux configuration to build Red Hat build of OpenTel
 
 ## Multiple release versions
 
-The Konflux project is configured to maintain builds in the `main` and `development` branch.
-The build pipelines are identical except the value of pipeline trigger `pipelinesascode.tekton.dev/on-cel-expression` which defines branch name.
+The Konflux project is configured to maintain builds in the `main` and `development` branches.
+The build pipelines are identical except the value of pipeline trigger `pipelinesascode.tekton.dev/on-cel-expression`, labels `appstudio.openshift.io/{application,component}` and name.
 
 The branch name can be changed by:
 ```bash
