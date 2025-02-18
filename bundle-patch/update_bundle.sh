@@ -30,3 +30,4 @@ export EPOC_TIMESTAMP=$(date +%s)
 # time for some direct modifications to the csv
 python3 patch_csv.py
 python3 patch_annotations.py
+
