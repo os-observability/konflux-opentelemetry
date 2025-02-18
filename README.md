@@ -158,6 +158,40 @@ tar xvf /tmp/bundle/c6f6e1b5441a6acfc03bb40f4b2d47b98dcfca1761e77e47fba004653eb5
 skopeo list-tags docker://brew.registry.redhat.io/rh-osbs/openshift-golang-builder
 ```
 
+#### Get image index pull spec
+```bash
+skopeo inspect --raw docker://brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_8_golang_1.23
+{
+    "Name": "brew.registry.redhat.io/rh-osbs/openshift-golang-builder",
+    "Digest": "sha256:ca0c771ecd4f606986253f747e2773fe2960a6b5e8e7a52f6a4797b173ac7f56",
+...
+```
+
+```bash
+skopeo inspect --raw docker://brew.registry.redhat.io/rh-osbs/openshift-golang-builder@sha256:ca0c771ecd4f606986253f747e2773fe2960a6b5e8e7a52f6a4797b173ac7f56
+{
+    "manifests": [
+        {
+            "digest": "sha256:2d5976ded2a3abda6966949c4d545d0cdd88a4d6a15989af38ca5e30e430a619",
+            "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+            "platform": {
+                "architecture": "amd64",
+                "os": "linux"
+            },
+            "size": 596
+        },
+        {
+            "digest": "sha256:e5f5973d201e688987434e3a92d531fa62ec2defa0ff04f51c324b7c82e29dc8",
+            "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+            "platform": {
+                "architecture": "arm64",
+                "os": "linux"
+            },
+            "size": 596
+...
+```
+
+
 ### Inspect multi-arch image
 
 The pinned image pullspec in [update-bundle.sh](bundle-patch/update_bundle.sh) should be image index digest.
