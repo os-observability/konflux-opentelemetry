@@ -27,6 +27,8 @@ podman build -t docker.io/user/otel-operator:$(date +%s) -f Dockerfile.operator
 
 From [document](https://docs.google.com/document/d/1c58NGQPuuni2hFgz0Ll0vDj0IUvBHa7uF4eKnTVa5Sw/edit).
 
+It requires a local installation of https://github.com/konflux-ci/rpm-lockfile-prototype.
+
 ```bash
 podman run --rm -v "$PWD:$PWD:z" -w "$PWD"  registry.redhat.io/ubi8/ubi-minimal:8.10-1052.1724178568  cp -r /etc/yum.repos.d/. .
 # Enable -source repositories: `enabled = 1`
@@ -44,6 +46,27 @@ Create a PR `Release - update upstream sources x.y`:
    The version information is set dynamically using `git describe --tags` in the Dockerfile, and is crucial for e.g. the upgrade process of the operator.
 1. Merge the PR and wait until all builds were successful.
    Retrigger failed builds by adding a comment `/test <name>` on the commit (or `/test` to retrigger all pipelines).
+
+#### Change git submodule to another repository
+
+```bash
+git submodule set-url opentelemetry-operator https://github.com/os-observability/opentelemetry-operator.git
+```
+
+Now change to a different branch:
+
+```bash
+cd opentelemetry-operator
+git remote -v
+git fetch
+git checkout rhosdt-3.5
+```
+
+Set branch in git `.gitmodules`. It can be useful to update the branch via `git submodule update --recursive --remote`:
+
+```bash
+git submodule set-branch --branch rhosdt-3.5 opentelemetry-operator
+```
 
 ### Bundle
 Create a PR `Release - update bundle version x.y` and update [patch_csv.yaml](./bundle-patch/patch_csv.yaml) by submitting a PR with follow-up changes:
@@ -303,19 +326,4 @@ skopeo inspect --raw docker://quay.io/redhat-user-workloads/rhosdt-tenant/otel/o
 podman cp $(podman create --name tc registry.redhat.io/redhat/redhat-operator-index:v4.17):/configs/opentelemetry-product opentelemetry-product-4.17  && podman rm tc
 opm migrate opentelemetry-product-4.17 opentelemetry-product-4.17-migrated
 opm alpha convert-template basic --output yaml ./opentelemetry-product-4.17-migrated/opentelemetry-product/catalog.json > catalog/catalog-template.yaml
-```
-
-### Change git submodule to another repository
-
-```bash
-git submodule set-url opentelemetry-operator https://github.com/os-observability/opentelemetry-operator.git
-```
-
-Now change to a different branch:
-
-```bash
-cd opentelemetry-operator
-git remote -v
-git fetch
-git checkout rhosdt-3.5
 ```
