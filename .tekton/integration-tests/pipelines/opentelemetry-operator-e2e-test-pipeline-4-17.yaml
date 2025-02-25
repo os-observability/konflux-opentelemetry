@@ -315,7 +315,7 @@ spec:
               echo "OPENTELEMETRY IMAGE DETAILS AND VERSION INFO"
               echo
 
-              export OTEL_ICSP=https://raw.githubusercontent.com/os-observability/konflux-tempo/refs/heads/main/.tekton/integration-tests/resources/ImageContentSourcePolicy.yaml
+              export OTEL_ICSP=https://raw.githubusercontent.com/os-observability/konflux-opentelemetry/refs/heads/main/.tekton/integration-tests/resources/ImageContentSourcePolicy.yaml
               curl -Lo /tmp/ImageContentSourcePolicy.yaml "$OTEL_ICSP"
 
               otel_images=$(oc get deployment opentelemetry-operator-controller-manager -n openshift-opentelemetry-operator -o yaml | grep -o "registry.redhat.io/rhosdt/.*" | sort | uniq)
