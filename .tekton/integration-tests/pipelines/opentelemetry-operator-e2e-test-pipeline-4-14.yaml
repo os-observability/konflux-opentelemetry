@@ -30,6 +30,10 @@ spec:
       description: Version of OTEL TargetAllocator
     - name: otel_collector_version
       description: Version of OpenTelemetry collector
+    - name: otel_tests_branch
+      description: "The repository branch from which to run the tests"
+    - name: skip_tests
+      description: "Tests to be skipped seperated with a space delimiter"
   tasks:
     - name: eaas-provision-space
       taskRef:
@@ -311,13 +315,16 @@ spec:
               echo "OPENTELEMETRY IMAGE DETAILS AND VERSION INFO"
               echo
 
+              export OTEL_ICSP=https://raw.githubusercontent.com/os-observability/konflux-opentelemetry/refs/heads/main/.tekton/integration-tests/resources/ImageContentSourcePolicy.yaml
+              curl -Lo /tmp/ImageContentSourcePolicy.yaml "$OTEL_ICSP"
+
               otel_images=$(oc get deployment opentelemetry-operator-controller-manager -n openshift-opentelemetry-operator -o yaml | grep -o "registry.redhat.io/rhosdt/.*" | sort | uniq)
               [ $(echo "$otel_images" | wc -l) -eq 3 ] || exit_error "Expected 3 images, found:\n$otel_images"
 
               oc project default
 
               for image in $otel_images; do
-                  oc image info "$image" --filter-by-os linux/amd64
+                  oc image info "$image" --icsp-file /tmp/ImageContentSourcePolicy.yaml --filter-by-os linux/amd64
                   echo
 
                   random_name=$(generate_random_name)
@@ -441,7 +448,17 @@ spec:
       description: Task to run tests from service repository
       runAfter:
         - operators-install
+      params:
+        - name: OTEL_TESTS_BRANCH
+          value: $(params.tempo_tests_branch)
+        - name: SKIP_TESTS
+          value: $(params.skip_tests)
       taskSpec:
+        params:
+          - name: OTEL_TESTS_BRANCH
+            type: string
+          - name: SKIP_TESTS
+            type: string
         volumes:
           - name: credentials
             emptyDir: {}
@@ -474,6 +491,9 @@ spec:
             script: |
               echo "Kubeconfig file"
               cat $KUBECONFIG
+
+              OTEL_TESTS_BRANCH=$(params.OTEL_TESTS_BRANCH)
+              SKIP_TESTS=$(params.SKIP_TESTS)
               
               echo "Intall dependencies"
               dnf -y install jq vim unzip git make
@@ -512,14 +532,13 @@ spec:
               echo "Run e2e tests"
               git clone https://github.com/IshwarKanse/opentelemetry-operator.git /tmp/otel-tests
               cd /tmp/otel-tests 
-              git checkout rhosdt-3-4-downstream
+              git checkout $OTEL_TESTS_BRANCH
 
               #Enable user workload monitoring
               oc apply -f tests/e2e-openshift/otlp-metrics-traces/01-workload-monitoring.yaml
               unset NAMESPACE
 
               # Remove test cases to be skipped from the test run
-              SKIP_TESTS="tests/e2e-targetallocator/targetallocator-features tests/e2e-multi-instrumentation/instrumentation-multi-multicontainer tests/e2e/smoke-ip-families"
               IFS=' ' read -ra SKIP_TEST_ARRAY <<< "$SKIP_TESTS"
               SKIP_TESTS_TO_REMOVE=""
               INVALID_TESTS=""
