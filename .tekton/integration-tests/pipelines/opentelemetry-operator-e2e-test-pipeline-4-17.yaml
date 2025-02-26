@@ -450,7 +450,7 @@ spec:
         - operators-install
       params:
         - name: OTEL_TESTS_BRANCH
-          value: $(params.tempo_tests_branch)
+          value: $(params.otel_tests_branch)
         - name: SKIP_TESTS
           value: $(params.skip_tests)
       taskSpec:
