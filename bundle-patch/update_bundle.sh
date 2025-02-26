@@ -9,7 +9,7 @@ if [[ $REGISTRY == "registry.redhat.io" || $REGISTRY == "registry.stage.redhat.i
   OTEL_OPERATOR_IMAGE_PULLSPEC="$REGISTRY/rhosdt/opentelemetry-rhel8-operator@${OTEL_OPERATOR_IMAGE_PULLSPEC:(-71)}"
 fi
 
-export CSV_FILE=/manifests/opentelemetry-operator.clusterserviceversion.yaml
+export CSV_FILE=manifests/opentelemetry-operator.clusterserviceversion.yaml
 
 sed -i "s#opentelemetry-collector-container-pullspec#$OTEL_COLLECTOR_IMAGE_PULLSPEC#g" patch_csv.yaml
 sed -i "s#opentelemetry-target-allocator-container-pullspec#$OTEL_TARGET_ALLOCATOR_IMAGE_PULLSPEC#g" patch_csv.yaml
@@ -30,4 +30,3 @@ export EPOC_TIMESTAMP=$(date +%s)
 # time for some direct modifications to the csv
 python3 patch_csv.py
 python3 patch_annotations.py
-

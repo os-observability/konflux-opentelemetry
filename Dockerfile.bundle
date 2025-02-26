@@ -2,7 +2,7 @@
 FROM registry.redhat.io/ubi8/ubi-minimal:latest@sha256:c38cc770631788157f8ea989df65ff30359c9f8af3246fef244b32caed9d5862 as builder
 
 USER root
-WORKDIR /
+WORKDIR /opt/bundle-build
 
 # TODO use python3-ruamel-yaml-clib python3-ruamel-yaml once on RHEL9 which is easier to use
 RUN microdnf update -y && rm -rf /var/cache/yum && \
@@ -12,16 +12,16 @@ RUN mkdir /licenses
 COPY opentelemetry-operator/LICENSE /licenses/.
 
 COPY bundle-patch .
-COPY opentelemetry-operator/bundle/openshift/manifests /manifests/
-COPY opentelemetry-operator/bundle/openshift/metadata /metadata/
+COPY opentelemetry-operator/bundle/openshift/manifests manifests/
+COPY opentelemetry-operator/bundle/openshift/metadata metadata/
 
-RUN ls /manifests -al
-RUN ls /metadata -al
+RUN ls manifests -al
+RUN ls metadata -al
 
 # stage - registry.stage.redhat.io, prod - registry.redhat.io
 ARG REGISTRY=quay.io/redhat-user-workloads
 
-RUN ./update_bundle.sh && cat /manifests/opentelemetry-operator.clusterserviceversion.yaml /metadata/annotations.yaml
+RUN ./update_bundle.sh && cat manifests/opentelemetry-operator.clusterserviceversion.yaml /metadata/annotations.yaml
 
 # FROM registry.redhat.io/ubi8/ubi-minimal:latest@sha256:cf095e5668919ba1b4ace3888107684ad9d587b1830d3eb56973e6a54f456e67
 FROM scratch
@@ -63,8 +63,8 @@ LABEL release="0.119.0-1" \
 
 
 # Copy files to locations specified by labels.
-COPY --from=builder /manifests /manifests/
-COPY --from=builder /metadata /metadata/
+COPY --from=builder /opt/bundle-build/manifests /manifests/
+COPY --from=builder /opt/bundle-build/metadata /metadata/
 COPY opentelemetry-operator/bundle/openshift/tests/scorecard /tests/scorecard/
 
 ARG USER_UID=1001
