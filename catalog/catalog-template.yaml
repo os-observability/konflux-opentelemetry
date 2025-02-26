@@ -56,10 +56,13 @@ entries:
   - name: opentelemetry-operator.v0.113.0-2
     replaces: opentelemetry-operator.v0.113.0-1
     skipRange: '>=0.33.0 <0.113.0-2'
+  - name: opentelemetry-operator.v0.119.0-1
+    replaces: opentelemetry-operator.v0.113.0-2
+    skipRange: '>=0.33.0 <0.119.0-1'
   name: stable
   package: opentelemetry-product
   schema: olm.channel
-- image: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle@sha256:2de0d6236069507608dbd3760c73462673976eba4dd9ffe631ea511716390fc3
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:2de0d6236069507608dbd3760c73462673976eba4dd9ffe631ea511716390fc3
   schema: olm.bundle
 - image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:bfc2ac2670869a21f5caf7861f8d06b6080dd2f0b3ee6e544aaa36ed8eba70f6
   schema: olm.bundle
@@ -87,8 +90,10 @@ entries:
   schema: olm.bundle
 - image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:a0fefcdad179cb5555feacfbc226354969258925c9b9259d13fd6959a77a4884
   schema: olm.bundle
-- image: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle@sha256:ad1a370dcf04986aa0ce3fee074db0fac8c9c2ccac96671d5d9c696d5ea08fdf
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:ad1a370dcf04986aa0ce3fee074db0fac8c9c2ccac96671d5d9c696d5ea08fdf
   schema: olm.bundle
-- image: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle@sha256:cb2e6a39d5f5fbf3833625dacd8fb4234a9cf46a75c0b753598c7b0dabf723f0
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:cb2e6a39d5f5fbf3833625dacd8fb4234a9cf46a75c0b753598c7b0dabf723f0
+  schema: olm.bundle
+- image: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle@sha256:b8f75cdbfd055c86eaf818101db9145ff9900465b4338f2c80a8c9a4e3f233ed
   schema: olm.bundle
 schema: olm.template.basic

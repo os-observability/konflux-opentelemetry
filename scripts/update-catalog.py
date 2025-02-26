@@ -21,6 +21,21 @@ application = repository.replace("konflux-", "").replace("opentelemetry", "otel"
 if not repository.startswith("konflux-"):
     raise Exception("This script must be run from a Konflux data repository.")
 
+registry_mappings = {
+    "jaeger": {
+        "stage": "quay.io/redhat-user-workloads/rhosdt-tenant/jaeger/jaeger-bundle",
+        "prod": "registry.redhat.io/rhosdt/jaeger-operator-bundle"
+    },
+    "otel": {
+        "stage":"quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle",
+        "prod": "registry.redhat.io/rhosdt/opentelemetry-operator-bundle"
+    },
+    "tempo": {
+        "stage": "quay.io/redhat-user-workloads/rhosdt-tenant/tempo/tempo-bundle",
+        "prod": "registry.redhat.io/rhosdt/tempo-operator-bundle"
+    },
+}
+
 def get_bundle_pullspec(args):
     p = subprocess.run(["kubectl", "get", "snapshot", args.snapshot, "-o", "json"], capture_output=True, text=True, check=True)
     snapshot = json.loads(p.stdout)
@@ -36,6 +51,11 @@ def update_catalog_template(bundle_pullspec):
 
     with open("catalog/catalog-template.yaml", "r") as f:
         catalog_template = yaml.safe_load(f)
+
+    # update the registry of all existing (already published) bundles
+    for entry in catalog_template["entries"]:
+        if "image" in entry:
+            entry["image"] = entry["image"].replace(registry_mappings[application]["stage"], registry_mappings[application]["prod"])
 
     name = bundle_patch["metadata"]["name"]
     replaces = bundle_patch["spec"]["replaces"]
