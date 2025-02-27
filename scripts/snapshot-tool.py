@@ -30,7 +30,6 @@ Snapshot tempo-main-dxv8s
 
 COMPONENT                   COMMIT DATE           REVISION                                  COMMIT MESSAGE
 tempo-bundle-main           2025-01-29T09:00:33Z  15029564f5ed5706cc55d53dc9b005b2436814df  Pin branch name to main
-tempo-bundle-quay-main      2025-01-29T09:00:33Z  15029564f5ed5706cc55d53dc9b005b2436814df  Pin branch name to main
 tempo-gateway-main          2025-01-29T09:00:33Z  15029564f5ed5706cc55d53dc9b005b2436814df  Pin branch name to main
 tempo-opa-main              2025-01-29T09:00:33Z  15029564f5ed5706cc55d53dc9b005b2436814df  Pin branch name to main
 tempo-operator-main         2025-01-29T09:00:33Z  15029564f5ed5706cc55d53dc9b005b2436814df  Pin branch name to main
