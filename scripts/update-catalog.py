@@ -41,7 +41,7 @@ def get_bundle_pullspec(args):
     snapshot = json.loads(p.stdout)
 
     for component in snapshot["spec"]["components"]:
-        if re.match(f"^{application}-bundle-[a-z]+$", component["name"]):
+        if "-bundle-" in component["name"]:
             return component["containerImage"]
     return None
 
