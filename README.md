@@ -320,6 +320,13 @@ skopeo inspect --raw docker://quay.io/redhat-user-workloads/rhosdt-tenant/otel/o
 }
 ```
 
+### Check currently alloved Konflux tasks with tags and pullspecs
+
+```bash
+CGO_ENABLED=0 go install github.com/open-policy-agent/conftest@latest
+conftest pull --policy '.' oci::quay.io/konflux-ci/tekton-catalog/data-acceptable-bundles:latest 
+```
+
 ### Extract file based catalog from OpenShift index
 
 ```bash
