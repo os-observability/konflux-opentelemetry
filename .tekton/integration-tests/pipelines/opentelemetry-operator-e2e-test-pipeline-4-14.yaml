@@ -400,7 +400,7 @@ spec:
               cat $KUBECONFIG
               
               echo "Installing dependent operators"
-              export OPERATORS_INSTALL=https://raw.githubusercontent.com/os-observability/konflux-opentelemetry/refs/heads/main/.tekton/integration-tests/resources/install.yaml
+              export OPERATORS_INSTALL=https://raw.githubusercontent.com/os-observability/konflux-opentelemetry/refs/heads/main/.tekton/integration-tests/resources/install-4-14.yaml
               curl -Lo /tmp/install.yaml "$OPERATORS_INSTALL"
               oc apply -f /tmp/install.yaml
 
@@ -440,9 +440,6 @@ spec:
               check_operator_installed "tempo-product" openshift-tempo-operator
               check_operator_installed "jaeger-product" openshift-distributed-tracing
               check_operator_installed "amq-streams" openshift-operators
-              check_operator_installed "cluster-observability-operator" openshift-operators
-              check_operator_installed "loki-operator" openshift-operators-redhat
-              check_operator_installed "cluster-logging" openshift-logging
               echo "Operator installation check completed."
     - name: opentelemetry-e2e-tests
       description: Task to run tests from service repository

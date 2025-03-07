@@ -400,7 +400,7 @@ spec:
               cat $KUBECONFIG
               
               echo "Installing dependent operators"
-              export OPERATORS_INSTALL=https://raw.githubusercontent.com/os-observability/konflux-opentelemetry/refs/heads/main/.tekton/integration-tests/resources/install.yaml
+              export OPERATORS_INSTALL=https://raw.githubusercontent.com/os-observability/konflux-opentelemetry/refs/heads/main/.tekton/integration-tests/resources/install-4-17.yaml
               curl -Lo /tmp/install.yaml "$OPERATORS_INSTALL"
               oc apply -f /tmp/install.yaml
 
