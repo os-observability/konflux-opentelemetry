@@ -61,21 +61,23 @@ def update_catalog_template(bundle_pullspec):
     replaces = bundle_patch["spec"]["replaces"]
     skipRange = bundle_patch["metadata"]["extra_annotations"]["olm.skipRange"]
 
-    # exit if the CSV is already present in the catalog template
     for bundle in catalog_template["entries"][1]["entries"]:
         if bundle["name"] == name:
-            print(f"ERROR: Catalog already contains {name}, exiting...")
-            sys.exit(1)
-
-    catalog_template["entries"][1]["entries"].append({
-        "name": name,
-        "replaces": replaces,
-        "skipRange": skipRange
-    })
-    catalog_template["entries"].append({
-        "image": bundle_pullspec,
-        "schema": "olm.bundle",
-    })
+            bundle["replaces"] = replaces
+            bundle["skipRange"] = skipRange
+            catalog_template["entries"][-1]["image"] = bundle_pullspec
+            break
+    else:
+        # if bundle does not exist in the catalog template
+        catalog_template["entries"][1]["entries"].append({
+            "name": name,
+            "replaces": replaces,
+            "skipRange": skipRange
+        })
+        catalog_template["entries"].append({
+            "image": bundle_pullspec,
+            "schema": "olm.bundle",
+        })
 
     with open("catalog/catalog-template.yaml", "w") as f:
         content = "---\n" + yaml.dump(catalog_template)
