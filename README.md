@@ -315,3 +315,17 @@ podman cp $(podman create --name tc registry.redhat.io/redhat/redhat-operator-in
 opm migrate opentelemetry-product-4.17 opentelemetry-product-4.17-migrated
 opm alpha convert-template basic --output yaml ./opentelemetry-product-4.17-migrated/opentelemetry-product/catalog.json > catalog/catalog-template.yaml
 ```
+
+### Upgrade existing packages in the base image
+
+We can request an upgraded version of a package in the base image, e.g. in case of a CVE in the base image, where a fixed package is available in the repository, but there is no new base image:
+
+Add the package NVR (name-version-release) to the `rpms.in.yaml` file, for example:
+
+```
+packages:
+  - libxml2-2.9.7-19.el8_10
+  - krb5-libs-1.18.2-31.el8_10
+```
+
+and then re-generate `rpms.lock.yaml` with `rpm-lockfile-prototype rpms.in.yaml`.
