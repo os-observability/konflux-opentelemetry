@@ -179,6 +179,13 @@ arches:
     name: libutempter
     evr: 1.1.6-14.el8
     sourcerpm: libutempter-1.1.6-14.el8.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/aarch64/baseos/os/Packages/l/libxml2-2.9.7-19.el8_10.aarch64.rpm
+    repoid: ubi-8-for-aarch64-baseos-rpms
+    size: 669364
+    checksum: sha256:6947156cf8170d419f81b415a17cdebf04f3d96efaf56b9deb06da24e66f8425
+    name: libxml2
+    evr: 2.9.7-19.el8_10
+    sourcerpm: libxml2-2.9.7-19.el8_10.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/aarch64/baseos/os/Packages/o/openssl-1.1.1k-14.el8_6.aarch64.rpm
     repoid: ubi-8-for-aarch64-baseos-rpms
     size: 708628
@@ -358,6 +365,12 @@ arches:
     checksum: sha256:cba58a16a506c2de446105f7b2c3e765d34a02941ea46d3ff03ed20c624f861f
     name: libutempter
     evr: 1.1.6-14.el8
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/l/libxml2-2.9.7-19.el8_10.src.rpm
+    repoid: ubi-8-for-x86_64-baseos-source-rpms
+    size: 5483351
+    checksum: sha256:7e50cdc6eb992d219955bbff31a2647a4ed00b088ad3fa16954947c3afd2c62a
+    name: libxml2
+    evr: 2.9.7-19.el8_10
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/l/lvm2-2.03.14-15.el8_10.src.rpm
     repoid: ubi-8-for-x86_64-baseos-source-rpms
     size: 3182486
@@ -579,6 +592,13 @@ arches:
     name: libutempter
     evr: 1.1.6-14.el8
     sourcerpm: libutempter-1.1.6-14.el8.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/ppc64le/baseos/os/Packages/l/libxml2-2.9.7-19.el8_10.ppc64le.rpm
+    repoid: ubi-8-for-ppc64le-baseos-rpms
+    size: 772456
+    checksum: sha256:5d978e667f55c6b78e0577bf05d7d7f3a17d1d075a6ececd7173131d06bb63e6
+    name: libxml2
+    evr: 2.9.7-19.el8_10
+    sourcerpm: libxml2-2.9.7-19.el8_10.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/ppc64le/baseos/os/Packages/o/openssl-1.1.1k-14.el8_6.ppc64le.rpm
     repoid: ubi-8-for-ppc64le-baseos-rpms
     size: 731808
@@ -764,6 +784,12 @@ arches:
     checksum: sha256:cba58a16a506c2de446105f7b2c3e765d34a02941ea46d3ff03ed20c624f861f
     name: libutempter
     evr: 1.1.6-14.el8
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/l/libxml2-2.9.7-19.el8_10.src.rpm
+    repoid: ubi-8-for-x86_64-baseos-source-rpms
+    size: 5483351
+    checksum: sha256:7e50cdc6eb992d219955bbff31a2647a4ed00b088ad3fa16954947c3afd2c62a
+    name: libxml2
+    evr: 2.9.7-19.el8_10
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/l/lvm2-2.03.14-15.el8_10.src.rpm
     repoid: ubi-8-for-x86_64-baseos-source-rpms
     size: 3182486
@@ -978,6 +1004,13 @@ arches:
     name: libutempter
     evr: 1.1.6-14.el8
     sourcerpm: libutempter-1.1.6-14.el8.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/s390x/baseos/os/Packages/l/libxml2-2.9.7-19.el8_10.s390x.rpm
+    repoid: ubi-8-for-s390x-baseos-rpms
+    size: 663600
+    checksum: sha256:10700e0618b65b381a6e2067d559b9bad07d37ca3aeaa2dba35e8e9983dee074
+    name: libxml2
+    evr: 2.9.7-19.el8_10
+    sourcerpm: libxml2-2.9.7-19.el8_10.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/s390x/baseos/os/Packages/o/openssl-1.1.1k-14.el8_6.s390x.rpm
     repoid: ubi-8-for-s390x-baseos-rpms
     size: 714804
@@ -1157,6 +1190,12 @@ arches:
     checksum: sha256:cba58a16a506c2de446105f7b2c3e765d34a02941ea46d3ff03ed20c624f861f
     name: libutempter
     evr: 1.1.6-14.el8
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/l/libxml2-2.9.7-19.el8_10.src.rpm
+    repoid: ubi-8-for-x86_64-baseos-source-rpms
+    size: 5483351
+    checksum: sha256:7e50cdc6eb992d219955bbff31a2647a4ed00b088ad3fa16954947c3afd2c62a
+    name: libxml2
+    evr: 2.9.7-19.el8_10
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/l/lvm2-2.03.14-15.el8_10.src.rpm
     repoid: ubi-8-for-x86_64-baseos-source-rpms
     size: 3182486
@@ -1392,6 +1431,13 @@ arches:
     name: libutempter
     evr: 1.1.6-14.el8
     sourcerpm: libutempter-1.1.6-14.el8.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/l/libxml2-2.9.7-19.el8_10.x86_64.rpm
+    repoid: ubi-8-for-x86_64-baseos-rpms
+    size: 713464
+    checksum: sha256:c2eefe2e9fa41729d7841dc2959eb0da4504fb42288db3232ad41917319d5ebd
+    name: libxml2
+    evr: 2.9.7-19.el8_10
+    sourcerpm: libxml2-2.9.7-19.el8_10.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/o/openssl-1.1.1k-14.el8_6.x86_64.rpm
     repoid: ubi-8-for-x86_64-baseos-rpms
     size: 728108
@@ -1550,6 +1596,12 @@ arches:
     checksum: sha256:cba58a16a506c2de446105f7b2c3e765d34a02941ea46d3ff03ed20c624f861f
     name: libutempter
     evr: 1.1.6-14.el8
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/l/libxml2-2.9.7-19.el8_10.src.rpm
+    repoid: ubi-8-for-x86_64-baseos-source-rpms
+    size: 5483351
+    checksum: sha256:7e50cdc6eb992d219955bbff31a2647a4ed00b088ad3fa16954947c3afd2c62a
+    name: libxml2
+    evr: 2.9.7-19.el8_10
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/l/lvm2-2.03.14-15.el8_10.src.rpm
     repoid: ubi-8-for-x86_64-baseos-source-rpms
     size: 3182486
