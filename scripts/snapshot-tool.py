@@ -40,8 +40,8 @@ from pathlib import Path
 import subprocess
 import json
 import re
+import sys
 import argparse
-from urllib.request import urlopen, Request
 from datetime import datetime
 
 repository = Path().absolute().name
@@ -65,32 +65,36 @@ def get_latest_resource(resources):
             latest_resource = resource
     return latest_resource
 
+def run_cmd(args):
+    p = subprocess.run(args, capture_output=True, text=True)
+    if p.returncode != 0:
+        raise Exception(f"Error running '{" ".join(args)}':\n{p.stdout}\n{p.stderr}")
+    return p
+
 def get_snapshot(args):
     if args.snapshot:
-        p = subprocess.run(["kubectl", "get", "snapshot", args.snapshot, "-o", "json"], capture_output=True, text=True, check=True)
+        p = run_cmd(["kubectl", "get", "snapshot", args.snapshot, "-o", "json"])
         return json.loads(p.stdout)
     elif args.commit:
-        p = subprocess.run(["kubectl", "get", "snapshot", "-l", f"appstudio.openshift.io/application={application}-{args.version},pac.test.appstudio.openshift.io/sha={args.commit}", "-o", "json"], capture_output=True, text=True, check=True)
+        p = run_cmd(["kubectl", "get", "snapshot", "-l", f"appstudio.openshift.io/application={application}-{args.version},pac.test.appstudio.openshift.io/sha={args.commit}", "-o", "json"])
         snapshots = json.loads(p.stdout)
         if len(snapshots["items"]) == 0:
             raise Exception("No snapshot found.")
         return get_latest_resource(snapshots)
     else:
-        p = subprocess.run(["kubectl", "get", "snapshot", "-l", f"appstudio.openshift.io/application={application}-{args.version},pac.test.appstudio.openshift.io/event-type=push", "-o", "json"], capture_output=True, text=True, check=True)
+        p = run_cmd(["kubectl", "get", "snapshot", "-l", f"appstudio.openshift.io/application={application}-{args.version},pac.test.appstudio.openshift.io/event-type=push", "-o", "json"])
         snapshots = json.loads(p.stdout)
         if len(snapshots["items"]) == 0:
             raise Exception("No snapshot found.")
         return get_latest_resource(snapshots)
 
-COMMIT_DATA_CACHE = {}
 def get_commit_info(commit):
-    if commit in COMMIT_DATA_CACHE:
-        return COMMIT_DATA_CACHE[commit]
-
-    url = f"https://api.github.com/repos/os-observability/{repository}/commits/{commit}"
-    with urlopen(Request(url)) as response:
-        COMMIT_DATA_CACHE[commit] = json.load(response)
-    return COMMIT_DATA_CACHE[commit]
+    try:
+        p = run_cmd(["git", "show", "--format=%ci%x00%s", "--no-patch", commit])
+        date, title = p.stdout.strip().split("\0")
+        return {"date": date, "title": title}
+    except:
+        return {"date": "???", "title": f"cannot find commit {commit}"}
 
 def main():
     parser = argparse.ArgumentParser()
@@ -106,20 +110,20 @@ def main():
 
     snapshot = get_snapshot(args)
     components = [{**component, "commit_info": get_commit_info(component["source"]["git"]["revision"])} for component in snapshot["spec"]["components"]]
-    components_sorted = sorted(components, key=lambda component: component["commit_info"]["commit"]["committer"]["date"]+component["name"])
+    components_sorted = sorted(components, key=lambda component: component["commit_info"]["date"]+component["name"])
 
     print(f"Snapshot {snapshot['metadata']['name']}\n")
-    print(f"{'COMPONENT':<26}  {'COMMIT DATE':<20}  {'REVISION':<40}  {'COMMIT MESSAGE'}")
+    print(f"{'COMPONENT':<26}  {'COMMIT DATE':<25}  {'REVISION':<40}  {'COMMIT MESSAGE'}")
     for component in components_sorted:
         name = component["name"]
         pullspec = component["containerImage"]
         revision = component["source"]["git"]["revision"]
-        commit_date = component["commit_info"]["commit"]["committer"]["date"]
-        commit_message = component["commit_info"]["commit"]["message"].split("\n")[0]
+        commit_date = component["commit_info"]["date"]
+        commit_message = component["commit_info"]["title"]
         env_name = name.replace(f"-{args.version}", "").replace("-", "_").upper() +  "_IMAGE_PULLSPEC"
         line_regexp = f"^{env_name}=.+$"
 
-        print(f"{name:<26}  {commit_date:<20}  {revision:<40}  {commit_message}")
+        print(f"{name:<26}  {commit_date:<25}  {revision:<40}  {commit_message}")
         if "-bundle-" in name:
             continue
 
