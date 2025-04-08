@@ -9,12 +9,10 @@ Example:
 $ ~/redhat/dist/konflux/konflux/scripts/update-catalog.py --snapshot tempo-4jcs8
 """
 from pathlib import Path
-import re
 import subprocess
 import json
 import argparse
 import yaml
-import sys
 
 repository = Path().absolute().name
 application = repository.replace("konflux-", "").replace("opentelemetry", "otel")

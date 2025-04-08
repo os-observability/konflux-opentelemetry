@@ -40,7 +40,6 @@ from pathlib import Path
 import subprocess
 import json
 import re
-import sys
 import argparse
 from datetime import datetime
 
