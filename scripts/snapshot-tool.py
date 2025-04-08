@@ -45,7 +45,6 @@ import argparse
 from datetime import datetime
 
 repository = Path().absolute().name
-application = repository.replace("konflux-", "").replace("opentelemetry", "otel")
 if not repository.startswith("konflux-"):
     raise Exception("This script must be run from a Konflux data repository.")
 
@@ -72,20 +71,19 @@ def run_cmd(args):
     return p
 
 def get_snapshot(args):
+    # by default, fetch by latest commit in current git repository
+    if not args.snapshot and not args.commit:
+        p = run_cmd(["git", "rev-parse", "HEAD"])
+        args.commit = p.stdout.strip()
+
     if args.snapshot:
         p = run_cmd(["kubectl", "get", "snapshot", args.snapshot, "-o", "json"])
         return json.loads(p.stdout)
     elif args.commit:
-        p = run_cmd(["kubectl", "get", "snapshot", "-l", f"appstudio.openshift.io/application={application}-{args.version},pac.test.appstudio.openshift.io/sha={args.commit}", "-o", "json"])
+        p = run_cmd(["kubectl", "get", "snapshot", "-l", f"pac.test.appstudio.openshift.io/sha={args.commit}", "-o", "json"])
         snapshots = json.loads(p.stdout)
         if len(snapshots["items"]) == 0:
-            raise Exception("No snapshot found.")
-        return get_latest_resource(snapshots)
-    else:
-        p = run_cmd(["kubectl", "get", "snapshot", "-l", f"appstudio.openshift.io/application={application}-{args.version},pac.test.appstudio.openshift.io/event-type=push", "-o", "json"])
-        snapshots = json.loads(p.stdout)
-        if len(snapshots["items"]) == 0:
-            raise Exception("No snapshot found.")
+            raise Exception(f"No snapshot found for commit {args.commit}.")
         return get_latest_resource(snapshots)
 
 def get_commit_info(commit):
@@ -98,7 +96,6 @@ def get_commit_info(commit):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--version", default="main", help="Version, supported values: main, development")
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--snapshot", help="Fetch the specified snapshot by name")
     group.add_argument("--commit", help="Fetch the latest snapshot of the specified commit")
@@ -120,7 +117,7 @@ def main():
         revision = component["source"]["git"]["revision"]
         commit_date = component["commit_info"]["date"]
         commit_message = component["commit_info"]["title"]
-        env_name = name.replace(f"-{args.version}", "").replace("-", "_").upper() +  "_IMAGE_PULLSPEC"
+        env_name = name[:name.rfind("-")].replace("-", "_").upper() +  "_IMAGE_PULLSPEC"
         line_regexp = f"^{env_name}=.+$"
 
         print(f"{name:<26}  {commit_date:<25}  {revision:<40}  {commit_message}")
