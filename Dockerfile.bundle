@@ -1,5 +1,5 @@
 # Based on ./gatekeeper-operator/bundle.Dockerfile
-FROM registry.redhat.io/ubi9/ubi:latest@sha256:b88227436597e960f70db8eadcaf18ffa5b6d1a615888f709dcae3fba1540c61 as builder
+FROM registry.redhat.io/ubi9/ubi:latest@sha256:ea57285741f007e83f2ee20423c20b0cbcce0b59cc3da027c671692cc7efe4dd as builder
 
 USER root
 WORKDIR /
