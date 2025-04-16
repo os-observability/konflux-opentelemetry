@@ -1,4 +1,4 @@
-FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_8_golang_1.22@sha256:414352c89e06f25f79b4927328504edcdbfe676cd9596b44afff2eb4117c17e0 as builder
+FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_8_golang_1.22@sha256:fee7f9a031bb702a88c3054f68f3e953c15b982f4132edfa621cc9adcb75b72b as builder
 
 WORKDIR /opt/app-root/src
 USER root
