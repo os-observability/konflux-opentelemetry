@@ -45,6 +45,7 @@ RUN dnf install --installroot /mnt/rootfs --releasever 8 --setopt install_weak_d
 RUN rm -rf /mnt/rootfs/var/cache/*
 
 
+
 FROM registry.redhat.io/ubi8/ubi-micro:latest@sha256:eae27ba458e682d6d830f6c77c9e3a4c33cf1718461397b741e674d9d37450f3
 WORKDIR /
 
