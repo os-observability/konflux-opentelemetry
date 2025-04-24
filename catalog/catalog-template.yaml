@@ -62,6 +62,9 @@ entries:
   - name: opentelemetry-operator.v0.119.0-2
     replaces: opentelemetry-operator.v0.119.0-1
     skipRange: '>=0.33.0 <0.119.0-2'
+  - name: opentelemetry-operator.v0.119.0-3
+    replaces: opentelemetry-operator.v0.119.0-2
+    skipRange: '>=0.33.0 <0.119.0-3'
   name: stable
   package: opentelemetry-product
   schema: olm.channel
@@ -100,5 +103,7 @@ entries:
 - image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:d23b9c8d0266de7ce5427d125b2749053d2e4b44d632e3eb484775a5eede41b0
   schema: olm.bundle
 - image: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle@sha256:ea3e5c6cc3342f0f0e9c4d8f6f4cc5ab278cd68fc6302737c533e7bdaa8ed12b
+  schema: olm.bundle
+- image: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle@sha256:b7e71cac55312cbe543a6c309e5fa9aafb13237f67d0a8e9e098b30ceb11df60
   schema: olm.bundle
 schema: olm.template.basic
