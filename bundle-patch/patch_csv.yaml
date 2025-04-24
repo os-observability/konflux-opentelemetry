@@ -16,11 +16,11 @@ metadata:
     features.operators.openshift.io/cni: "false"
     features.operators.openshift.io/csi: "false"
     console.openshift.io/operator-monitoring-default: "true"
-    olm.skipRange: '>=0.33.0 <0.119.0-2'
-  name: opentelemetry-operator.v0.119.0-2
+    olm.skipRange: '>=0.33.0 <0.119.0-3'
+  name: opentelemetry-operator.v0.119.0-3
 spec:
-  version: 0.119.0-2
-  replaces: opentelemetry-operator.v0.119.0-1
+  version: 0.119.0-3
+  replaces: opentelemetry-operator.v0.119.0-2
   description: |-
     Red Hat build of OpenTelemetry is a collection of tools, APIs, and SDKs. You use it to instrument, generate, collect, and export telemetry data (metrics, logs, and traces) for analysis in order to understand your software's performance and behavior.
     This operator was previously called Red Hat OpenShift distributed tracing data collection.
