@@ -39,7 +39,8 @@ RUN exportOrFail() { echo $1; if [[ $1 == *= ]]; then echo "Error: empty variabl
 
 FROM registry.redhat.io/ubi8/ubi:latest@sha256:8bd1b6306f8164de7fb0974031a0f903bd3ab3e6bcab835854d3d9a1a74ea5db as ubi-micro-additional-packages
 RUN mkdir -p /mnt/rootfs
-RUN dnf install --installroot /mnt/rootfs --releasever 8 --setopt install_weak_deps=false --nodocs -y coreutils-single glibc-minimal-langpack openssl; \
+RUN dnf update -y && rm -rf /var/cache/yum && \
+    dnf install --installroot /mnt/rootfs --releasever 8 --setopt install_weak_deps=false --nodocs -y coreutils-single glibc-minimal-langpack openssl && \
     dnf clean all
 RUN rm -rf /mnt/rootfs/var/cache/*
 
