@@ -42,7 +42,7 @@ FROM registry.redhat.io/ubi8/ubi:latest@sha256:8bd1b6306f8164de7fb0974031a0f903b
 RUN rpm --root /mnt/rootfs --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 RUN mkdir -p /mnt/rootfs
 RUN dnf update -y && rm -rf /var/cache/yum && \
-    dnf install --installroot /mnt/rootfs --releasever 8 --setopt install_weak_deps=false --nodocs -y coreutils-single glibc-minimal-langpack openssl && \
+    dnf install --installroot /mnt/rootfs --releasever 8 --setopt install_weak_deps=false --skip-broken --nodocs -y openssl && \
     dnf clean all
 RUN rm -rf /mnt/rootfs/var/cache/*
 
