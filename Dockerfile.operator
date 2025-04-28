@@ -56,7 +56,7 @@ RUN mkdir /licenses
 COPY opentelemetry-operator/LICENSE /licenses/.
 COPY --from=builder /opt/app-root/src/opentelemetry-operator/opentelemetry-operator /usr/bin/opentelemetry-operator
 
-COPY --from=builder /tpm/idir /tpm/idir
+COPY --from=builder /tmp/idir /tmp/idir
 
 ARG USER_UID=1001
 USER ${USER_UID}
