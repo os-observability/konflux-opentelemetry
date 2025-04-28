@@ -41,13 +41,13 @@ FROM registry.redhat.io/ubi8/ubi-micro:latest@sha256:eae27ba458e682d6d830f6c77c9
 FROM registry.redhat.io/ubi8/ubi:latest@sha256:8bd1b6306f8164de7fb0974031a0f903bd3ab3e6bcab835854d3d9a1a74ea5db as ubi-micro-additional-packages
 COPY --from=target-base / /mnt/rootfs
 RUN rpm --root /mnt/rootfs --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
-RUN dnf update -y && rm -rf /var/cache/yum && \
+RUN dnf update -y && \
     dnf install --installroot /mnt/rootfs --releasever 8 --setopt install_weak_deps=false --setopt reposdir=/etc/yum.repos.d --nodocs -y openssl && \
-    dnf clean all
+    dnf clean all && \
+    rm -rf /var/cache/yum
 RUN rm -rf /mnt/rootfs/var/cache/*
 
-# Cachi2 injects dependencies and needs /bin/sh
-FROM registry.redhat.io/ubi8/ubi-micro:latest@sha256:eae27ba458e682d6d830f6c77c9e3a4c33cf1718461397b741e674d9d37450f3
+FROM scratch
 WORKDIR /
 
 COPY --from=ubi-micro-additional-packages /mnt/rootfs/ /
