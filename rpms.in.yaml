@@ -16,5 +16,5 @@ arches:
   - ppc64le
 context:
   containerfile:
-    file: Dockerfile.operator
-    stageName: target-base
+    file: Dockerfile.collector
+#    stageName: target-base
