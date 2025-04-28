@@ -6,7 +6,7 @@ metadata:
     build.appstudio.redhat.com/commit_sha: '{{revision}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" &&
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "development" &&
       (".tekton/fbc-build-pipeline.yaml".pathChanged() ||
       ".tekton/otel-fbc-v4-14-pull-request.yaml".pathChanged() ||
       ".tekton/otel-fbc-v4-14-push.yaml".pathChanged() ||
@@ -14,10 +14,10 @@ metadata:
       "catalog/***".pathChanged())
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: otel-fbc-v4-14-main
-    appstudio.openshift.io/component: otel-fbc-v4-14-main
+    appstudio.openshift.io/application: otel-fbc-v4-14-development
+    appstudio.openshift.io/component: otel-fbc-v4-14-development
     pipelines.appstudio.openshift.io/type: build
-  name: otel-fbc-v4-14-main-on-push
+  name: otel-fbc-v4-14-development-on-push
   namespace: rhosdt-tenant
 spec:
   params:
