@@ -301,7 +301,7 @@ skopeo inspect --raw docker://quay.io/redhat-user-workloads/rhosdt-tenant/otel/o
 }
 ```
 
-### Check currently alloved Konflux tasks with tags and pullspecs
+### Check currently allowed Konflux tasks with tags and pullspecs
 
 ```bash
 CGO_ENABLED=0 go install github.com/open-policy-agent/conftest@latest
@@ -329,3 +329,10 @@ packages:
 ```
 
 and then re-generate `rpms.lock.yaml` with `rpm-lockfile-prototype rpms.in.yaml`.
+
+### Read RPM database from container which does not have `rpm` installed
+
+```bash
+podman cp $(podman create --name tc  quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-operator:on-pr-100a8f7ef53eed8d72ce929cd4213ebf8c599683-localhost):/var/lib/rpm var-lib-rpm && podman rm tc
+rpm -qa --dbpath /home/ploffay/tmp/rpm/var-lib-rpm
+```
