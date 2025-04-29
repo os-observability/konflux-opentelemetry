@@ -16,4 +16,4 @@ arches:
 context:
   containerfile:
     file: Dockerfile.operator
-    stageName: ubi-micro-additional-packages
+    stageName: install-additional-packages
