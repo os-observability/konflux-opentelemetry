@@ -16,4 +16,4 @@ arches:
 context:
   containerfile:
     file: Dockerfile.operator
-    stageName: install-additional-packages
+    stageName: target-base
