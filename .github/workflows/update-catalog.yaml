@@ -19,6 +19,9 @@ jobs:
         run: |
           wget https://github.com/operator-framework/operator-registry/releases/download/v1.53.0/linux-amd64-opm
           chmod +x linux-amd64-opm
+          mkdir .bin
+          mv linux-amd64-opm ./.bin/opm
+          echo "$GITHUB_WORKSPACE/.bin" >> $GITHUB_PATH
 
       - name: Log into registry.redhat.io
         uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
