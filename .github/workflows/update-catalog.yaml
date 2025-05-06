@@ -9,6 +9,9 @@ on:
     paths:
       - 'catalog/**'
 
+permissions:
+  contents: write
+
 jobs:
   update-catalog:
     runs-on: ubuntu-22.04
@@ -33,7 +36,10 @@ jobs:
       - name: Generate catalog
         run: ./scripts/update-catalog-opm.sh opentelemetry
 
-      - uses: stefanzweifel/git-auto-commit-action@b863ae1933cb653a53c021fe36dbb774e1fb9403
-        with:
-          commit_message: Generate catalogs
-          file_pattern: 'catalog/**'
+      - name: Commit the changes nad push the the same branch
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add catalog
+          git commit -m "Add generated catalogs" | true
+          git push
