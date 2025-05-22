@@ -339,5 +339,5 @@ rpm -qa --dbpath /home/ploffay/tmp/rpm/var-lib-rpm
 
 or read RPMs from SBOM
 ```bash
-cosign download sbom quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-operator@sha256:168b69e48f77606b9a93699c67f7049add1153ce87bf04f480fd284ef17a1315  | grep -F 'pkg:rpm' | sort | uniq 
+cosign download sbom quay.io/redhat-user-workloads/rhosdt-tenant/tempo/tempo-operator@sha256:e724feb8fbe20184ee270d290d31e5f1bf6f70e2d6ad584922f34426277e1f58 --platform linux/amd64 | grep -F 'pkg:rpm' | grep arch=x86_64 | sort | uniq
 ```
