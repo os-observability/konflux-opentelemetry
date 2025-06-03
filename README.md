@@ -141,6 +141,11 @@ kubectl delete CatalogSource konflux-catalog-otel -n openshift-marketplace
 
 `Konflux catalog OTEL` menu should appear in the OCP console under Operators->OperatorHub.
 
+### Generate new Konflux build pipeline file
+```bash
+KUBECONFIG=~/.kube/kubeconfig-konflux-public-rhosdt.yaml k annotate component otel-operator-main build.appstudio.openshift.io/request=configure-pac
+```
+
 ### Inspect bundle image
 
 ```bash
