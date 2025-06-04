@@ -11,7 +11,7 @@ WORKDIR /opt/app-root/src/opentelemetry-operator
 
 RUN  CGO_ENABLED=1 GOEXPERIMENT=strictfipsruntime go build -C ./cmd/otel-allocator -mod=mod -tags strictfipsruntime -o ./opentelemetry-target-allocator -trimpath -ldflags "-s -w"
 
-FROM registry.redhat.io/ubi8/ubi-micro:latest@sha256:084c06bf84ceb8ed8f868bd27e7fc6b2c83ae4e16f8e1f979dd7317961c7dd8a AS target-base
+FROM registry.redhat.io/ubi8/ubi-micro:latest@sha256:0fe81f64dab0570da191fbc74004fff651027640496fb220661da4e9d83860f7 AS target-base
 FROM registry.redhat.io/ubi8/ubi:latest@sha256:244e9858f9d8a2792a3dceb850b4fa8fdbd67babebfde42587bfa919d5d1ecef as install-additional-packages
 COPY --from=target-base / /mnt/rootfs
 RUN rpm --root /mnt/rootfs --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
