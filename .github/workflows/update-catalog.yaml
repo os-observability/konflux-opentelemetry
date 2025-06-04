@@ -36,7 +36,10 @@ jobs:
           password: ${{ secrets.RH_REGISTRY_TOKEN }}
 
       - name: Generate catalog
-        run: ./scripts/update-catalog-opm.sh opentelemetry
+        run: |
+          source ./catalog/catalog.env
+          sed -i 's#quay.*#'"$OTEL_BUNDLE_IMAGE_PULLSPEC"'#g' catalog/catalog-template.yaml
+          ./scripts/update-catalog-opm.sh opentelemetry
 
       - name: Commit the changes
         run: |
