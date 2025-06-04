@@ -59,7 +59,12 @@ ARG USER_UID=1001
 USER ${USER_UID}
 ENTRYPOINT ["/usr/bin/opentelemetry-operator"]
 
-LABEL com.redhat.component="opentelemetry-operator-container" \
+LABEL release="0.127.0-1" \
+      version="0.127.0-1" \
+      vendor="Red Hat, Inc." \
+      distribution-scope="public" \
+      url="https://github.com/open-telemetry/opentelemetry-operator" \
+      com.redhat.component="opentelemetry-operator-container" \
       name="rhosdt/opentelemetry-rhel8-operator" \
       summary="OpenTelemetry Operator" \
       description="Operator for the OpenTelemetry collector" \
