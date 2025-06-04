@@ -65,40 +65,40 @@ entries:
   name: stable
   package: opentelemetry-product
   schema: olm.channel
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:2de0d6236069507608dbd3760c73462673976eba4dd9ffe631ea511716390fc3
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:645ff66940cf7edac88129b34e0d4c56d38779551087f53ff921d4ebaee46fa8
   schema: olm.bundle
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:bfc2ac2670869a21f5caf7861f8d06b6080dd2f0b3ee6e544aaa36ed8eba70f6
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:645ff66940cf7edac88129b34e0d4c56d38779551087f53ff921d4ebaee46fa8
   schema: olm.bundle
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:3c53d78d1aaca0166e8b13d1e98cf983ebbe70ca9fe4ca9ec187ee89ff16f869
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:645ff66940cf7edac88129b34e0d4c56d38779551087f53ff921d4ebaee46fa8
   schema: olm.bundle
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:8c75ca2230107cfc6b9f3ad0d3a1cb3017ba008d86d24bb5bd2a1477049d3508
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:645ff66940cf7edac88129b34e0d4c56d38779551087f53ff921d4ebaee46fa8
   schema: olm.bundle
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:012577622da2228a1a6cba23b027a983864d97d00ddfe6286000a0864ca33769
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:645ff66940cf7edac88129b34e0d4c56d38779551087f53ff921d4ebaee46fa8
   schema: olm.bundle
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:bcaa31a98d75d650cd3f4d30065b1c4cf5f72c71752a4b7c002e4a44986c2452
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:645ff66940cf7edac88129b34e0d4c56d38779551087f53ff921d4ebaee46fa8
   schema: olm.bundle
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:ff28ea331d4ec54aec6060cd742460bb7fca4bde9be4344d5ac6bbf7a026f053
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:645ff66940cf7edac88129b34e0d4c56d38779551087f53ff921d4ebaee46fa8
   schema: olm.bundle
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:72b9b6e4cefe7defabfbc0a538e06b72ddd4bf5be653c4ec5acc7afee1c114ae
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:645ff66940cf7edac88129b34e0d4c56d38779551087f53ff921d4ebaee46fa8
   schema: olm.bundle
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:202ee7fa0a4ec49d6982c62a322dcfb5994984a3e8382cc2ff56806f65ed2070
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:645ff66940cf7edac88129b34e0d4c56d38779551087f53ff921d4ebaee46fa8
   schema: olm.bundle
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:aa36de9f82a844c7fbc599706d96186d6702c5489f21264743fdc80ab841d2f3
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:645ff66940cf7edac88129b34e0d4c56d38779551087f53ff921d4ebaee46fa8
   schema: olm.bundle
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:eaa126d86aecf2bd330f2234104a905a71ab280a4d74a2614d98daaf13e821e2
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:645ff66940cf7edac88129b34e0d4c56d38779551087f53ff921d4ebaee46fa8
   schema: olm.bundle
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:96f07636b69ff639d3a1f17ffe8b9bde8ed2cc1307b86fa016cd5d716a3c97e2
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:645ff66940cf7edac88129b34e0d4c56d38779551087f53ff921d4ebaee46fa8
   schema: olm.bundle
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:b81659ff1078ef598924ff354ce1d77a2e33f43a09c712b7213c3e38c93d9bac
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:645ff66940cf7edac88129b34e0d4c56d38779551087f53ff921d4ebaee46fa8
   schema: olm.bundle
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:a0fefcdad179cb5555feacfbc226354969258925c9b9259d13fd6959a77a4884
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:645ff66940cf7edac88129b34e0d4c56d38779551087f53ff921d4ebaee46fa8
   schema: olm.bundle
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:ad1a370dcf04986aa0ce3fee074db0fac8c9c2ccac96671d5d9c696d5ea08fdf
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:645ff66940cf7edac88129b34e0d4c56d38779551087f53ff921d4ebaee46fa8
   schema: olm.bundle
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:cb2e6a39d5f5fbf3833625dacd8fb4234a9cf46a75c0b753598c7b0dabf723f0
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:645ff66940cf7edac88129b34e0d4c56d38779551087f53ff921d4ebaee46fa8
   schema: olm.bundle
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:d23b9c8d0266de7ce5427d125b2749053d2e4b44d632e3eb484775a5eede41b0
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:645ff66940cf7edac88129b34e0d4c56d38779551087f53ff921d4ebaee46fa8
   schema: olm.bundle
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:ea3e5c6cc3342f0f0e9c4d8f6f4cc5ab278cd68fc6302737c533e7bdaa8ed12b
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:645ff66940cf7edac88129b34e0d4c56d38779551087f53ff921d4ebaee46fa8
   schema: olm.bundle
 schema: olm.template.basic
