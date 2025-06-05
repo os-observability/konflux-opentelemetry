@@ -61,7 +61,7 @@ Create a PR `Release - update bundle version x.y` and update [patch_csv.yaml](./
 1. `metadata.extra_annotations.olm.skipRange` with the version being productized e.g. `'>=0.33.0 <0.108.0-1'`
 1. `spec.version` with the current version e.g. `opentelemetry-operator.v0.108.0-1`
 1. `spec.replaces` with [the previous shipped version](./catalog/catalog-template.yaml) of CSV e.g. `opentelemetry-operator.v0.107.0-4`
-1. Update `release`, `version` and `com.redhat.openshift.versions` (minimum OCP version) labels in [bundle dockerfile](./Dockerfile.bundle)
+1. Update `release`, `version` and `com.redhat.openshift.versions` (minimum OCP version) labels in all Dockerfiles e.g. `sed -i 's/0.107.0-4/0.108.0-1/g' Dockerfile.*`
 1. Update image pullspecs of all components:
    ```bash
    KUBECONFIG=~/.kube/kubeconfig-konflux-public-rhosdt.yaml ./scripts/snapshot-tool.py --update-bundle-pullspecs
