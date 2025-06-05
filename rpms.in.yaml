@@ -7,6 +7,7 @@ contentOrigin:
   repofiles:
     - ubi8.repo
 packages:
+  - golang
   - openssl
   - systemd
 arches:
