@@ -23,19 +23,6 @@ git submodule update --init --recursive
 podman build -t docker.io/user/otel-operator:$(date +%s) -f Dockerfile.operator 
 ```
 
-### Generate prefetch for RPM
-
-From [document](https://docs.google.com/document/d/1c58NGQPuuni2hFgz0Ll0vDj0IUvBHa7uF4eKnTVa5Sw/edit).
-
-It requires a local installation of https://github.com/konflux-ci/rpm-lockfile-prototype.
-
-```bash
-podman run --rm -v "$PWD:$PWD:z" -w "$PWD"  registry.redhat.io/ubi8/ubi-minimal:8.10-1052.1724178568  cp -r /etc/yum.repos.d/. .
-# Enable -source repositories: `enabled = 1`
-# Generate lock file
-~/.local/bin/rpm-lockfile-prototype -f Dockerfile.collector  rpms.in.yaml --outfile rpms.lock.yaml
-```
-
 ## Release
 ### Application
 Update all base images (merge renovatebot PRs).
@@ -87,6 +74,13 @@ Create a PR `Release - update bundle version x.y` and update [patch_csv.yaml](./
 1. Merge the PR and wait until all builds were successful.
 
 ### Catalog
+
+The Konflux nudging is configured from the bundle component to update the [catalog.env](./catalog/catalog.env) file which contains the bundle pullspec.
+The Github actions takes it and re-generates the catalogs.
+In order to make this work the [catalog-template.yaml](./catalog/catalog-template.yaml) file must contain only a single bundle pullspec from the quay.io registry.
+
+#### Update catalog manually
+
 Once the components are released to prod, create another PR `Release - update catalog x.y` with:
 1. Update the catalog:
    ```bash
@@ -140,6 +134,21 @@ kubectl delete CatalogSource konflux-catalog-otel -n openshift-marketplace
 ```
 
 `Konflux catalog OTEL` menu should appear in the OCP console under Operators->OperatorHub.
+
+## Guides
+
+### Generate prefetch for RPMs
+
+From [document](https://docs.google.com/document/d/1c58NGQPuuni2hFgz0Ll0vDj0IUvBHa7uF4eKnTVa5Sw/edit).
+
+It requires a local installation of https://github.com/konflux-ci/rpm-lockfile-prototype.
+
+```bash
+podman run --rm -v "$PWD:$PWD:z" -w "$PWD"  registry.redhat.io/ubi8/ubi-minimal:8.10-1052.1724178568  cp -r /etc/yum.repos.d/. .
+# Enable -source repositories: `enabled = 1`
+# Generate lock file
+~/.local/bin/rpm-lockfile-prototype -f Dockerfile.collector  rpms.in.yaml --outfile rpms.lock.yaml
+```
 
 ### Generate new Konflux build pipeline file
 ```bash
