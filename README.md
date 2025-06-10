@@ -150,6 +150,12 @@ podman run --rm -v "$PWD:$PWD:z" -w "$PWD"  registry.redhat.io/ubi8/ubi-minimal:
 ~/.local/bin/rpm-lockfile-prototype -f Dockerfile.collector  rpms.in.yaml --outfile rpms.lock.yaml
 ```
 
+### Trigger conflux build
+
+```bash
+KUBECONFIG=~/.kube/kubeconfig-konflux-public-rhosdt.yaml kubectl annotate components/otel-bundle-main build.appstudio.openshift.io/request=trigger-pac-build
+```
+
 ### Generate new Konflux build pipeline file
 ```bash
 KUBECONFIG=~/.kube/kubeconfig-konflux-public-rhosdt.yaml k annotate component otel-operator-main build.appstudio.openshift.io/request=configure-pac
