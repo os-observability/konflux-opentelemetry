@@ -438,7 +438,6 @@ spec:
 
               echo "Checking installation status of operators..."
               check_operator_installed "tempo-product" openshift-tempo-operator
-              check_operator_installed "jaeger-product" openshift-distributed-tracing
               check_operator_installed "amq-streams" openshift-operators
               check_operator_installed "cluster-observability-operator" openshift-operators
               check_operator_installed "loki-operator" openshift-operators-redhat
@@ -615,6 +614,9 @@ spec:
               #Enable user workload monitoring
               oc apply -f tests/e2e-openshift/otlp-metrics-traces/01-workload-monitoring.yaml
               unset NAMESPACE
+                     
+              # Install Prometheus ScrapeConfig CRD
+              kubectl create -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_scrapeconfigs.yaml
 
               # Remove test cases to be skipped from the test run
               IFS=' ' read -ra SKIP_TEST_ARRAY <<< "$SKIP_TESTS"
@@ -650,6 +652,7 @@ spec:
               tests/e2e-pdb \
               tests/e2e-otel \
               tests/e2e-multi-instrumentation \
+              tests/e2e-targetallocator-cr \
               tests/e2e-targetallocator || any_errors=true
 
               # Set the operator args required for tests execution.
