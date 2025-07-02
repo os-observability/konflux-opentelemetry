@@ -4035,12 +4035,12 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:f08e30a5035f1c1bb79d62bc3db9ab19b9b8652c32b8c365e92ceab8abd01090
-  name: ""
 - image: registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:7efeeb8b29872a6f0271f651d7ae02c91daea16d853c50e374c310f044d8c76c
   name: ose-rbac-proxy
 - image: registry.redhat.io/rhosdt/opentelemetry-collector-rhel8@sha256:ba8a96cdfbcc565cdc0c013ae8de431a3b5f8a4802630f23c2fc1ce3e37e951c
   name: collector
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:f08e30a5035f1c1bb79d62bc3db9ab19b9b8652c32b8c365e92ceab8abd01090
+  name: ""
 - image: registry.redhat.io/rhosdt/opentelemetry-rhel8-operator@sha256:8039220a44c23a5670ca520c64960b129347106f6cb14c496bebedd23ae08a3d
   name: operator
 - image: registry.redhat.io/rhosdt/opentelemetry-target-allocator-rhel8@sha256:aff65a459b5ff38af5c5212fbd89eee7bf1dc81637b70c7ace1f332cbbeacd95
