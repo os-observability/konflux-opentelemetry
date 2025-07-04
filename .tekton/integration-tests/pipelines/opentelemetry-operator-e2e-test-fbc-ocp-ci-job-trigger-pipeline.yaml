@@ -30,7 +30,6 @@ spec:
       type: string
     - name: multistage_param_override_key
       description: 'The key name for the multistage parameter override (e.g., MULTISTAGE_PARAM_OVERRIDE_OTEL_INDEX_IMAGE)'
-      default: ''
       type: string
   tasks:
     - name: parse-metadata
@@ -76,7 +75,7 @@ spec:
             secret:
               secretName: gangway-api-token
         steps:
-          - name: run-upgrade-tests
+          - name: run-e2e-tests
             volumeMounts:
               - name: credentials
                 mountPath: /credentials
