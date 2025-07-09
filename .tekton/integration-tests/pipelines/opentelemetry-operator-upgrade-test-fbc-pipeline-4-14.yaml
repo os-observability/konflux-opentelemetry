@@ -81,6 +81,10 @@ spec:
     - name: provision-cluster
       runAfter:
         - eaas-provision-space
+      when:
+        - input: $(tasks.parse-metadata.results.test-event-type)
+          operator: in
+          values: [ "push", "Push", "PUSH" ]
       taskSpec:
         results:
           - name: clusterName
@@ -149,6 +153,10 @@ spec:
       description: Task to run tests from service repository
       runAfter:
         - provision-cluster
+      when:
+        - input: $(tasks.parse-metadata.results.test-event-type)
+          operator: in
+          values: [ "push", "Push", "PUSH" ]
       params:
         - name: OTEL_TESTS_BRANCH
           value: $(params.otel_tests_branch)
