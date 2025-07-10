@@ -194,19 +194,10 @@ spec:
             volumeMounts:
               - name: credentials
                 mountPath: /credentials
-            image: registry.redhat.io/openshift4/ose-cli:latest
+            image: quay.io/redhat-distributed-tracing-qe/konflux-e2e:latest
             script: |
               echo "Kubeconfig file"
               cat $KUBECONFIG
-              
-              echo "Install operator-sdk and dependencies"
-              dnf -y install jq python3-pip
-              export OPERATOR_SDK_VERSION=1.36.1
-              export ARCH=$(case $(uname -m) in x86_64) echo -n amd64 ;; aarch64) echo -n arm64 ;; *) echo -n $(uname -m) ;; esac)
-              export OPERATOR_SDK_DL_URL=https://github.com/operator-framework/operator-sdk/releases/download/v${OPERATOR_SDK_VERSION}
-              curl -Lo /usr/local/bin/operator-sdk ${OPERATOR_SDK_DL_URL}/operator-sdk_linux_${ARCH}
-              chmod +x /usr/local/bin/operator-sdk
-              operator-sdk version
 
               echo "Create namespace to install OpenTelemetry Operator"
               oc create namespace $(params.namespace)
@@ -282,7 +273,7 @@ spec:
             volumeMounts:
               - name: credentials
                 mountPath: /credentials
-            image: registry.redhat.io/openshift4/ose-cli:latest
+            image: quay.io/redhat-distributed-tracing-qe/konflux-e2e:latest
             script: |
               #!/bin/bash
               set -eu
@@ -333,13 +324,6 @@ spec:
                       fi
                   done
               }
-
-              echo "Install kubectl and oc"
-              cd /tmp/ \
-              && curl -L -o oc.tar.gz https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-client-linux-amd64-rhel8.tar.gz \
-              && tar -xvzf oc.tar.gz \
-              && chmod +x kubectl oc \
-              && mv oc kubectl /usr/local/bin/
 
               echo
               echo
@@ -429,7 +413,7 @@ spec:
             volumeMounts:
               - name: credentials
                 mountPath: /credentials
-            image: registry.redhat.io/openshift4/ose-cli:latest
+            image: quay.io/redhat-distributed-tracing-qe/konflux-e2e:latest
             script: |
               echo "Kubeconfig file"
               cat $KUBECONFIG
@@ -512,38 +496,10 @@ spec:
             env:
               - name: KUBECONFIG
                 value: "/credentials/$(steps.get-kubeconfig.results.kubeconfig)"
-            image: registry.redhat.io/openshift4/ose-cli:latest
+            image: quay.io/redhat-distributed-tracing-qe/konflux-e2e:latest
             script: |
               echo "Kubeconfig file"
               cat $KUBECONFIG
-
-              echo "Intall dependencies"
-              dnf -y install jq vim unzip git make
-
-              echo "Install GO"
-              curl -Lo /go.tar.gz https://go.dev/dl/go1.22.10.linux-amd64.tar.gz
-              tar -C /usr/local -xzf /go.tar.gz
-              export PATH=$PATH:/usr/local/go/bin
-              # Set the Go path and Go cache environment variables
-              export GOPATH=/tmp/go
-              export GOBIN=/tmp/go/bin
-              export GOCACHE=/tmp/.cache/go-build
-              export PATH=$PATH:/tmp/go/bin
-
-              # Create the /tmp/go/bin and build cache directories, and grant read and write permissions to all users
-              mkdir -p /tmp/go/bin $GOCACHE \
-                && chmod -R 777 /tmp/go/bin $GOPATH $GOCACHE
-              go version
-
-              echo "Install Chainsaw"
-              go install github.com/kyverno/chainsaw@v0.2.6
-
-              echo "Install kubectl and oc"
-              cd /tmp/ \
-              && curl -L -o oc.tar.gz https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-client-linux-amd64-rhel8.tar.gz \
-              && tar -xvzf oc.tar.gz \
-              && chmod +x kubectl oc \
-              && mv oc kubectl /usr/local/bin/
 
               echo "Clone distributed-tracing-qe repository"
               git clone https://github.com/openshift/distributed-tracing-qe.git /tmp/distributed-tracing-tests
@@ -604,48 +560,14 @@ spec:
             env:
               - name: KUBECONFIG
                 value: "/credentials/$(steps.get-kubeconfig.results.kubeconfig)"
-            image: registry.redhat.io/openshift4/ose-cli:latest
+            image: quay.io/redhat-distributed-tracing-qe/konflux-e2e:latest
             script: |
               echo "Kubeconfig file"
               cat $KUBECONFIG
 
               OTEL_TESTS_BRANCH=$(params.OTEL_TESTS_BRANCH)
               SKIP_TESTS=$(params.SKIP_TESTS)
-              
-              echo "Intall dependencies"
-              dnf -y install jq vim unzip git make
-
-              echo "Install GO"
-              curl -Lo /go.tar.gz https://go.dev/dl/go1.22.10.linux-amd64.tar.gz
-              tar -C /usr/local -xzf /go.tar.gz
-              export PATH=$PATH:/usr/local/go/bin
-              # Set the Go path and Go cache environment variables
-              export GOPATH=/tmp/go
-              export GOBIN=/tmp/go/bin
-              export GOCACHE=/tmp/.cache/go-build
-              export PATH=$PATH:/tmp/go/bin
-
-              # Create the /tmp/go/bin and build cache directories, and grant read and write permissions to all users
-              mkdir -p /tmp/go/bin $GOCACHE \
-                && chmod -R 777 /tmp/go/bin $GOPATH $GOCACHE
-              go version
-
-              echo "Install Chainsaw"
-              go install github.com/kyverno/chainsaw@v0.2.6
-
-              echo "Install kubectl and oc"
-              cd /tmp/ \
-              && curl -L -o oc.tar.gz https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-client-linux-amd64-rhel8.tar.gz \
-              && tar -xvzf oc.tar.gz \
-              && chmod +x kubectl oc \
-              && mv oc kubectl /usr/local/bin/
-
-              echo "Install the latest version of logcli"
-              curl -LO https://github.com/grafana/loki/releases/latest/download/logcli-linux-amd64.zip \
-              && unzip logcli-linux-amd64.zip \
-              && chmod +x logcli-linux-amd64 \
-              && mv logcli-linux-amd64 /usr/local/bin/logcli
-
+                            
               echo "Run e2e tests"
               git clone https://github.com/IshwarKanse/opentelemetry-operator.git /tmp/otel-tests
               cd /tmp/otel-tests 
