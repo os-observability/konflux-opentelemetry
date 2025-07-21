@@ -82,18 +82,14 @@ def update_catalog_template(bundle_pullspec):
         f.write(content)
 
 def update_catalog():
+    update_script_path = Path(__file__).parent.joinpath("update-catalog-opm.sh")
+
     if application == "jaeger":
-        subprocess.run("""
-        ./scripts/update-catalog-opm.sh jaeger
-        """, shell=True, check=True)
+        subprocess.run([update_script_path, "jaeger"], check=True)
     elif application == "otel":
-        subprocess.run("""
-        ./scripts/update-catalog-opm.sh opentelemetry
-        """, shell=True, check=True)
+        subprocess.run([update_script_path, "opentelemetry"], check=True)
     if application == "tempo":
-        subprocess.run("""
-        ./scripts/update-catalog-opm.sh tempo
-        """, shell=True, check=True)
+        subprocess.run([update_script_path, "tempo"], check=True)
 
 def main():
     parser = argparse.ArgumentParser()
