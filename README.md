@@ -1,6 +1,8 @@
 # konflux-opentelemetry
 
-This repository contains Konflux configuration to build Red Hat build of OpenTelemetry.
+This repository contains Konflux configuration to build Red Hat builds of OpenTelemetry and Tempo.
+The same workflow applies to both components by switching an environment variable
+
 
 ## Multiple release versions
 
@@ -19,11 +21,13 @@ docker login brew.registry.redhat.io -u
 docker login registry.redhat.io -u
 
 git submodule update --init --recursive
+export APPLICATION=opentelemetry # or tempo
+podman build -t docker.io/user/${APPLICATION}-operator:$(date +%s) -f Dockerfile.operator
 
-podman build -t docker.io/user/otel-operator:$(date +%s) -f Dockerfile.operator 
 ```
 
 ## Release
+
 ### Application
 Update all base images (merge renovatebot PRs).
 
@@ -35,6 +39,8 @@ Create a PR `Release - update upstream sources x.y`:
    Retrigger failed builds by adding a comment `/test <name>` on the commit (or `/test` to retrigger all pipelines).
 
 #### Change git submodule to another repository
+
+For example:
 
 ```bash
 git submodule set-url opentelemetry-operator https://github.com/os-observability/opentelemetry-operator.git
@@ -56,6 +62,7 @@ git submodule set-branch --branch rhosdt-3.5 opentelemetry-operator
 ```
 
 ### Bundle
+
 Create a PR `Release - update bundle version x.y` and update [patch_csv.yaml](./bundle-patch/patch_csv.yaml) by submitting a PR with follow-up changes:
 1. `metadata.name` with the current version e.g. `opentelemetry-operator.v0.108.0-1`
 1. `metadata.extra_annotations.olm.skipRange` with the version being productized e.g. `'>=0.33.0 <0.108.0-1'`
@@ -90,7 +97,7 @@ Once the components are released to prod, create another PR `Release - update ca
 
 ## Test locally
 
-Images can be found at https://quay.io/organization/redhat-user-workloads (search for `rhosdt-tenant/otel`).
+Images can be found at https://quay.io/organization/redhat-user-workloads (search for `rhosdt-tenant/otel` or  `rhosdt-tenant/tempo`).
 
 ### Deploy Image Digest Mirror Set
 
@@ -105,11 +112,20 @@ kubectl apply -f .tekton/images-mirror-set.yaml
 ### Deploy bundle
 
 get latest pullspec from `kubectl get component otel-bundle-quay -o yaml`, then run:
+
+
 ```bash
-kubectl create namespace openshift-opentelemetry-operator
-operator-sdk run bundle -n openshift-opentelemetry-operator quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle-quay@sha256:7177eceb4ab73de1bda2bc2c648e02bbcbd90f09efc645cff2524b1546bc765c
-operator-sdk cleanup -n openshift-opentelemetry-operator opentelemetry-product
+
+export APPLICATION=opentelemetry # or tempo
+export APPLICATION_SHORT=otel # or tempo
+export IMAGE_HASH=7177eceb4ab73de1bda2bc2c648e02bbcbd90f09efc645cff2524b1546bc765c
+
+kubectl create namespace openshift-${APPLICATION}-operator
+operator-sdk run bundle -n openshift-${APPLICATION}-operator quay.io/redhat-user-workloads/rhosdt-tenant/${APPLICATION_SHORT}/opentelemetry-bundle-quay@sha256:${IMAGE_HASH}
+operator-sdk cleanup -n openshift-${APPLICATION}-operator ${APPLICATION}-product
 ```
+
+
 
 ### Deploy catalog
 
@@ -120,7 +136,7 @@ kubectl apply -f - <<EOF
 apiVersion: operators.coreos.com/v1alpha1
 kind: CatalogSource
 metadata:
-   name: konflux-catalog-otel
+   name: konflux-catalog-otel # or konflux-catalog-tempo
    namespace: openshift-marketplace
 spec:
    sourceType: grpc
@@ -133,7 +149,7 @@ kubectl get pods -w -n openshift-marketplace
 kubectl delete CatalogSource konflux-catalog-otel -n openshift-marketplace
 ```
 
-`Konflux catalog OTEL` menu should appear in the OCP console under Operators->OperatorHub.
+`Konflux catalog OTEL` (or `Konflux catalog Tempo`)  menu should appear in the OCP console under Operators->OperatorHub.
 
 ## Guides
 
