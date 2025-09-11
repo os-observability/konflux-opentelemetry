@@ -7,10 +7,10 @@ from datetime import datetime
 annotations_file = "metadata/annotations.yaml"
 
 with open('./patch_annotations.yaml') as pf:
-    patch = yaml.load(pf)
+    patch = yaml.safe_load(pf)
 
     with open(annotations_file, 'r') as f:
-        upstream_annotations = yaml.load(f)
+        upstream_annotations = yaml.safe_load(f)
         upstream_annotations['annotations'].update(patch['extra_annotations'])
 
     with open(annotations_file, 'w') as f:
