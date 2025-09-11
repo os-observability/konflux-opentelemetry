@@ -28,7 +28,7 @@ def load_manifest(pathn):
       return None
    try:
       with open(pathn, "r") as f:
-         return yaml.load(f)
+         return yaml.safe_load(f)
    except FileNotFoundError:
       print("File can not found")
       exit(2)
@@ -83,7 +83,7 @@ upstream_csv['spec']['relatedImages'] = [
     {'name': 'ose-rbac-proxy', 'image': os.getenv('OSE_KUBE_RBAC_PROXY_PULLSPEC')}]
 
 with open('./patch_csv.yaml') as pf:
-    patch = yaml.load(pf)
+    patch = yaml.safe_load(pf)
 
     if patch['metadata'].get('labels') is not None:
         upstream_csv['metadata']['labels'].update(patch['metadata']['labels'])
