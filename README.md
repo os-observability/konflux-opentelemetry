@@ -64,7 +64,7 @@ Create a PR `Release - update bundle version x.y` and update [patch_csv.yaml](./
 1. Update `release`, `version` and `com.redhat.openshift.versions` (minimum OCP version) labels in all Dockerfiles e.g. `sed -i 's/0.107.0-4/0.108.0-1/g' Dockerfile.*`
 1. Update image pullspecs of all components:
    ```bash
-   KUBECONFIG=~/.kube/kubeconfig-konflux-public-rhosdt.yaml ./scripts/snapshot-tool.py --update-bundle-pullspecs
+   ./scripts/snapshot-tool.py --update-bundle-pullspecs
    ```
    Verify the commit date and hashes of each component.
 1. Compare the diff between upstream and downstream ClusterServiceVersion:
@@ -84,7 +84,7 @@ In order to make this work the [catalog-template.yaml](./catalog/catalog-templat
 Once the components are released to prod, create another PR `Release - update catalog x.y` with:
 1. Update the catalog:
    ```bash
-   KUBECONFIG=~/.kube/kubeconfig-konflux-public-rhosdt.yaml ./scripts/update-catalog.py --snapshot <released_snapshot>
+   ./scripts/update-catalog.py --snapshot <released_snapshot>
    ```
 1. Merge the PR and wait until all builds were successful.
 
@@ -153,12 +153,12 @@ podman run --rm -v "$PWD:$PWD:z" -w "$PWD"  registry.redhat.io/ubi8/ubi-minimal:
 ### Trigger conflux build
 
 ```bash
-KUBECONFIG=~/.kube/kubeconfig-konflux-public-rhosdt.yaml kubectl annotate components/otel-bundle-main build.appstudio.openshift.io/request=trigger-pac-build
+kubectl annotate components/otel-bundle-main build.appstudio.openshift.io/request=trigger-pac-build
 ```
 
 ### Generate new Konflux build pipeline file
 ```bash
-KUBECONFIG=~/.kube/kubeconfig-konflux-public-rhosdt.yaml k annotate component otel-operator-main build.appstudio.openshift.io/request=configure-pac
+kubectl annotate component otel-operator-main build.appstudio.openshift.io/request=configure-pac
 ```
 
 ### Inspect bundle image
