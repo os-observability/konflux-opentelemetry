@@ -33,6 +33,8 @@ FROM scratch
 WORKDIR /
 COPY --from=install-additional-packages /mnt/rootfs/ /
 
+ARG VERSION=0.135.0-1
+
 RUN mkdir /licenses
 COPY opentelemetry-operator/LICENSE /licenses/.
 COPY --from=builder /opt/app-root/src/redhat-opentelemetry-collector/_build/opentelemetry-collector /usr/bin/opentelemetry-collector
@@ -44,8 +46,8 @@ USER ${USER_UID}
 ENTRYPOINT ["/usr/bin/opentelemetry-collector"]
 CMD ["--config", "/etc/otelcol/config.yaml"]
 
-LABEL release="0.127.0-2" \
-      version="0.127.0-2" \
+LABEL release="${VERSION}" \
+      version="${VERSION}" \
       vendor="Red Hat, Inc." \
       distribution-scope="public" \
       url="https://github.com/open-telemetry/opentelemetry-operator" \
