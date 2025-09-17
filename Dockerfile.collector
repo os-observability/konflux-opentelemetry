@@ -44,8 +44,8 @@ USER ${USER_UID}
 ENTRYPOINT ["/usr/bin/opentelemetry-collector"]
 CMD ["--config", "/etc/otelcol/config.yaml"]
 
-LABEL release="0.127.0-2" \
-      version="0.127.0-2" \
+LABEL release="0.135.0-1" \
+      version="0.135.0-1" \
       vendor="Red Hat, Inc." \
       distribution-scope="public" \
       url="https://github.com/open-telemetry/opentelemetry-operator" \
