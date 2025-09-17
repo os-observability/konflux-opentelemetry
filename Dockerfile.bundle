@@ -70,3 +70,4 @@ COPY opentelemetry-operator/bundle/openshift/tests/scorecard /tests/scorecard/
 
 ARG USER_UID=1001
 USER ${USER_UID}
+
