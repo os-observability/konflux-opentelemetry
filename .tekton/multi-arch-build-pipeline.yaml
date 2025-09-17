@@ -288,7 +288,7 @@ spec:
     - name: image-url
       value: $(tasks.build-image-index.results.IMAGE_URL)
     - name: ARGS
-      value: "--project-name=red-hat-openshift-distributed-tracing --report --org=0eebca54-4fa1-4638-9ac6-f95f789a9d3e"
+      value: "--report --org=0eebca54-4fa1-4638-9ac6-f95f789a9d3e"
     - name: SOURCE_ARTIFACT
       value: $(tasks.prefetch-dependencies.results.SOURCE_ARTIFACT)
     - name: CACHI2_ARTIFACT
