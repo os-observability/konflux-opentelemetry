@@ -55,7 +55,7 @@ FROM scratch
 WORKDIR /
 COPY --from=install-additional-packages /mnt/rootfs/ /
 
-ARG OTEL_VERSION=0.135.0-1
+ARG VERSION=0.135.0-1
 
 RUN mkdir /licenses
 COPY opentelemetry-operator/LICENSE /licenses/.
@@ -65,8 +65,8 @@ ARG USER_UID=1001
 USER ${USER_UID}
 ENTRYPOINT ["/usr/bin/opentelemetry-operator"]
 
-LABEL release="${OTEL_VERSION}" \
-      version="${OTEL_VERSION}" \
+LABEL release="${VERSION}" \
+      version="${VERSION}" \
       vendor="Red Hat, Inc." \
       distribution-scope="public" \
       url="https://github.com/open-telemetry/opentelemetry-operator" \
