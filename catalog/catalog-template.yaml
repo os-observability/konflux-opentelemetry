@@ -114,6 +114,6 @@ entries:
   schema: olm.bundle
 - image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:4fb2fb1cda1b02adbd8e9ecb34a05e76aa45159d81244209cbb3c2013418bd17
   schema: olm.bundle
-- image: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle@sha256:cb4b485c6792c22fcc4041b83324b7755ef88abd40daf5ba8ec86b077019051c
+- image: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle@sha256:1adb53f37440f45bd5390422266fc6179dba115912d9fa43bc847ae18db0b5a6
   schema: olm.bundle
 schema: olm.template.basic
