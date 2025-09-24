@@ -32,8 +32,9 @@ echo -e "${YELLOW}Checking image: $IMAGE${NC}"
 
 # Get raw manifest using docker manifest inspect
 echo "Fetching manifest..."
-MANIFEST=$(docker manifest inspect "$IMAGE" 2>/dev/null) || {
+MANIFEST=$(docker manifest inspect "$IMAGE" 2>&1) || {
     echo -e "${RED}✗ Failed to inspect image manifest${NC}"
+    echo -e "${RED}Error: $MANIFEST${NC}"
     exit 1
 }
 
