@@ -27,10 +27,10 @@ jobs:
       - name: Check multi-arch images
         run: |
           # Source bundle.env and extract all pullspec variables
-          source bundle-patch/bundle.env
+          source ./bundle-patch/bundle.env
 
           # Find all pullspec variables
-          pullspec_vars=($(env | grep "_IMAGE_PULLSPEC\|_PULLSPEC" | cut -d= -f1 | sort))
+          pullspec_vars=($(set | grep "_IMAGE_PULLSPEC\|_PULLSPEC" | cut -d= -f1 | sort))
 
           if [[ ${#pullspec_vars[@]} -eq 0 ]]; then
             echo "No pullspec variables found in bundle.env"

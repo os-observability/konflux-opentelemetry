@@ -37,10 +37,10 @@ MANIFEST=$(docker manifest inspect "$IMAGE" 2>/dev/null) || {
     exit 1
 }
 
-# Check if it's a manifest list (multi-arch)
+# Check if it's a manifest list (multi-arch) - support both Docker and OCI formats
 MEDIA_TYPE=$(echo "$MANIFEST" | jq -r '.mediaType // empty')
 
-if [[ "$MEDIA_TYPE" != "application/vnd.docker.distribution.manifest.list.v2+json" ]]; then
+if [[ "$MEDIA_TYPE" != "application/vnd.docker.distribution.manifest.list.v2+json" && "$MEDIA_TYPE" != "application/vnd.oci.image.index.v1+json" ]]; then
     echo -e "${RED}✗ Not a multi-arch image${NC}"
     echo "  Media type: $MEDIA_TYPE"
     exit 1
