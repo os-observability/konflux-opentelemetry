@@ -24,6 +24,13 @@ jobs:
       - name: Make script executable
         run: chmod +x scripts/check-image-multiarch.sh
 
+      - name: Log into registry.redhat.io
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
+        with:
+          registry: registry.redhat.io
+          username: ${{ secrets.RH_REGISTRY_USERNAME }}
+          password: ${{ secrets.RH_REGISTRY_TOKEN }}
+
       - name: Check multi-arch images
         run: |
           # Source bundle.env and extract all pullspec variables
