@@ -1,0 +1,76 @@
+name: Check Multi-Architecture Images
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+    branches:
+      - main
+      - development
+    paths:
+      - 'bundle-patch/bundle.env'
+
+jobs:
+  check-multiarch:
+    runs-on: ubuntu-latest
+    name: Verify all images are multi-architecture
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Make script executable
+        run: chmod +x scripts/check-image-multiarch.sh
+
+      - name: Check multi-arch images
+        run: |
+          # Source bundle.env and extract all pullspec variables
+          source bundle-patch/bundle.env
+
+          # Find all pullspec variables
+          pullspec_vars=($(env | grep "_IMAGE_PULLSPEC\|_PULLSPEC" | cut -d= -f1 | sort))
+
+          if [[ ${#pullspec_vars[@]} -eq 0 ]]; then
+            echo "No pullspec variables found in bundle.env"
+            exit 1
+          fi
+
+          echo "Found ${#pullspec_vars[@]} pullspec variables to check:"
+          for var in "${pullspec_vars[@]}"; do
+            echo "  $var"
+          done
+
+          # Check each image
+          failed_checks=0
+          total_checks=0
+
+          for var in "${pullspec_vars[@]}"; do
+            total_checks=$((total_checks + 1))
+            image="${!var}"
+
+            echo ""
+            echo "Checking $var: $image"
+
+            if ! ./scripts/check-image-multiarch.sh "$image"; then
+              failed_checks=$((failed_checks + 1))
+            fi
+          done
+
+          # Summary
+          echo ""
+          echo "=================================="
+          echo "SUMMARY"
+          echo "=================================="
+          echo "Total images checked: $total_checks"
+          echo "Passed: $((total_checks - failed_checks))"
+          echo "Failed: $failed_checks"
+
+          if [[ $failed_checks -eq 0 ]]; then
+            echo "✓ All images are multi-arch with required architectures!"
+            exit 0
+          else
+            echo "✗ $failed_checks images are not multi-arch or missing required architectures"
+            exit 1
+          fi
