@@ -77,5 +77,6 @@ LABEL release="${VERSION}" \
       io.k8s.description="Operator for the OpenTelemetry operator." \
       io.openshift.expose-services="" \
       io.openshift.tags="tracing" \
-      io.k8s.display-name="OpenTelemetry Operator"
+      io.k8s.display-name="OpenTelemetry Operator" \
+      cpe="cpe:/a:redhat:openshift_distributed_tracing:3.6::el8"
 
