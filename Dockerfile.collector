@@ -52,6 +52,7 @@ LABEL release="${VERSION}" \
       distribution-scope="public" \
       url="https://github.com/open-telemetry/opentelemetry-operator" \
       com.redhat.component="opentelemetry-collector-container" \
+      cpe="cpe:/a:redhat:openshift_distributed_tracing:3.6::el8" \
       name="rhosdt/opentelemetry-collector-rhel8" \
       summary="OpenTelemetry Collector" \
       description="Collector for the distributed tracing system" \
