@@ -55,6 +55,8 @@ spec:
       - linux/s390x
   - name: snyk-project
     value: otel-operator
+  - name: snyk-ignore-file-paths
+    value: "redhat-opentelemetry-collector/"
   pipelineRef:
     name: build-pipeline
   taskRunTemplate: {}
