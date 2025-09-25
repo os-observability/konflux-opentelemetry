@@ -46,6 +46,7 @@ LABEL release="0.135.0-1" \
       name="rhosdt/opentelemetry-target-allocator-rhel8" \
       summary="OpenTelemetry Target allocator" \
       description="Prometheus target allocator for the OpenTelemetry collector" \
+      cpe="cpe:/a:redhat:openshift_distributed_tracing:3.6::el8" \
       io.k8s.description="Target allocator for the OpenTelemetry collector." \
       io.openshift.expose-services="80:http" \
       io.openshift.tags="monitoring" \
