@@ -9,7 +9,6 @@ import (
 	"regexp"
 	"sort"
 	"strings"
-	"time"
 
 	"github.com/spf13/cobra"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -20,7 +19,8 @@ import (
 )
 
 const (
-	bundleEnvPath = "../bundle-patch/bundle.env"
+	bundleEnvPath      = "../bundle-patch/bundle.env"
+	defaultNamespace   = "rhosdt-tenant"
 )
 
 type PullspecInfo struct {
@@ -39,6 +39,8 @@ type ReleaseCondition struct {
 }
 
 func main() {
+	var namespace string
+
 	var rootCmd = &cobra.Command{
 		Use:   "konflux-tool",
 		Short: "A CLI tool for managing Konflux components",
@@ -52,14 +54,22 @@ for every component that should be checked.`,
 	var checkBundleCmd = &cobra.Command{
 		Use:   "check-bundle",
 		Short: "Check if pullspecs in bundle.env are up to date",
-		RunE:  runCheckBundle,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return runCheckBundle(cmd, args, namespace)
+		},
 	}
 
 	var checkReleaseCmd = &cobra.Command{
 		Use:   "check-release",
 		Short: "Check if bundle.env images are included in the latest snapshot and find the corresponding release",
-		RunE:  runCheckRelease,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return runCheckRelease(cmd, args, namespace)
+		},
 	}
+
+	// Add namespace flag to both commands
+	checkBundleCmd.Flags().StringVarP(&namespace, "namespace", "n", defaultNamespace, "Kubernetes namespace to query")
+	checkReleaseCmd.Flags().StringVarP(&namespace, "namespace", "n", defaultNamespace, "Kubernetes namespace to query")
 
 	rootCmd.AddCommand(checkBundleCmd)
 	rootCmd.AddCommand(checkReleaseCmd)
@@ -70,7 +80,7 @@ for every component that should be checked.`,
 	}
 }
 
-func runCheckBundle(cmd *cobra.Command, args []string) error {
+func runCheckBundle(cmd *cobra.Command, args []string, namespace string) error {
 	// Read bundle.env file
 	pullspecs, err := readBundleEnv()
 	if err != nil {
@@ -86,7 +96,7 @@ func runCheckBundle(cmd *cobra.Command, args []string) error {
 	// Check each component
 	var outdatedPullspecs []PullspecInfo
 	for _, pullspec := range pullspecs {
-		latestPullspec, lastBuiltCommit, err := getLatestPullspecAndCommit(client, pullspec.ComponentName)
+		latestPullspec, lastBuiltCommit, err := getLatestPullspecAndCommit(client, pullspec.ComponentName, namespace)
 		if err != nil {
 			fmt.Printf("Warning: failed to get latest pullspec for %s: %v\n", pullspec.ComponentName, err)
 			continue
@@ -193,7 +203,7 @@ func createKubernetesClient() (dynamic.Interface, error) {
 	return client, nil
 }
 
-func getLatestPullspecAndCommit(client dynamic.Interface, componentName string) (string, string, error) {
+func getLatestPullspecAndCommit(client dynamic.Interface, componentName string, namespace string) (string, string, error) {
 	// Define the GVR for Component custom resources
 	componentGVR := schema.GroupVersionResource{
 		Group:    "appstudio.redhat.com",
@@ -202,7 +212,7 @@ func getLatestPullspecAndCommit(client dynamic.Interface, componentName string) 
 	}
 
 	// Get the component by name
-	component, err := client.Resource(componentGVR).Namespace("rhosdt-tenant").Get(context.TODO(), componentName, metav1.GetOptions{})
+	component, err := client.Resource(componentGVR).Namespace(namespace).Get(context.TODO(), componentName, metav1.GetOptions{})
 	if err != nil {
 		return "", "", err
 	}
@@ -236,7 +246,7 @@ func getLatestPullspecAndCommit(client dynamic.Interface, componentName string) 
 	return lastPromotedImage, lastBuiltCommit, nil
 }
 
-func runCheckRelease(cmd *cobra.Command, args []string) error {
+func runCheckRelease(cmd *cobra.Command, args []string, namespace string) error {
 	// Read bundle.env file to get the expected images
 	pullspecs, err := readBundleEnv()
 	if err != nil {
@@ -250,7 +260,7 @@ func runCheckRelease(cmd *cobra.Command, args []string) error {
 	}
 
 	// Get the most recent snapshot that contains all our images
-	snapshotName, bundlePullspec, err := findSnapshotWithImagesAndBundle(client, pullspecs)
+	snapshotName, bundlePullspec, err := findSnapshotWithImagesAndBundle(client, pullspecs, namespace)
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 		fmt.Println("Suggestion: Trigger a build with:")
@@ -259,7 +269,7 @@ func runCheckRelease(cmd *cobra.Command, args []string) error {
 	}
 
 	// Find the release that references this snapshot
-	releaseName, releaseConditions, err := findReleaseForSnapshotWithConditions(client, snapshotName)
+	releaseName, releaseConditions, err := findReleaseForSnapshotWithConditions(client, snapshotName, namespace)
 	if err != nil {
 		return fmt.Errorf("failed to find release for snapshot %s: %w", snapshotName, err)
 	}
@@ -298,7 +308,7 @@ func runCheckRelease(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func findSnapshotWithImagesAndBundle(client dynamic.Interface, expectedPullspecs []PullspecInfo) (string, string, error) {
+func findSnapshotWithImagesAndBundle(client dynamic.Interface, expectedPullspecs []PullspecInfo, namespace string) (string, string, error) {
 	// Define the GVR for Snapshot custom resources
 	snapshotGVR := schema.GroupVersionResource{
 		Group:    "appstudio.redhat.com",
@@ -307,16 +317,16 @@ func findSnapshotWithImagesAndBundle(client dynamic.Interface, expectedPullspecs
 	}
 
 	// Get all snapshots ordered by creation time (most recent first)
-	snapshots, err := client.Resource(snapshotGVR).Namespace("rhosdt-tenant").List(context.TODO(), metav1.ListOptions{})
+	snapshots, err := client.Resource(snapshotGVR).Namespace(namespace).List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		return "", "", fmt.Errorf("failed to list snapshots: %w", err)
 	}
 
-	// Sort snapshots by creation time (most recent first)
+	// Sort snapshots by creation time (most recent first) using Before()
 	sort.Slice(snapshots.Items, func(i, j int) bool {
-		timeI, _ := time.Parse(time.RFC3339, snapshots.Items[i].GetCreationTimestamp().Format(time.RFC3339))
-		timeJ, _ := time.Parse(time.RFC3339, snapshots.Items[j].GetCreationTimestamp().Format(time.RFC3339))
-		return timeI.After(timeJ)
+		timeI := snapshots.Items[i].GetCreationTimestamp()
+		timeJ := snapshots.Items[j].GetCreationTimestamp()
+		return timeJ.Before(&timeI)
 	})
 
 	// Extract expected image pullspecs from bundle.env
@@ -402,7 +412,7 @@ func containsAllImages(snapshot unstructured.Unstructured, expectedImages map[st
 	return true
 }
 
-func findReleaseForSnapshotWithConditions(client dynamic.Interface, snapshotName string) (string, []ReleaseCondition, error) {
+func findReleaseForSnapshotWithConditions(client dynamic.Interface, snapshotName string, namespace string) (string, []ReleaseCondition, error) {
 	// Define the GVR for Release custom resources
 	releaseGVR := schema.GroupVersionResource{
 		Group:    "appstudio.redhat.com",
@@ -411,7 +421,7 @@ func findReleaseForSnapshotWithConditions(client dynamic.Interface, snapshotName
 	}
 
 	// Get all releases
-	releases, err := client.Resource(releaseGVR).Namespace("rhosdt-tenant").List(context.TODO(), metav1.ListOptions{})
+	releases, err := client.Resource(releaseGVR).Namespace(namespace).List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		return "", nil, fmt.Errorf("failed to list releases: %w", err)
 	}

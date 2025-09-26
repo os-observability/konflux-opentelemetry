@@ -7,6 +7,7 @@
 ## Requirements
 
 * add to help that ./bundle-patch/bundle.env should have comment  konflux component: for every component
+* make the namespace configurable and default to rhosdt-tenant
 
 ### check-bundle command
 
@@ -17,7 +18,7 @@
 
 ### check-release command
 
-* command reads `snapshot` objects from Kubernetes ordered by the most recent one and checks if all images from ./bundle-patch/bundle.env are in the `snapshot` in `spec.components[].containerImage` fields.
+* command reads `snapshot` objects from Kubernetes ordered by the most recent one and checks if all images from ./bundle-patch/bundle.env are in the `snapshot` in `spec.components[].containerImage` fields. use Before() for sorting the snapshots e.g. snapshots.Items[j].GetCreationTimestamp().Before(&snapshots.Items[i].GetCreationTimestamp())
 * If such snapshot does not exist, print an error message and exit with a non-zero code and suggest triggering a build with `kubectl annotate components/otel-bundle-main build.appstudio.openshift.io/request=trigger-pac-build`
 * If the snapshot exists get the `release` object from kubernetes that references the snapshot in `spec.snapshot` field and print the snapshot and release names.
 * print the `status.conditions` with `type: Released` and print the `condition.message` and `condition.reason` od that condition.
