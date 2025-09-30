@@ -23,12 +23,12 @@ echo "Bundle: ${BUNDLE_VERSION} (previous: ${PREVIOUS_BUNDLE_VERSION})"
 echo "Min OpenShift version: ${MIN_OPENSHIFT_VERSION}"
 
 # container labels
-sed -Ei "s/ARG VERSION=.*/ARG VERSION=${BUNDLE_VERSION}/g" Dockerfile.*
+sed -Ei "s/^ARG VERSION=.*/ARG VERSION=${BUNDLE_VERSION}/g" Dockerfile.*
 sed -Ei "s/cpe=[^ ]*/cpe=\"cpe:\/a:redhat:openshift_distributed_tracing:${RHOSDT_VERSION}::el8\"/g" Dockerfile.*
 sed -Ei "s/com.redhat.openshift.versions=[^ ]*/com.redhat.openshift.versions=v${MIN_OPENSHIFT_VERSION}/g" Dockerfile.bundle
 
 # CSV
-sed -Ei "s/  version: .*/  version: ${BUNDLE_VERSION}/g" bundle-patch/patch_csv.yaml
-sed -Ei "s/name: opentelemetry-operator.v.*/name: opentelemetry-operator.v${BUNDLE_VERSION}/g" bundle-patch/patch_csv.yaml
-sed -Ei "s/replaces: opentelemetry-operator.v.*/replaces: opentelemetry-operator.v${PREVIOUS_BUNDLE_VERSION}/g" bundle-patch/patch_csv.yaml
+yq -i e ".spec.version = \"${BUNDLE_VERSION}\"" bundle-patch/patch_csv.yaml
+yq -i e ".metadata.name = \"opentelemetry-operator.v${BUNDLE_VERSION}\"" bundle-patch/patch_csv.yaml
+yq -i e ".spec.replaces = \"opentelemetry-operator.v${PREVIOUS_BUNDLE_VERSION}\"" bundle-patch/patch_csv.yaml
 sed -Ei "s/olm.skipRange: '>=(.*) <[^']*/olm.skipRange: '>=\1 <${BUNDLE_VERSION}/g" bundle-patch/patch_csv.yaml
