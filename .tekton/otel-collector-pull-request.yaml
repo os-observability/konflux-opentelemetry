@@ -61,7 +61,8 @@ spec:
     value: "opentelemetry-operator/"
   pipelineRef:
     name: build-pipeline
-  taskRunTemplate: {}
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-otel-collector-main
   workspaces:
     - name: git-auth
       secret:

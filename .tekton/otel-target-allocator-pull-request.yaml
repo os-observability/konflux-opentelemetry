@@ -61,7 +61,8 @@ spec:
     value: "redhat-opentelemetry-collector/"
   pipelineRef:
     name: build-pipeline
-  taskRunTemplate: {}
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-otel-target-allocator-main
   workspaces:
     - name: git-auth
       secret:
