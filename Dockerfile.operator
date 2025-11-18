@@ -67,6 +67,7 @@ ENTRYPOINT ["/usr/bin/opentelemetry-operator"]
 
 LABEL release="${VERSION}" \
       version="${VERSION}" \
+      cpe="cpe:/a:redhat:openshift_distributed_tracing:3.7::el8" \
       vendor="Red Hat, Inc." \
       distribution-scope="public" \
       url="https://github.com/open-telemetry/opentelemetry-operator" \
