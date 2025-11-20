@@ -165,13 +165,13 @@ arches:
     name: elfutils-libs
     evr: 0.190-2.el8
     sourcerpm: elfutils-0.190-2.el8.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/aarch64/baseos/os/Packages/e/expat-2.2.5-17.el8_10.aarch64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/aarch64/baseos/os/Packages/e/expat-2.5.0-1.el8_10.aarch64.rpm
     repoid: ubi-8-for-aarch64-baseos-rpms
-    size: 107844
-    checksum: sha256:7a560a41ad9b82fbbe3a5dd65c31ce5b996a76732d856561567d9ba795d04868
+    size: 124144
+    checksum: sha256:b5791923f62b8666b34052bd76a3ff745d3733110fdd4a7a3502a9a777afac2f
     name: expat
-    evr: 2.2.5-17.el8_10
-    sourcerpm: expat-2.2.5-17.el8_10.src.rpm
+    evr: 2.5.0-1.el8_10
+    sourcerpm: expat-2.5.0-1.el8_10.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/aarch64/baseos/os/Packages/g/gawk-4.2.1-4.el8.aarch64.rpm
     repoid: ubi-8-for-aarch64-baseos-rpms
     size: 1162284
@@ -850,12 +850,12 @@ arches:
     checksum: sha256:54fe49a6fd4f87d6fd594b62c465105fc3efab05a1ffcc216f053c277ab619bf
     name: elfutils
     evr: 0.190-2.el8
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/e/expat-2.2.5-17.el8_10.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/e/expat-2.5.0-1.el8_10.src.rpm
     repoid: ubi-8-for-x86_64-baseos-source-rpms
-    size: 8345318
-    checksum: sha256:41de03fcbf3a8f7fa42e7017058ae0186e98a0e448ce01772de7af0a856a749d
+    size: 8388946
+    checksum: sha256:566456bc755b628dc5a4ce77b6a643769165202f0ddd852ba73dd9512b994d2b
     name: expat
-    evr: 2.2.5-17.el8_10
+    evr: 2.5.0-1.el8_10
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/g/gawk-4.2.1-4.el8.src.rpm
     repoid: ubi-8-for-x86_64-baseos-source-rpms
     size: 3036497
@@ -1328,13 +1328,13 @@ arches:
     name: elfutils-libs
     evr: 0.190-2.el8
     sourcerpm: elfutils-0.190-2.el8.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/ppc64le/baseos/os/Packages/e/expat-2.2.5-17.el8_10.ppc64le.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/ppc64le/baseos/os/Packages/e/expat-2.5.0-1.el8_10.ppc64le.rpm
     repoid: ubi-8-for-ppc64le-baseos-rpms
-    size: 119236
-    checksum: sha256:c7fad5d488549d79f4566b701be1f65c322096b55fd021abb4fe662eb08bf9d6
+    size: 136140
+    checksum: sha256:2568a6eca06a1d26161eb976577b719cbdb979690f1b6f3dbeecb2ad75402029
     name: expat
-    evr: 2.2.5-17.el8_10
-    sourcerpm: expat-2.2.5-17.el8_10.src.rpm
+    evr: 2.5.0-1.el8_10
+    sourcerpm: expat-2.5.0-1.el8_10.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/ppc64le/baseos/os/Packages/g/gawk-4.2.1-4.el8.ppc64le.rpm
     repoid: ubi-8-for-ppc64le-baseos-rpms
     size: 1205792
@@ -2026,12 +2026,12 @@ arches:
     checksum: sha256:54fe49a6fd4f87d6fd594b62c465105fc3efab05a1ffcc216f053c277ab619bf
     name: elfutils
     evr: 0.190-2.el8
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/e/expat-2.2.5-17.el8_10.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/e/expat-2.5.0-1.el8_10.src.rpm
     repoid: ubi-8-for-x86_64-baseos-source-rpms
-    size: 8345318
-    checksum: sha256:41de03fcbf3a8f7fa42e7017058ae0186e98a0e448ce01772de7af0a856a749d
+    size: 8388946
+    checksum: sha256:566456bc755b628dc5a4ce77b6a643769165202f0ddd852ba73dd9512b994d2b
     name: expat
-    evr: 2.2.5-17.el8_10
+    evr: 2.5.0-1.el8_10
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/g/gawk-4.2.1-4.el8.src.rpm
     repoid: ubi-8-for-x86_64-baseos-source-rpms
     size: 3036497
@@ -3093,6 +3093,12 @@ arches:
     evr: 1.4.2-1.el8
     sourcerpm: pkgconf-1.4.2-1.el8.src.rpm
   source:
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/s390x/baseos/source/SRPMS/Packages/e/expat-2.2.5-17.el8_10.src.rpm
+    repoid: ubi-8-for-s390x-baseos-source-rpms
+    size: 8345318
+    checksum: sha256:41de03fcbf3a8f7fa42e7017058ae0186e98a0e448ce01772de7af0a856a749d
+    name: expat
+    evr: 2.2.5-17.el8_10
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/appstream/source/SRPMS/Packages/g/golang-1.24.6-1.module+el8.10.0+23407+428597c7.src.rpm
     repoid: ubi-8-for-x86_64-appstream-source-rpms
     size: 30724885
@@ -3189,12 +3195,6 @@ arches:
     checksum: sha256:54fe49a6fd4f87d6fd594b62c465105fc3efab05a1ffcc216f053c277ab619bf
     name: elfutils
     evr: 0.190-2.el8
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/e/expat-2.2.5-17.el8_10.src.rpm
-    repoid: ubi-8-for-x86_64-baseos-source-rpms
-    size: 8345318
-    checksum: sha256:41de03fcbf3a8f7fa42e7017058ae0186e98a0e448ce01772de7af0a856a749d
-    name: expat
-    evr: 2.2.5-17.el8_10
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/g/gawk-4.2.1-4.el8.src.rpm
     repoid: ubi-8-for-x86_64-baseos-source-rpms
     size: 3036497
@@ -3702,13 +3702,13 @@ arches:
     name: elfutils-libs
     evr: 0.190-2.el8
     sourcerpm: elfutils-0.190-2.el8.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/e/expat-2.2.5-17.el8_10.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/e/expat-2.5.0-1.el8_10.x86_64.rpm
     repoid: ubi-8-for-x86_64-baseos-rpms
-    size: 117960
-    checksum: sha256:d01df6f542762d94bd73a87f61d19fb98a6304eb9a2eb114a872a91d3312ea34
+    size: 134428
+    checksum: sha256:ea9b034a79279668a1eca4be141617e6a9f04ffc616033f035380f80c073837a
     name: expat
-    evr: 2.2.5-17.el8_10
-    sourcerpm: expat-2.2.5-17.el8_10.src.rpm
+    evr: 2.5.0-1.el8_10
+    sourcerpm: expat-2.5.0-1.el8_10.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/g/gawk-4.2.1-4.el8.x86_64.rpm
     repoid: ubi-8-for-x86_64-baseos-rpms
     size: 1190704
@@ -4331,12 +4331,12 @@ arches:
     checksum: sha256:54fe49a6fd4f87d6fd594b62c465105fc3efab05a1ffcc216f053c277ab619bf
     name: elfutils
     evr: 0.190-2.el8
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/e/expat-2.2.5-17.el8_10.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/e/expat-2.5.0-1.el8_10.src.rpm
     repoid: ubi-8-for-x86_64-baseos-source-rpms
-    size: 8345318
-    checksum: sha256:41de03fcbf3a8f7fa42e7017058ae0186e98a0e448ce01772de7af0a856a749d
+    size: 8388946
+    checksum: sha256:566456bc755b628dc5a4ce77b6a643769165202f0ddd852ba73dd9512b994d2b
     name: expat
-    evr: 2.2.5-17.el8_10
+    evr: 2.5.0-1.el8_10
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/g/gawk-4.2.1-4.el8.src.rpm
     repoid: ubi-8-for-x86_64-baseos-source-rpms
     size: 3036497
