@@ -54,7 +54,7 @@ spec:
       when:
         - input: $(tasks.parse-metadata.results.test-event-type)
           operator: in
-          values: [ "push", "Push", "PUSH" ]
+          values: [ "push", "Push", "PUSH", "incoming", "Incoming", "INCOMING" ]
       taskRef:
         resolver: git
         params:
@@ -77,7 +77,7 @@ spec:
       when:
         - input: $(tasks.parse-metadata.results.test-event-type)
           operator: in
-          values: [ "push", "Push", "PUSH" ]
+          values: [ "push", "Push", "PUSH", "incoming", "Incoming", "INCOMING" ]
       taskSpec:
         results:
           - name: clusterName
@@ -149,7 +149,7 @@ spec:
       when:
         - input: $(tasks.parse-metadata.results.test-event-type)
           operator: in
-          values: [ "push", "Push", "PUSH" ]
+          values: [ "push", "Push", "PUSH", "incoming", "Incoming", "INCOMING" ]
       params:
         - name: SNAPSHOT
           value: $(params.SNAPSHOT)
@@ -218,7 +218,7 @@ spec:
       when:
         - input: $(tasks.parse-metadata.results.test-event-type)
           operator: in
-          values: [ "push", "Push", "PUSH" ]
+          values: [ "push", "Push", "PUSH", "incoming", "Incoming", "INCOMING" ]
       params:
         - name: SNAPSHOT
           value: $(params.SNAPSHOT)
@@ -368,7 +368,7 @@ spec:
       when:
         - input: $(tasks.parse-metadata.results.test-event-type)
           operator: in
-          values: [ "push", "Push", "PUSH" ]
+          values: [ "push", "Push", "PUSH", "incoming", "Incoming", "INCOMING" ]
       params:
         - name: SNAPSHOT
           value: $(params.SNAPSHOT)
@@ -469,7 +469,7 @@ spec:
       when:
         - input: $(tasks.parse-metadata.results.test-event-type)
           operator: in
-          values: [ "push", "Push", "PUSH" ]
+          values: [ "push", "Push", "PUSH", "incoming", "Incoming", "INCOMING" ]
       taskSpec:
         volumes:
           - name: credentials
@@ -523,7 +523,7 @@ spec:
       when:
         - input: $(tasks.parse-metadata.results.test-event-type)
           operator: in
-          values: [ "push", "Push", "PUSH" ]
+          values: [ "push", "Push", "PUSH", "incoming", "Incoming", "INCOMING" ]
       params:
         - name: OTEL_TESTS_BRANCH
           value: $(params.otel_tests_branch)
