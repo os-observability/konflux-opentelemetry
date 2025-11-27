@@ -229,7 +229,7 @@ spec:
               # Execute OpenTelemetry e2e tests
               mkdir -p .testresults/e2e
               
-              chainsaw test tests/e2e-openshift-upgrade --values - <<EOF
+              chainsaw test --quiet tests/e2e-openshift-upgrade --values - <<EOF
               upgrade_fbc_image: $FBC_FRAGMENT
               upgrade_otel_version: $OTEL_VERSION
               upgrade_operator_csv_name: $OPERATOR_CSV_VERSION

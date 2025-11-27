@@ -510,6 +510,7 @@ spec:
 
               # Execute DAST test using RapiDAST
               chainsaw test \
+              --quiet \
               --config .chainsaw-rh-sdl.yaml \
               --test-dir \
               tests/e2e-rh-sdl/rapidast-otel
@@ -612,6 +613,7 @@ spec:
 
               # Execute OpenTelemetry e2e tests
               chainsaw test \
+              --quiet \
               --test-dir \
               tests/e2e \
               tests/e2e-autoscale \
@@ -626,6 +628,7 @@ spec:
 
               # Execute sidecar-related tests with version-dependent selector
               chainsaw test \
+              --quiet \
               --selector "$selector" \
               --test-dir \
               tests/e2e-prometheuscr \
@@ -644,6 +647,7 @@ spec:
 
               # Execute OpenTelemetry e2e tests
               chainsaw test \
+              --quiet \
               --test-dir \
               tests/e2e-metadata-filters || any_errors=true
 
