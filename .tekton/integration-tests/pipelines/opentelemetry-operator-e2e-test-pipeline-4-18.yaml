@@ -614,6 +614,9 @@ spec:
                 selector="sidecar=native"
               fi
 
+              # Create directory for chainsaw test results
+              mkdir -p .testresults/e2e
+
               # Execute OpenTelemetry e2e tests
               chainsaw test \
               --quiet \
