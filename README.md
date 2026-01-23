@@ -157,6 +157,8 @@ podman run --rm -v "$PWD:$PWD:z" -w "$PWD"  registry.redhat.io/ubi8/ubi-minimal:
 kubectl annotate components/otel-bundle-main build.appstudio.openshift.io/request=trigger-pac-build
 ```
 
+Or use `/test <name_of_job>` to re-run the build pipeline.
+
 ### Generate new Konflux build pipeline file
 ```bash
 kubectl annotate component otel-operator-main build.appstudio.openshift.io/request=configure-pac
