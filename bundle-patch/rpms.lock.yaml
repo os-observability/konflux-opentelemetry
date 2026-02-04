@@ -60,13 +60,13 @@ arches:
     name: patch
     evr: 2.7.6-11.el8
     sourcerpm: patch-2.7.6-11.el8.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/p/platform-python-3.6.8-71.el8_10.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/p/platform-python-3.6.8-72.el8_10.x86_64.rpm
     repoid: ubi-8-for-x86_64-baseos-rpms
-    size: 89788
-    checksum: sha256:225f9e81e7ff60618c43bdb2fd9d46b43c1ec7d195faf7704dacead5f6bbffe4
+    size: 89900
+    checksum: sha256:65927e53c1bc6aa3de47556ab68d5fef84dea6043545c493824ff3bb7a263b09
     name: platform-python
-    evr: 3.6.8-71.el8_10
-    sourcerpm: python3-3.6.8-71.el8_10.src.rpm
+    evr: 3.6.8-72.el8_10
+    sourcerpm: python3-3.6.8-72.el8_10.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/p/platform-python-pip-9.0.3-24.el8.noarch.rpm
     repoid: ubi-8-for-x86_64-baseos-rpms
     size: 1633024
@@ -81,13 +81,13 @@ arches:
     name: platform-python-setuptools
     evr: 39.2.0-9.el8_10
     sourcerpm: python-setuptools-39.2.0-9.el8_10.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/p/python3-libs-3.6.8-71.el8_10.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/p/python3-libs-3.6.8-72.el8_10.x86_64.rpm
     repoid: ubi-8-for-x86_64-baseos-rpms
-    size: 8250824
-    checksum: sha256:b80ef80e565941803678ce69506358c269cb2d02a862642199a5b22d20ca52a4
+    size: 8250656
+    checksum: sha256:894b54365c7cd91ba029efcb98714e6ac3886971554baeb16cef883d5687b473
     name: python3-libs
-    evr: 3.6.8-71.el8_10
-    sourcerpm: python3-3.6.8-71.el8_10.src.rpm
+    evr: 3.6.8-72.el8_10
+    sourcerpm: python3-3.6.8-72.el8_10.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/p/python3-pip-wheel-9.0.3-24.el8.noarch.rpm
     repoid: ubi-8-for-x86_64-baseos-rpms
     size: 886996
@@ -165,14 +165,14 @@ arches:
     checksum: sha256:31ae9c84f36f7d4e51b0e945e5d12210594defd3ea16cf5645c21d42fd6332fa
     name: python-setuptools
     evr: 39.2.0-9.el8_10
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/p/python3-3.6.8-71.el8_10.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/source/SRPMS/Packages/p/python3-3.6.8-72.el8_10.src.rpm
     repoid: ubi-8-for-x86_64-baseos-source-rpms
-    size: 19241145
-    checksum: sha256:e7012ea23f3816772d64357f7db534f83c55279bcbefdecaefe2573d4734c6a3
+    size: 19243590
+    checksum: sha256:55193ea63a0505c0beb8f705ce3edb4299c661044695ce22b8321b51485341d5
     name: python3
-    evr: 3.6.8-71.el8_10
+    evr: 3.6.8-72.el8_10
   module_metadata:
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/appstream/os/repodata/9215ac8d1279f1de1cb37d8eac3ca002ecb3b43ed292a8b7b36f22c2ace314c3-modules.yaml.gz
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/appstream/os/repodata/69c12fe0c5c910f40b66b6d8c52c03e4e878aa0ac40846fcbe1b5536b805b614-modules.yaml.gz
     repoid: ubi-8-for-x86_64-appstream-rpms
-    size: 59446
-    checksum: sha256:9215ac8d1279f1de1cb37d8eac3ca002ecb3b43ed292a8b7b36f22c2ace314c3
+    size: 59425
+    checksum: sha256:69c12fe0c5c910f40b66b6d8c52c03e4e878aa0ac40846fcbe1b5536b805b614
