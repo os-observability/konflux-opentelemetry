@@ -66,7 +66,3 @@ spec:
                         value: opentelemetry-collector-container-pullspec
                       - name: RELATED_IMAGE_TARGET_ALLOCATOR
                         value: opentelemetry-target-allocator-container-pullspec
-                      - name: RELATED_IMAGE_OSE_KUBE_RBAC_PROXY
-                        value: ose-kube-rbac-proxy-container-pullspec
-                  - name: kube-rbac-proxy
-                    image: ose-kube-rbac-proxy-container-pullspec
