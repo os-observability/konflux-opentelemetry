@@ -36,7 +36,7 @@ echo "Min OpenShift version: ${MIN_OPENSHIFT_VERSION}"
 
 # container labels
 sed -Ei "s/^ARG VERSION=.*/ARG VERSION=${BUNDLE_VERSION}/g" Dockerfile.*
-sed -Ei "s/cpe=[^ ]*/cpe=\"cpe:\/a:redhat:openshift_distributed_tracing:${RHOSDT_VERSION}::el8\"/g" Dockerfile.*
+sed -Ei "s/cpe=[^ ]*/cpe=\"cpe:\/a:redhat:openshift_distributed_tracing:${RHOSDT_VERSION}::el9\"/g" Dockerfile.*
 sed -Ei "s/com.redhat.openshift.versions=[^ ]*/com.redhat.openshift.versions=v${MIN_OPENSHIFT_VERSION}/g" Dockerfile.bundle
 
 # CSV

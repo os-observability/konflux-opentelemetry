@@ -4,9 +4,9 @@ set -eu
 set -a && . bundle.env && set +a
 
 if [[ $REGISTRY == "registry.redhat.io" || $REGISTRY == "registry.stage.redhat.io" ]]; then
-  OTEL_COLLECTOR_IMAGE_PULLSPEC="$REGISTRY/rhosdt/opentelemetry-collector-rhel8@${OTEL_COLLECTOR_IMAGE_PULLSPEC:(-71)}"
-  OTEL_TARGET_ALLOCATOR_IMAGE_PULLSPEC="$REGISTRY/rhosdt/opentelemetry-target-allocator-rhel8@${OTEL_TARGET_ALLOCATOR_IMAGE_PULLSPEC:(-71)}"
-  OTEL_OPERATOR_IMAGE_PULLSPEC="$REGISTRY/rhosdt/opentelemetry-rhel8-operator@${OTEL_OPERATOR_IMAGE_PULLSPEC:(-71)}"
+  OTEL_COLLECTOR_IMAGE_PULLSPEC="$REGISTRY/rhosdt/opentelemetry-collector-rhel9@${OTEL_COLLECTOR_IMAGE_PULLSPEC:(-71)}"
+  OTEL_TARGET_ALLOCATOR_IMAGE_PULLSPEC="$REGISTRY/rhosdt/opentelemetry-target-allocator-rhel9@${OTEL_TARGET_ALLOCATOR_IMAGE_PULLSPEC:(-71)}"
+  OTEL_OPERATOR_IMAGE_PULLSPEC="$REGISTRY/rhosdt/opentelemetry-rhel9-operator@${OTEL_OPERATOR_IMAGE_PULLSPEC:(-71)}"
 fi
 
 export CSV_FILE=manifests/opentelemetry-operator.clusterserviceversion.yaml
