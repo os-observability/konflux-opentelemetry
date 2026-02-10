@@ -25,7 +25,7 @@ RUN ./update_bundle.sh && cat manifests/opentelemetry-operator.clusterservicever
 
 FROM scratch
 
-ARG VERSION=0.140.0-2
+ARG VERSION=0.144.0-1
 
 WORKDIR /
 
@@ -48,8 +48,8 @@ LABEL operators.operatorframework.io.test.config.v1=tests/scorecard/
 
 LABEL release="${VERSION}" \
       version="${VERSION}" \
-      cpe="cpe:/a:redhat:openshift_distributed_tracing:3.8::el8" \
-      com.redhat.openshift.versions=v4.12 \
+      cpe="cpe:/a:redhat:openshift_distributed_tracing:3.9::el8" \
+      com.redhat.openshift.versions=v4.14 \
       name="rhosdt/opentelemetry-operator-bundle" \
       distribution-scope="public" \
       description="Bundle for OpenTelemetry operator" \

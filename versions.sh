@@ -6,9 +6,9 @@ set -euo pipefail
 
 
 # TODO: update version
-RHOSDT_VERSION=3.8
+RHOSDT_VERSION=3.9
 # TODO: set latest supported OCP version, see https://access.redhat.com/support/policy/updates/openshift#dates
-MIN_OPENSHIFT_VERSION=4.12
+MIN_OPENSHIFT_VERSION=4.14
 
 
 echo "Fetching tags of all submodules..."
