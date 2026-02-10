@@ -1,6 +1,7 @@
 metadata:
   extra_annotations:
     support: Red Hat
+    categories: Logging & Tracing,Monitoring,Observability
     operators.openshift.io/valid-subscription: '["OpenShift Container Platform", "OpenShift Platform Plus"]'
     operators.openshift.io/infrastructure-features: '["disconnected"]'
     operatorframework.io/cluster-monitoring: "true"
