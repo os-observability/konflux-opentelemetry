@@ -1,10 +1,10 @@
 # The base image is expected to contain /bin/opm (with a serve subcommand) and /bin/grpc_health_probe
-FROM registry.redhat.io/openshift4/ose-operator-registry:v4.12
+FROM registry.redhat.io/openshift4/ose-operator-registry-rhel9:v4.22
 
 ENTRYPOINT ["/bin/opm"]
 CMD ["serve", "/configs", "--cache-dir=/tmp/cache"]
 
-COPY catalog/opentelemetry-product /configs/opentelemetry-product
+COPY catalog/opentelemetry-product-4.17 /configs/opentelemetry-product
 
 RUN ["/bin/opm", "serve", "/configs", "--cache-dir=/tmp/cache", "--cache-only"]
 
