@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi8/ubi:latest@sha256:a2874895561a0f52e84c78c9c8b504922cd0dd03dc19d682a51c935d29330c55 as builder
+FROM registry.redhat.io/ubi9/ubi:latest@sha256:b8923f58ef6aebe2b8f543f8f6c5af15c6f9aeeef34ba332f33bf7610012de0c as builder
 
 WORKDIR /opt/app-root/src
 USER root
@@ -15,12 +15,12 @@ WORKDIR /opt/app-root/src/opentelemetry-operator
 
 RUN  CGO_ENABLED=1 GOEXPERIMENT=strictfipsruntime go build -C ./cmd/otel-allocator -mod=mod -tags strictfipsruntime -o ./opentelemetry-target-allocator -trimpath -ldflags "-s -w"
 
-FROM registry.redhat.io/ubi8/ubi-micro:latest@sha256:6bcadcf383738d7f6933d3c299cbbe5b6d40cfd12dc74821c401d544420aff16 AS target-base
+FROM registry.redhat.io/ubi9/ubi-micro:latest@sha256:e9765516d74cafded50d8ef593331eeca2ef6eababdda118e5297898d99b7433 AS target-base
 
-FROM registry.redhat.io/ubi8/ubi:latest@sha256:a2874895561a0f52e84c78c9c8b504922cd0dd03dc19d682a51c935d29330c55 as install-additional-packages
+FROM registry.redhat.io/ubi9/ubi:latest@sha256:b8923f58ef6aebe2b8f543f8f6c5af15c6f9aeeef34ba332f33bf7610012de0c as install-additional-packages
 COPY --from=target-base / /mnt/rootfs
 RUN rpm --root /mnt/rootfs --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
-RUN dnf install --installroot /mnt/rootfs --releasever 8 --setopt install_weak_deps=false --setopt reposdir=/etc/yum.repos.d --nodocs -y openssl && \
+RUN dnf install --installroot /mnt/rootfs --releasever 9 --setopt install_weak_deps=false --setopt reposdir=/etc/yum.repos.d --nodocs -y openssl && \
     dnf clean all && \
     rm -rf /var/cache/yum
 RUN rm -rf /mnt/rootfs/var/cache/*
@@ -41,12 +41,12 @@ ENTRYPOINT ["/usr/bin/opentelemetry-target-allocator"]
 
 LABEL release="${VERSION}" \
       version="${VERSION}" \
-      cpe="cpe:/a:redhat:openshift_distributed_tracing:3.9::el8" \
+      cpe="cpe:/a:redhat:openshift_distributed_tracing:3.9::el9" \
       vendor="Red Hat, Inc." \
       distribution-scope="public" \
       url="https://github.com/open-telemetry/opentelemetry-operator" \
       com.redhat.component="opentelemetry-target-allocator-container" \
-      name="rhosdt/opentelemetry-target-allocator-rhel8" \
+      name="rhosdt/opentelemetry-target-allocator-rhel9" \
       summary="OpenTelemetry Target allocator" \
       description="Prometheus target allocator for the OpenTelemetry collector" \
       io.k8s.description="Target allocator for the OpenTelemetry collector." \
