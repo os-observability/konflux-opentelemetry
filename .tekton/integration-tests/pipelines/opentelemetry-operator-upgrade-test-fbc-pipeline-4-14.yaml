@@ -133,8 +133,6 @@ spec:
                 value: "$(steps.pick-version.results.version)"
               - name: instanceType
                 value: "m6g.2xlarge"
-              - name: fips
-                value: "false"
               - name: timeout
                 value: "40m"
               - name: imageContentSources
