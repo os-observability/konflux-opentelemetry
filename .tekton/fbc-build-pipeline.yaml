@@ -314,6 +314,10 @@ spec:
       operator: in
       values:
       - "false"
+    - input: $(params.dockerfile)
+      operator: notin
+      values:
+      - Dockerfile-v4-16.catalog
   workspaces:
   - name: git-auth
     optional: true
