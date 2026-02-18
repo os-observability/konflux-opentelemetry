@@ -31,16 +31,16 @@ spec:
           memory: 4Gi # default: 3Gi
   - pipelineTaskName: sast-shell-check
     stepSpecs:
-    - name: sast-shell-check
+    - name: use-trusted-artifact
       computeResources:
         limits:
-          memory: 6Gi # default: 4Gi
+          memory: 4Gi
   - pipelineTaskName: sast-unicode-check
     stepSpecs:
-    - name: sast-unicode-check
+    - name: use-trusted-artifact
       computeResources:
         limits:
-          memory: 6Gi # default: 4Gi
+          memory: 4Gi
   params:
   - name: git-url
     value: '{{source_url}}'
