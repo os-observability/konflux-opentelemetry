@@ -28,11 +28,13 @@ podman build -t docker.io/user/otel-operator:$(date +%s) -f Dockerfile.operator
 Update all base images (merge renovatebot PRs).
 
 Create a PR `Release - update upstream sources x.y`:
-1. Update git submodules with upstream versions.
-   **Note:** If you use a forked repository instead of upstream, you must sync the git tags.
-   The version information is set dynamically using `git describe --tags` in the Dockerfile, and is crucial for e.g. the upgrade process of the operator.
-1. Merge the PR and wait until all builds were successful.
-   Retrigger failed builds by adding a comment `/test <name>` on the commit (or `/test` to retrigger all pipelines).
+1. Update git submodules with new versions.
+   * Use only forked repositories from [os-observability](https://github.com/os-observability).
+   * Set the branch to `rhosdt-<version>` e.g. `rhosdt-3.5`.
+   * Sync the git tags in the fork.
+   * The version information is set dynamically using `git describe --tags` in the Dockerfile, and is crucial for e.g. the upgrade process of the operator.
+1. Merge the PR and wait until all builds are successful.
+   * Retrigger failed builds by adding a comment `/test <name>` on the commit (or `/test` to retrigger all pipelines).
 
 #### Change git submodule to another repository
 
