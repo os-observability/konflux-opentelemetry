@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi9/ubi:latest@sha256:039095faabf1edde946ff528b3b6906efa046ee129f3e33fd933280bb6936221 as builder
+FROM registry.redhat.io/ubi9/ubi:latest@sha256:11becb127877f123fc739687bdaaf7909ed7f64c1b69d2c9e59928c16f66ed52 as builder
 
 WORKDIR /opt/app-root/src
 USER root
@@ -17,7 +17,7 @@ RUN  CGO_ENABLED=1 GOEXPERIMENT=strictfipsruntime go build -C ./cmd/otel-allocat
 
 FROM registry.redhat.io/ubi9/ubi-micro:latest@sha256:2173487b3b72b1a7b11edc908e9bbf1726f9df46a4f78fd6d19a2bab0a701f38 AS target-base
 
-FROM registry.redhat.io/ubi9/ubi:latest@sha256:039095faabf1edde946ff528b3b6906efa046ee129f3e33fd933280bb6936221 as install-additional-packages
+FROM registry.redhat.io/ubi9/ubi:latest@sha256:11becb127877f123fc739687bdaaf7909ed7f64c1b69d2c9e59928c16f66ed52 as install-additional-packages
 COPY --from=target-base / /mnt/rootfs
 RUN rpm --root /mnt/rootfs --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 RUN dnf install --installroot /mnt/rootfs --releasever 9 --setopt install_weak_deps=false --setopt reposdir=/etc/yum.repos.d --nodocs -y openssl && \
