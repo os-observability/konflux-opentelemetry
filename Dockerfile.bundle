@@ -25,7 +25,7 @@ RUN ./update_bundle.sh && cat manifests/opentelemetry-operator.clusterservicever
 
 FROM scratch
 
-ARG VERSION=0.144.0-2
+ARG VERSION=0.144.0-3
 
 WORKDIR /
 
