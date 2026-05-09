@@ -39,6 +39,8 @@ spec:
     value: Dockerfile.bundle
   - name: build-source-image
     value: "true"
+  - name: is-bundle
+    value: "true"
   pipelineRef:
     name: single-arch-build-pipeline
   taskRunTemplate:
