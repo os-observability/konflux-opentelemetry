@@ -18,7 +18,7 @@ RUN CGO_ENABLED=1 GOEXPERIMENT=strictfipsruntime go build -C ./_build -mod=mod -
 COPY fips_check.sh .
 RUN ./fips_check.sh
 
-FROM registry.redhat.io/ubi9/ubi-micro:latest@sha256:e0b6e93fe3800bf75a3e95aaf63bdfd020ea6dc30a92ca4bfa0021fa28cd671a AS target-base
+FROM registry.redhat.io/ubi9/ubi-micro:latest@sha256:dbee6ddfcf53e1786845b8f29219946e202d99c3afac69799c2dc4edec8b937d AS target-base
 
 FROM registry.redhat.io/ubi9/ubi:latest@sha256:7fc5d8fcc2e047093bd053c070e838eed557cbc732d2fe6926267e441a008470 as install-additional-packages
 COPY --from=target-base / /mnt/rootfs
