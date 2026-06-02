@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi9/ubi:latest@sha256:7fc5d8fcc2e047093bd053c070e838eed557cbc732d2fe6926267e441a008470 as builder
+FROM registry.redhat.io/ubi9/ubi:latest@sha256:80b1f4c34a7eed1b03a05d12b55768f3e522eef6ec294c6fbd5fa47b6b2892ee as builder
 
 WORKDIR /opt/app-root/src
 USER root
@@ -20,7 +20,7 @@ RUN ./fips_check.sh
 
 FROM registry.redhat.io/ubi9/ubi-micro:latest@sha256:b498b3ea26111ab4b81d65139f2ebd2ef9a2abb7a4588b7fdcc54889f95e9caa AS target-base
 
-FROM registry.redhat.io/ubi9/ubi:latest@sha256:7fc5d8fcc2e047093bd053c070e838eed557cbc732d2fe6926267e441a008470 as install-additional-packages
+FROM registry.redhat.io/ubi9/ubi:latest@sha256:80b1f4c34a7eed1b03a05d12b55768f3e522eef6ec294c6fbd5fa47b6b2892ee as install-additional-packages
 COPY --from=target-base / /mnt/rootfs
 RUN rpm --root /mnt/rootfs --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 # Install the systemd package which provides journalctl required by journald receiver and add user to systemd-journal group.
