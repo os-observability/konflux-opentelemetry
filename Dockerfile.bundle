@@ -54,8 +54,7 @@ LABEL release="${VERSION}" \
       distribution-scope="public" \
       description="Bundle for OpenTelemetry operator" \
       io.k8s.description="Bundle for OpenTelemetry operator" \
-      # TODO check if this is correct
-      com.redhat.component="rhosdt" \
+      com.redhat.component="opentelemetry-operator-bundle-container" \
       io.openshift.tags="tracing" \
       io.k8s.display-name="OpenTelemetry Operator Bundle" \
       url="https://github.com/open-telemetry/opentelemetry-operator" \
