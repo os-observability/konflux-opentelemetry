@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi9/ubi:latest@sha256:edabf9436bb372addcca3537aa76111c7a1aba970f5e3b02e2e03bc72943612d as builder
+FROM registry.redhat.io/ubi9/ubi:latest@sha256:157ac93fde9596b9e04908fa9a22746350f53452718af9562289239f68a505c6 as builder
 
 WORKDIR /opt/app-root/src
 USER root
@@ -20,7 +20,7 @@ RUN ./fips_check.sh
 
 FROM registry.redhat.io/ubi9/ubi-micro:latest@sha256:b498b3ea26111ab4b81d65139f2ebd2ef9a2abb7a4588b7fdcc54889f95e9caa AS target-base
 
-FROM registry.redhat.io/ubi9/ubi:latest@sha256:edabf9436bb372addcca3537aa76111c7a1aba970f5e3b02e2e03bc72943612d as install-additional-packages
+FROM registry.redhat.io/ubi9/ubi:latest@sha256:157ac93fde9596b9e04908fa9a22746350f53452718af9562289239f68a505c6 as install-additional-packages
 COPY --from=target-base / /mnt/rootfs
 RUN rpm --root /mnt/rootfs --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 # Install the systemd package which provides journalctl required by journald receiver and add user to systemd-journal group.
@@ -33,7 +33,7 @@ FROM scratch
 WORKDIR /
 COPY --from=install-additional-packages /mnt/rootfs/ /
 
-ARG VERSION=0.144.0-3
+ARG VERSION=0.152.0-1
 
 RUN mkdir /licenses
 COPY opentelemetry-operator/LICENSE /licenses/.
@@ -48,7 +48,7 @@ CMD ["--config", "/etc/otelcol/config.yaml"]
 
 LABEL release="${VERSION}" \
       version="${VERSION}" \
-      cpe="cpe:/a:redhat:openshift_distributed_tracing:3.9::el9" \
+      cpe="cpe:/a:redhat:openshift_distributed_tracing:3.10::el9" \
       vendor="Red Hat, Inc." \
       distribution-scope="public" \
       url="https://github.com/open-telemetry/opentelemetry-operator" \
