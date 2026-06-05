@@ -692,7 +692,7 @@ spec:
               SKIP_TESTS=$(params.SKIP_TESTS)
 
               echo "Run e2e tests"
-              git clone https://github.com/IshwarKanse/opentelemetry-operator.git /tmp/otel-tests
+              git clone https://github.com/os-observability/opentelemetry-operator.git /tmp/otel-tests
               cd /tmp/otel-tests
               git checkout $OTEL_TESTS_BRANCH
 
