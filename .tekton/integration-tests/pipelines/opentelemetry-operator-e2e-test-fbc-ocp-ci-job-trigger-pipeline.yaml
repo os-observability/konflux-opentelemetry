@@ -20,7 +20,7 @@ spec:
       type: string
     - name: namespace
       description: 'Namespace to run tests in'
-      default: 'openshift-opentelemetry-operator'
+      default: 'opentelemetry-operator-system'
       type: string
     - name: gangway_api_url
       description: 'URL for the Gangway API'

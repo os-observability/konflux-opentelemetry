@@ -21,7 +21,7 @@ spec:
       default: 'opentelemetry-operator-e2e-tests'
     - name: namespace
       description: 'Namespace to run tests in'
-      default: 'openshift-opentelemetry-operator'
+      default: 'opentelemetry-operator-system'
     - name: operator_version
       description: Version of OpenTelemetry Operator
     - name: operator_otel_collector_version
@@ -337,7 +337,7 @@ spec:
               export OTEL_ICSP=https://raw.githubusercontent.com/os-observability/konflux-opentelemetry/refs/heads/main/.tekton/integration-tests/resources/ImageContentSourcePolicy.yaml
               curl -Lo /tmp/ImageContentSourcePolicy.yaml "$OTEL_ICSP"
 
-              otel_images=$(oc get deployment opentelemetry-operator-controller-manager -n openshift-opentelemetry-operator -o yaml | grep -o "registry.redhat.io/rhosdt/.*" | sort | uniq)
+              otel_images=$(oc get deployment opentelemetry-operator-controller-manager -n opentelemetry-operator-system -o yaml | grep -o "registry.redhat.io/rhosdt/.*" | sort | uniq)
               [ $(echo "$otel_images" | wc -l) -eq 3 ] || exit_error "Expected 3 images, found:\n$otel_images"
 
               oc project default
@@ -658,13 +658,13 @@ spec:
               tests/e2e-sidecar || any_errors=true
 
               # Set the operator environment variables for metadata filters tests.
-              OTEL_CSV_NAME=$(oc get csv -n openshift-opentelemetry-operator | grep "opentelemetry-operator" | awk '{print $1}')
-              oc -n openshift-opentelemetry-operator patch csv $OTEL_CSV_NAME --type=json -p '[
+              OTEL_CSV_NAME=$(oc get csv -n opentelemetry-operator-system | grep "opentelemetry-operator" | awk '{print $1}')
+              oc -n opentelemetry-operator-system patch csv $OTEL_CSV_NAME --type=json -p '[
                 {"op":"add","path":"/spec/install/spec/deployments/0/spec/template/spec/containers/0/env/-","value":{"name":"ANNOTATIONS_FILTER","value":".*filter.out,config.*.gke.io.*"}},
                 {"op":"add","path":"/spec/install/spec/deployments/0/spec/template/spec/containers/0/env/-","value":{"name":"LABELS_FILTER","value":".*filter.out"}}
               ]'
               sleep 60
-              if oc -n openshift-opentelemetry-operator get deployment opentelemetry-operator-controller-manager -o jsonpath='{.status.conditions[?(@.type=="Available")].status}' | grep -q "True"; then
+              if oc -n opentelemetry-operator-system get deployment opentelemetry-operator-controller-manager -o jsonpath='{.status.conditions[?(@.type=="Available")].status}' | grep -q "True"; then
                   echo "Operator deployment updated successfully for metadata filters, continuing script execution..."
               else
                   echo "Operator deployment update for metadata filters failed, exiting with error."
