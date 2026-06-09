@@ -22,7 +22,7 @@ spec:
       type: string
     - name: namespace
       description: 'Namespace to run tests in'
-      default: 'openshift-opentelemetry-operator'
+      default: 'opentelemetry-operator-system'
       type: string
     - name: operator_csv_version
       description: Version of OpenTelemetry Operator CSV
