@@ -55,7 +55,7 @@ FROM scratch
 WORKDIR /
 COPY --from=install-additional-packages /mnt/rootfs/ /
 
-ARG VERSION=0.152.0-1
+ARG VERSION=0.152.1-1
 
 RUN mkdir /licenses
 COPY opentelemetry-operator/LICENSE /licenses/.
