@@ -27,8 +27,11 @@ spec:
     - name: operator_csv_version
       description: Version of OpenTelemetry Operator CSV
       type: string
-    - name: otel_version
-      description: Version of OpenTelemetry operator and collector
+    - name: collector_version
+      description: Version of OpenTelemetry Collector (from opentelemetry-collector in versions.txt)
+      type: string
+    - name: ta_version
+      description: Version of Target Allocator (from targetallocator in versions.txt)
       type: string
     - name: otel_tests_branch
       description: "The repository branch from which to run the tests"
@@ -162,8 +165,10 @@ spec:
       params:
         - name: OTEL_TESTS_BRANCH
           value: $(params.otel_tests_branch)
-        - name: OTEL_VERSION
-          value: $(params.otel_version)
+        - name: COLLECTOR_VERSION
+          value: $(params.collector_version)
+        - name: TA_VERSION
+          value: $(params.ta_version)
         - name: OPERATOR_CSV_VERSION
           value: $(params.operator_csv_version)
         - name: FBC_FRAGMENT
@@ -172,7 +177,9 @@ spec:
         params:
           - name: OTEL_TESTS_BRANCH
             type: string
-          - name: OTEL_VERSION
+          - name: COLLECTOR_VERSION
+            type: string
+          - name: TA_VERSION
             type: string
           - name: OPERATOR_CSV_VERSION
             type: string
@@ -208,8 +215,10 @@ spec:
                 value: "/credentials/$(steps.get-kubeconfig.results.kubeconfig)"
               - name: FBC_FRAGMENT
                 value: "$(params.FBC_FRAGMENT)"
-              - name: OTEL_VERSION
-                value: "$(params.OTEL_VERSION)"
+              - name: COLLECTOR_VERSION
+                value: "$(params.COLLECTOR_VERSION)"
+              - name: TA_VERSION
+                value: "$(params.TA_VERSION)"
               - name: OPERATOR_CSV_VERSION
                 value: "$(params.OPERATOR_CSV_VERSION)"
             image: quay.io/redhat-distributed-tracing-qe/konflux-e2e:latest
@@ -233,6 +242,7 @@ spec:
               
               chainsaw test --quiet tests/e2e-openshift-upgrade --values - <<EOF
               upgrade_fbc_image: $FBC_FRAGMENT
-              upgrade_otel_version: $OTEL_VERSION
+              upgrade_collector_version: $COLLECTOR_VERSION
+              upgrade_ta_version: $TA_VERSION
               upgrade_operator_csv_name: $OPERATOR_CSV_VERSION
               EOF
