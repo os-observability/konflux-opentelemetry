@@ -366,3 +366,4 @@ or read RPMs from SBOM
 ```bash
 cosign download sbom quay.io/redhat-user-workloads/rhosdt-tenant/tempo/tempo-operator@sha256:e724feb8fbe20184ee270d290d31e5f1bf6f70e2d6ad584922f34426277e1f58 --platform linux/amd64 | grep -F 'pkg:rpm' | grep arch=x86_64 | sort | uniq
 ```
+
