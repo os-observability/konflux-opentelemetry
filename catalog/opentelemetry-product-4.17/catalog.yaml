@@ -86,9 +86,9 @@ entries:
 - name: opentelemetry-operator.v0.144.0-3
   replaces: opentelemetry-operator.v0.144.0-2
   skipRange: '>=0.33.0 <0.144.0-3'
-- name: opentelemetry-operator.v0.152.0-1
+- name: opentelemetry-operator.v0.152.1-1
   replaces: opentelemetry-operator.v0.144.0-3
-  skipRange: '>=0.33.0 <0.152.0-1'
+  skipRange: '>=0.33.0 <0.152.1-1'
 name: stable
 package: opentelemetry-product
 schema: olm.channel
@@ -6853,8 +6853,8 @@ relatedImages:
   name: target-allocator
 schema: olm.bundle
 ---
-image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:699482129cf9a8e252343e7f515563985ac8b9c5a253f104cf4350af8de7cb09
-name: opentelemetry-operator.v0.152.0-1
+image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:6b69f800558036e358ca820298ddcecd0a4b3b0b617e7e08736142cab7bb2c64
+name: opentelemetry-operator.v0.152.1-1
 package: opentelemetry-product
 properties:
 - type: olm.gvk
@@ -6885,7 +6885,7 @@ properties:
 - type: olm.package
   value:
     packageName: opentelemetry-product
-    version: 0.152.0-1
+    version: 0.152.1-1
 - type: olm.csv.metadata
   value:
     annotations:
@@ -6986,8 +6986,8 @@ properties:
       categories: Logging & Tracing,Monitoring,Observability
       certified: "false"
       console.openshift.io/operator-monitoring-default: "true"
-      containerImage: registry.redhat.io/rhosdt/opentelemetry-rhel9-operator@sha256:e8c10d2f21f5a3919cae48a6c391f8bdd1842498f7dda815a4460c991d993e87
-      createdAt: 03 Jun 2026, 18:52
+      containerImage: registry.redhat.io/rhosdt/opentelemetry-rhel9-operator@sha256:cbfea98f5a8b4fe53d63aa1e6b38da0de5d8a9ee18678dd572cea80b996077bf
+      createdAt: 18 Jun 2026, 07:35
       description: Provides the OpenTelemetry components, including the Collector
       features.operators.openshift.io/cnf: "false"
       features.operators.openshift.io/cni: "false"
@@ -6999,7 +6999,7 @@ properties:
       features.operators.openshift.io/token-auth-aws: "false"
       features.operators.openshift.io/token-auth-azure: "false"
       features.operators.openshift.io/token-auth-gcp: "false"
-      olm.skipRange: '>=0.33.0 <0.152.0-1'
+      olm.skipRange: '>=0.33.0 <0.152.1-1'
       operatorframework.io/cluster-monitoring: "true"
       operatorframework.io/suggested-namespace: openshift-opentelemetry-operator
       operators.openshift.io/infrastructure-features: '["disconnected"]'
@@ -7239,13 +7239,13 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:699482129cf9a8e252343e7f515563985ac8b9c5a253f104cf4350af8de7cb09
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:6b69f800558036e358ca820298ddcecd0a4b3b0b617e7e08736142cab7bb2c64
   name: ""
-- image: registry.redhat.io/rhosdt/opentelemetry-collector-rhel9@sha256:bfae4056e1aa64ae7c1f0e08ccabdf381756824fdb136758abdf4d7470968583
+- image: registry.redhat.io/rhosdt/opentelemetry-collector-rhel9@sha256:b4f7f653d44777a63bab4d88e26f7954d5ee2a5036f43d0e87c5f506b1aef838
   name: collector
-- image: registry.redhat.io/rhosdt/opentelemetry-rhel9-operator@sha256:e8c10d2f21f5a3919cae48a6c391f8bdd1842498f7dda815a4460c991d993e87
+- image: registry.redhat.io/rhosdt/opentelemetry-rhel9-operator@sha256:cbfea98f5a8b4fe53d63aa1e6b38da0de5d8a9ee18678dd572cea80b996077bf
   name: operator
-- image: registry.redhat.io/rhosdt/opentelemetry-target-allocator-rhel9@sha256:8377223bdcafb2cfe4a3269c8a29d0dc0ceb5091c80eb3710b20e5418e2d34eb
+- image: registry.redhat.io/rhosdt/opentelemetry-target-allocator-rhel9@sha256:0a0db4e6c96cf7abb2e3baea52178865971037f727e335c7a196f1b091c7f4fa
   name: target-allocator
 schema: olm.bundle
 ---
