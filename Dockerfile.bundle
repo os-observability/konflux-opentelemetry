@@ -4,7 +4,7 @@ FROM registry.redhat.io/ubi9/ubi-minimal:latest@sha256:1bc3c5c15720506a0cf48adfd
 USER root
 WORKDIR /opt/bundle-build
 
-# TODO use python3-ruamel-yaml-clib python3-ruamel-yaml once on RHEL9 which is easier to use
+# TODO use python3-ruamel-yaml-clib python3-ruamel-yaml once on RHEL9 which is easier to use 
 RUN microdnf update -y && rm -rf /var/cache/yum && \
     microdnf install -y python3 python3-pyyaml patch
 
