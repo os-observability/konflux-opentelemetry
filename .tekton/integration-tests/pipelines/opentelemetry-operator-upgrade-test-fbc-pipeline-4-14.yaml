@@ -27,15 +27,19 @@ spec:
     - name: operator_csv_version
       description: Version of OpenTelemetry Operator CSV
       type: string
+      default: "opentelemetry-operator.v0.152.0-1"
     - name: collector_version
       description: Version of OpenTelemetry Collector (from opentelemetry-collector in versions.txt)
       type: string
+      default: "0.152.1"
     - name: ta_version
       description: Version of Target Allocator (from targetallocator in versions.txt)
       type: string
+      default: "0.152.0"
     - name: otel_tests_branch
       description: "The repository branch from which to run the tests"
       type: string
+      default: "rhosdt-3.10"
     - name: PACKAGE_NAME
       description: "Package name for the bundle"
       default: "opentelemetry-product"

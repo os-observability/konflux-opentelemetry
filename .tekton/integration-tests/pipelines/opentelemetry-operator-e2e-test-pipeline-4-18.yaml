@@ -24,18 +24,25 @@ spec:
       default: 'opentelemetry-operator-system'
     - name: operator_version
       description: Version of OpenTelemetry Operator
+      default: "0.152.0"
     - name: operator_otel_collector_version
       description: Version of the OTEL collector in the operator
+      default: "0.152.1"
     - name: operator_targetallocator_version
       description: Version of OTEL TargetAllocator
+      default: "0.152.0"
     - name: otel_collector_version
       description: Version of OpenTelemetry collector
+      default: "0.152.1"
     - name: otel_tests_branch
       description: "The repository branch from which to run the tests"
+      default: "rhosdt-3.10"
     - name: skip_tests
       description: "Tests to be skipped seperated with a space delimiter"
+      default: "tests/e2e/smoke-ip-families tests/e2e-otel/google* tests/e2e-otel/oidcauthextension tests/e2e-otel/*aws* tests/e2e/smoke-ports tests/e2e-targetallocator/targetallocator-prometheuscr tests/e2e-instrumentation/instrumentation-go tests/e2e-multi-instrumentation/instrumentation-multi-multicontainer-go tests/e2e/httpRoute"
     - name: rhosdt_version
       description: "RHOSDT product version used to tag RapiDAST scan results in GCS"
+      default: "3.10"
   tasks:
     - name: parse-metadata
       taskRef:
@@ -283,10 +290,10 @@ spec:
               set -eu
 
               # Variables for strings to check
-              OPERATOR_VERSION=$(params.OPERATOR_VERSION)
-              OPERATOR_OTEL_COLLECTOR_VERSION=$(params.OPERATOR_OTEL_COLLECTOR_VERSION)
-              OPERATOR_TARGETALLOCATOR_VERSION=$(params.OPERATOR_TARGETALLOCATOR_VERSION)
-              OTEL_COLLECTOR_VERSION=$(params.OTEL_COLLECTOR_VERSION)
+              OPERATOR_VERSION="$(params.OPERATOR_VERSION)"
+              OPERATOR_OTEL_COLLECTOR_VERSION="$(params.OPERATOR_OTEL_COLLECTOR_VERSION)"
+              OPERATOR_TARGETALLOCATOR_VERSION="$(params.OPERATOR_TARGETALLOCATOR_VERSION)"
+              OTEL_COLLECTOR_VERSION="$(params.OTEL_COLLECTOR_VERSION)"
 
               function log_cmd() {
                   echo "\$ $*"
@@ -352,14 +359,14 @@ spec:
                       log_cmd oc run $random_name --image=$image
                       wait_for_pod_running $random_name default
                       log_cmd oc logs pod/$random_name | head -n 2
-                      check_strings_in_logs $random_name default $OPERATOR_VERSION $OPERATOR_OTEL_COLLECTOR_VERSION $OPERATOR_TARGETALLOCATOR_VERSION
+                      check_strings_in_logs $random_name default "\"opentelemetry-operator\":\"${OPERATOR_VERSION}\"" "opentelemetry-collector:${OPERATOR_OTEL_COLLECTOR_VERSION}" "target-allocator:${OPERATOR_TARGETALLOCATOR_VERSION}"
                   elif [[ $image == *opentelemetry-target-allocator-rhel9* ]]; then
                       echo "SKIPPED: $image doesn't have a version command"
                   else
                       log_cmd oc run $random_name --image=$image -- --version
                       wait_for_pod_running $random_name default
                       log_cmd oc logs pod/$random_name
-                      check_strings_in_logs $random_name default $OTEL_COLLECTOR_VERSION
+                      check_strings_in_logs $random_name default "otelcol version ${OTEL_COLLECTOR_VERSION}"
                   fi
 
                   echo
@@ -586,8 +593,8 @@ spec:
               echo "Kubeconfig file"
               cat $KUBECONFIG
 
-              OTEL_TESTS_BRANCH=$(params.OTEL_TESTS_BRANCH)
-              SKIP_TESTS=$(params.SKIP_TESTS)
+              OTEL_TESTS_BRANCH="$(params.OTEL_TESTS_BRANCH)"
+              SKIP_TESTS="$(params.SKIP_TESTS)"
 
               echo "Run e2e tests"
               git clone https://github.com/os-observability/opentelemetry-operator.git /tmp/otel-tests
