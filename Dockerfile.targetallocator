@@ -25,9 +25,17 @@ RUN dnf install --installroot /mnt/rootfs --releasever 9 --setopt install_weak_d
     rm -rf /var/cache/yum
 RUN rm -rf /mnt/rootfs/var/cache/*
 
+# Enable post-quantum cryptography (ML-KEM) via DEFAULT:PQ crypto policy (OCPSTRAT-3113)
+# Install crypto-policies-scripts on builder (not target) to avoid Python in final image
+FROM registry.redhat.io/ubi9/ubi:latest@sha256:1b99266db480e8aa6dfda6900697a07ec99334095b4f87d1687edfc06c965132 as crypto-policies
+RUN dnf install --nodocs -y crypto-policies-scripts && \
+    update-crypto-policies --set DEFAULT:PQ && \
+    dnf clean all
+
 FROM scratch
 WORKDIR /
 COPY --from=install-additional-packages /mnt/rootfs/ /
+COPY --from=crypto-policies /etc/crypto-policies/ /etc/crypto-policies/
 
 ARG VERSION=0.152.1-1
 
