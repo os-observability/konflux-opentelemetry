@@ -1,0 +1,386 @@
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Snapshot
+metadata:
+  annotations:
+    build.appstudio.openshift.io/build-nudge-files: catalog/catalog.env
+    build.appstudio.openshift.io/component-nudge-processed: "true"
+    build.appstudio.openshift.io/repo: https://github.com/os-observability/konflux-opentelemetry?rev=300fbe089a5a232d48779de4715d23508fd59994
+    build.appstudio.redhat.com/commit_sha: 300fbe089a5a232d48779de4715d23508fd59994
+    build.appstudio.redhat.com/target_branch: main
+    pac.test.appstudio.openshift.io/branch: main
+    pac.test.appstudio.openshift.io/check-run-id: "90315097935"
+    pac.test.appstudio.openshift.io/controller-info: '{"name":"default","configmap":"pipelines-as-code","secret":"pipelines-as-code-secret",
+      "gRepo": "pipelines-as-code"}'
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/git-auth-secret: pac-gitauth-nphuft
+    pac.test.appstudio.openshift.io/git-provider: github
+    pac.test.appstudio.openshift.io/installation-id: "54445919"
+    pac.test.appstudio.openshift.io/log-url: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhosdt-tenant/pipelinerun/otel-bundle-main-on-push-xv5ml
+    pac.test.appstudio.openshift.io/max-keep-runs: "3"
+    pac.test.appstudio.openshift.io/on-cel-expression: event == "push" && target_branch
+      == "main" && (".tekton/single-arch-build-pipeline.yaml".pathChanged() || ".tekton/otel-bundle-pull-request.yaml".pathChanged()
+      || ".tekton/otel-bundle-push.yaml".pathChanged() || "Dockerfile.bundle".pathChanged()
+      || "bundle-patch/***".pathChanged() || "opentelemetry-operator".pathChanged())
+    pac.test.appstudio.openshift.io/original-prname: otel-bundle-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "924"
+    pac.test.appstudio.openshift.io/repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/scm-reporting-plr-started: "true"
+    pac.test.appstudio.openshift.io/secret-created: "true"
+    pac.test.appstudio.openshift.io/sender: frzifus
+    pac.test.appstudio.openshift.io/sha: 300fbe089a5a232d48779de4715d23508fd59994
+    pac.test.appstudio.openshift.io/sha-title: Update bundle [release-driver] (#924)
+    pac.test.appstudio.openshift.io/sha-url: https://github.com/os-observability/konflux-opentelemetry/commit/300fbe089a5a232d48779de4715d23508fd59994
+    pac.test.appstudio.openshift.io/source-branch: refs/heads/main
+    pac.test.appstudio.openshift.io/source-repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+    test.appstudio.openshift.io/added-to-global-candidate-list: '{"result":true,"reason":"Success","lastupdatedtime":"2026-07-28T15:09:12Z"}'
+    test.appstudio.openshift.io/git-reporter-status: '{"scenarios":{"otel-e2e-tests-4-14-main-otel-main-20260728-150216-000":{"lastUpdateTime":"2026-07-28T15:24:00.899050784Z"},"otel-e2e-tests-4-18-main-otel-main-20260728-150216-000":{"lastUpdateTime":"2026-07-28T16:06:25.022972218Z"}}}'
+    test.appstudio.openshift.io/integration-workflow: push
+    test.appstudio.openshift.io/pipelinerunstarttime: "1785250936000"
+    test.appstudio.openshift.io/pr-status: merged
+    test.appstudio.openshift.io/result-chains-git-commit: 300fbe089a5a232d48779de4715d23508fd59994
+    test.appstudio.openshift.io/result-chains-git-url: https://github.com/os-observability/konflux-opentelemetry
+    test.appstudio.openshift.io/result-image-digest: sha256:bee924b8133e498ddfbd7ebe69270006441d99a2312881a62bbc17e6345527a5
+    test.appstudio.openshift.io/result-image-url: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle:300fbe089a5a232d48779de4715d23508fd59994
+    test.appstudio.openshift.io/source-repo-url: https://github.com/os-observability/konflux-opentelemetry
+    test.appstudio.openshift.io/status: '[{"scenario":"otel-e2e-tests-4-14-main","status":"TestFail","lastUpdateTime":"2026-07-28T15:24:00.899050784Z","details":"Integration
+      test failed","startTime":"2026-07-28T15:09:12.337826717Z","completionTime":"2026-07-28T15:24:00.899050784Z","testPipelineRunName":"otel-e2e-tests-4-14-main-z4wwt","isOptionalScenario":true},{"scenario":"otel-e2e-tests-4-18-main","status":"TestPassed","lastUpdateTime":"2026-07-28T16:06:25.022972218Z","details":"Integration
+      test passed","startTime":"2026-07-28T15:09:12.406975769Z","completionTime":"2026-07-28T16:06:25.022972218Z","testPipelineRunName":"otel-e2e-tests-4-18-main-nvxjv","isOptionalScenario":true}]'
+  creationTimestamp: "2026-07-28T15:09:12Z"
+  generation: 1
+  labels:
+    appstudio.openshift.io/application: otel-main
+    appstudio.openshift.io/build-pipelinerun: otel-bundle-main-on-push-xv5ml
+    appstudio.openshift.io/component: otel-bundle-main
+    pac.test.appstudio.openshift.io/check-run-id: "90315097935"
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/original-prname: otel-bundle-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "924"
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/sha: 300fbe089a5a232d48779de4715d23508fd59994
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+    test.appstudio.openshift.io/pipelinerunfinishtime: "1785251225"
+    test.appstudio.openshift.io/type: component
+  name: otel-main-20260728-150216-000
+  namespace: rhosdt-tenant
+  ownerReferences:
+  - apiVersion: appstudio.redhat.com/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Application
+    name: otel-main
+    uid: d9194d4f-753a-4875-9d59-3f91f7f255cd
+  resourceVersion: "10215376462"
+  uid: 47d61da4-9b17-472e-878c-8892d40a20a4
+spec:
+  application: otel-main
+  artifacts: {}
+  componentGroup: ""
+  components:
+  - containerImage: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-operator@sha256:ba7758f917753f6499fac6166f319996d3b33fd13778c2cfd5b3b78a656863fd
+    name: otel-operator-main
+    source:
+      git:
+        context: ./
+        dockerfileUrl: Dockerfile.operator
+        revision: 638054da062b2b9ecdd41c907d5cb0777a2e4e2d
+        url: https://github.com/os-observability/konflux-opentelemetry.git
+    version: ""
+  - containerImage: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle@sha256:bee924b8133e498ddfbd7ebe69270006441d99a2312881a62bbc17e6345527a5
+    name: otel-bundle-main
+    source:
+      git:
+        context: ./
+        revision: 300fbe089a5a232d48779de4715d23508fd59994
+        url: https://github.com/os-observability/konflux-opentelemetry
+    version: ""
+  - containerImage: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-target-allocator@sha256:1e284676dc3f9a3725c53607d4ad40543fe9abeed606026d26d3319c234b6b49
+    name: otel-target-allocator-main
+    source:
+      git:
+        context: ./
+        dockerfileUrl: Dockerfile.targetallocator
+        revision: 638054da062b2b9ecdd41c907d5cb0777a2e4e2d
+        url: https://github.com/os-observability/konflux-opentelemetry.git
+    version: ""
+  - containerImage: quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-collector@sha256:3bca60aec10888e9bc26ecd605e588fbc397612e1c63d921e860a5729dc751dc
+    name: otel-collector-main
+    source:
+      git:
+        context: ./
+        dockerfileUrl: Dockerfile.collector
+        revision: 638054da062b2b9ecdd41c907d5cb0777a2e4e2d
+        url: https://github.com/os-observability/konflux-opentelemetry.git
+    version: ""
+status:
+  conditions:
+  - lastTransitionTime: "2026-07-28T15:09:13Z"
+    message: Snapshot integration status condition is finished since there are no
+      required testing pipelines defined for its application
+    reason: Finished
+    status: "True"
+    type: AppStudioIntegrationStatus
+  - lastTransitionTime: "2026-07-28T15:09:12Z"
+    message: No required IntegrationTestScenarios found, skipped testing
+    reason: Passed
+    status: "True"
+    type: AppStudioTestSucceeded
+  - lastTransitionTime: "2026-07-28T15:09:12Z"
+    message: The Snapshot was auto-released
+    reason: AutoReleased
+    status: "True"
+    type: AutoReleased
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  annotations:
+    pac.test.appstudio.openshift.io/branch: main
+    pac.test.appstudio.openshift.io/check-run-id: "90315097935"
+    pac.test.appstudio.openshift.io/controller-info: '{"name":"default","configmap":"pipelines-as-code","secret":"pipelines-as-code-secret",
+      "gRepo": "pipelines-as-code"}'
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/git-auth-secret: pac-gitauth-nphuft
+    pac.test.appstudio.openshift.io/git-provider: github
+    pac.test.appstudio.openshift.io/installation-id: "54445919"
+    pac.test.appstudio.openshift.io/log-url: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhosdt-tenant/pipelinerun/otel-bundle-main-on-push-xv5ml
+    pac.test.appstudio.openshift.io/max-keep-runs: "3"
+    pac.test.appstudio.openshift.io/on-cel-expression: event == "push" && target_branch
+      == "main" && (".tekton/single-arch-build-pipeline.yaml".pathChanged() || ".tekton/otel-bundle-pull-request.yaml".pathChanged()
+      || ".tekton/otel-bundle-push.yaml".pathChanged() || "Dockerfile.bundle".pathChanged()
+      || "bundle-patch/***".pathChanged() || "opentelemetry-operator".pathChanged())
+    pac.test.appstudio.openshift.io/original-prname: otel-bundle-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "924"
+    pac.test.appstudio.openshift.io/repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/scm-reporting-plr-started: "true"
+    pac.test.appstudio.openshift.io/secret-created: "true"
+    pac.test.appstudio.openshift.io/sender: frzifus
+    pac.test.appstudio.openshift.io/sha: 300fbe089a5a232d48779de4715d23508fd59994
+    pac.test.appstudio.openshift.io/sha-title: Update bundle [release-driver] (#924)
+    pac.test.appstudio.openshift.io/sha-url: https://github.com/os-observability/konflux-opentelemetry/commit/300fbe089a5a232d48779de4715d23508fd59994
+    pac.test.appstudio.openshift.io/source-branch: refs/heads/main
+    pac.test.appstudio.openshift.io/source-repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+  creationTimestamp: "2026-07-28T15:09:12Z"
+  finalizers:
+  - appstudio.redhat.com/release-finalizer
+  generateName: otel-main-20260728-150216-000-300fbe0-
+  generation: 1
+  labels:
+    appstudio.openshift.io/application: otel-main
+    appstudio.openshift.io/build-pipelinerun: otel-bundle-main-on-push-xv5ml
+    appstudio.openshift.io/component: otel-bundle-main
+    pac.test.appstudio.openshift.io/check-run-id: "90315097935"
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/original-prname: otel-bundle-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "924"
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/sha: 300fbe089a5a232d48779de4715d23508fd59994
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+    release.appstudio.openshift.io/automated: "true"
+    release.appstudio.openshift.io/releasePlan: otel-stage-main
+    release.appstudio.openshift.io/snapshot: otel-main-20260728-150216-000
+  name: otel-main-20260728-150216-000-300fbe0-vrxdm
+  namespace: rhosdt-tenant
+  resourceVersion: "10214553196"
+  uid: 198741b7-fd73-4f2e-bf1e-e16c67059481
+spec:
+  gracePeriodDays: 7
+  releasePlan: otel-stage-main
+  snapshot: otel-main-20260728-150216-000
+status:
+  artifacts:
+    advisory:
+      internal_url: https://gitlab.cee.redhat.com/rhtap-release/advisories/-/raw/main/data/advisories/rhosdt-tenant/2026/93183/advisory.yaml
+      url: https://access.stage.redhat.com/errata/RHBA-2026:93183
+    catalog_urls:
+    - name: otel-bundle-main
+      url: https://catalog.stage.redhat.com/software/containers/rhosdt/opentelemetry-operator-bundle/62246e88b1c361077335895e
+    - name: otel-collector-main
+      url: https://catalog.stage.redhat.com/software/containers/rhosdt/opentelemetry-collector-rhel9/698d424abf6b9e27cceeda7b
+    - name: otel-operator-main
+      url: https://catalog.stage.redhat.com/software/containers/rhosdt/opentelemetry-rhel9-operator/698c85b6f697bb61633a4d8b
+    - name: otel-target-allocator-main
+      url: https://catalog.stage.redhat.com/software/containers/rhosdt/opentelemetry-target-allocator-rhel9/698d424d5df37a69b28046bb
+    images:
+    - arches:
+      - amd64
+      name: otel-bundle-main
+      oses:
+      - linux
+      shasum: sha256:bee924b8133e498ddfbd7ebe69270006441d99a2312881a62bbc17e6345527a5
+      urls:
+      - quay.io/redhat-pending/rhosdt----opentelemetry-operator-bundle:1785251050-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-operator-bundle:1785251050
+      - quay.io/redhat-pending/rhosdt----opentelemetry-operator-bundle:1785251932-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-operator-bundle:1785251932
+      - quay.io/redhat-pending/rhosdt----opentelemetry-operator-bundle:300fbe089a5a232d48779de4715d23508fd59994-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-operator-bundle:300fbe089a5a232d48779de4715d23508fd59994
+      - quay.io/redhat-pending/rhosdt----opentelemetry-operator-bundle:latest-1785251050-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-operator-bundle:latest-1785251050
+      - quay.io/redhat-pending/rhosdt----opentelemetry-operator-bundle:latest-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-operator-bundle:latest
+      - quay.io/redhat-pending/rhosdt----opentelemetry-operator-bundle:sha256-bee924b8133e498ddfbd7ebe69270006441d99a2312881a62bbc17e6345527a5.src
+    - arches:
+      - amd64
+      - arm64
+      - ppc64le
+      - s390x
+      name: otel-collector-main
+      oses:
+      - linux
+      - linux
+      - linux
+      - linux
+      shasum: sha256:3bca60aec10888e9bc26ecd605e588fbc397612e1c63d921e860a5729dc751dc
+      urls:
+      - quay.io/redhat-pending/rhosdt----opentelemetry-collector-rhel9:1785238897-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-collector-rhel9:1785238897
+      - quay.io/redhat-pending/rhosdt----opentelemetry-collector-rhel9:1785251932-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-collector-rhel9:1785251932
+      - quay.io/redhat-pending/rhosdt----opentelemetry-collector-rhel9:638054da062b2b9ecdd41c907d5cb0777a2e4e2d-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-collector-rhel9:638054da062b2b9ecdd41c907d5cb0777a2e4e2d
+      - quay.io/redhat-pending/rhosdt----opentelemetry-collector-rhel9:latest-1785238897-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-collector-rhel9:latest-1785238897
+      - quay.io/redhat-pending/rhosdt----opentelemetry-collector-rhel9:latest-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-collector-rhel9:latest
+      - quay.io/redhat-pending/rhosdt----opentelemetry-collector-rhel9:sha256-3bca60aec10888e9bc26ecd605e588fbc397612e1c63d921e860a5729dc751dc.src
+    - arches:
+      - amd64
+      - arm64
+      - ppc64le
+      - s390x
+      name: otel-operator-main
+      oses:
+      - linux
+      - linux
+      - linux
+      - linux
+      shasum: sha256:ba7758f917753f6499fac6166f319996d3b33fd13778c2cfd5b3b78a656863fd
+      urls:
+      - quay.io/redhat-pending/rhosdt----opentelemetry-rhel9-operator:1785237593-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-rhel9-operator:1785237593
+      - quay.io/redhat-pending/rhosdt----opentelemetry-rhel9-operator:1785251932-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-rhel9-operator:1785251932
+      - quay.io/redhat-pending/rhosdt----opentelemetry-rhel9-operator:638054da062b2b9ecdd41c907d5cb0777a2e4e2d-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-rhel9-operator:638054da062b2b9ecdd41c907d5cb0777a2e4e2d
+      - quay.io/redhat-pending/rhosdt----opentelemetry-rhel9-operator:latest-1785237593-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-rhel9-operator:latest-1785237593
+      - quay.io/redhat-pending/rhosdt----opentelemetry-rhel9-operator:latest-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-rhel9-operator:latest
+      - quay.io/redhat-pending/rhosdt----opentelemetry-rhel9-operator:sha256-ba7758f917753f6499fac6166f319996d3b33fd13778c2cfd5b3b78a656863fd.src
+    - arches:
+      - amd64
+      - arm64
+      - ppc64le
+      - s390x
+      name: otel-target-allocator-main
+      oses:
+      - linux
+      - linux
+      - linux
+      - linux
+      shasum: sha256:1e284676dc3f9a3725c53607d4ad40543fe9abeed606026d26d3319c234b6b49
+      urls:
+      - quay.io/redhat-pending/rhosdt----opentelemetry-target-allocator-rhel9:1785246801-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-target-allocator-rhel9:1785246801
+      - quay.io/redhat-pending/rhosdt----opentelemetry-target-allocator-rhel9:1785251932-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-target-allocator-rhel9:1785251932
+      - quay.io/redhat-pending/rhosdt----opentelemetry-target-allocator-rhel9:638054da062b2b9ecdd41c907d5cb0777a2e4e2d-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-target-allocator-rhel9:638054da062b2b9ecdd41c907d5cb0777a2e4e2d
+      - quay.io/redhat-pending/rhosdt----opentelemetry-target-allocator-rhel9:latest-1785246801-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-target-allocator-rhel9:latest-1785246801
+      - quay.io/redhat-pending/rhosdt----opentelemetry-target-allocator-rhel9:latest-source
+      - quay.io/redhat-pending/rhosdt----opentelemetry-target-allocator-rhel9:latest
+      - quay.io/redhat-pending/rhosdt----opentelemetry-target-allocator-rhel9:sha256-1e284676dc3f9a3725c53607d4ad40543fe9abeed606026d26d3319c234b6b49.src
+    sboms:
+      component:
+      - https://atlas.release.stage.devshift.net/sboms/urn:uuid:019fa956-dd7b-7772-8e5d-cf4ee6a87b6f
+      - https://atlas.release.stage.devshift.net/sboms/urn:uuid:019fa956-dc3b-7d50-9667-24b71d59f7a9
+      - https://atlas.release.stage.devshift.net/sboms/urn:uuid:019fa956-dc48-7a73-9d9e-21b4d23afe2c
+      - https://atlas.release.stage.devshift.net/sboms/urn:uuid:019fa956-dd6a-7892-b063-c300d812033e
+      - https://atlas.release.stage.devshift.net/sboms/urn:uuid:019fa956-dd6a-7892-b063-c2f3059ca9cb
+      - https://atlas.release.stage.devshift.net/sboms/urn:uuid:019fa956-dc3d-7c82-9b77-e99f40d98cd1
+      - https://atlas.release.stage.devshift.net/sboms/urn:uuid:019fa956-dd72-7950-b5da-0e52e00f7b34
+      - https://atlas.release.stage.devshift.net/sboms/urn:uuid:019fa956-dca4-7611-89d1-e508ac6e5c1a
+      - https://atlas.release.stage.devshift.net/sboms/urn:uuid:019fa956-dd77-7231-880c-f4877dff5e2e
+      - https://atlas.release.stage.devshift.net/sboms/urn:uuid:019fa956-dea6-7851-9dba-8a27821c5d77
+      - https://atlas.release.stage.devshift.net/sboms/urn:uuid:019fa956-df42-75d0-8412-82b713a1f258
+      - https://atlas.release.stage.devshift.net/sboms/urn:uuid:019fa956-e321-7ff1-89e5-34464eaaf294
+      - https://atlas.release.stage.devshift.net/sboms/urn:uuid:019fa956-e3c3-7c51-97dd-308f13bbc997
+      - https://atlas.release.stage.devshift.net/sboms/urn:uuid:019fa956-e512-7c83-9b8e-79be2909f657
+      - https://atlas.release.stage.devshift.net/sboms/urn:uuid:019fa956-e580-7cf3-8518-f0b8f27b0b66
+      - https://atlas.release.stage.devshift.net/sboms/urn:uuid:019fa956-e580-7cf3-8518-f0ad25976b4a
+      product:
+      - https://atlas.release.stage.devshift.net/sboms/urn:uuid:019fa953-9878-77c1-bad0-52c4379d7c2b
+  attribution:
+    author: system_serviceaccount_project-controller_project-controller-con
+    standingAuthorization: true
+  automated: true
+  collectorsProcessing:
+    managedCollectorsProcessing:
+      roleBindings: {}
+    tenantCollectorsProcessing:
+      roleBindings: {}
+  completionTime: "2026-07-28T15:28:16Z"
+  conditions:
+  - lastTransitionTime: "2026-07-28T15:28:16Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Released
+  - lastTransitionTime: "2026-07-28T15:09:12Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Validated
+  - lastTransitionTime: "2026-07-28T15:09:12Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T15:09:12Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: ManagedCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T15:09:12Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantPipelineProcessed
+  - lastTransitionTime: "2026-07-28T15:28:16Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: ManagedPipelineProcessed
+  - lastTransitionTime: "2026-07-28T15:28:16Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: FinalPipelineProcessed
+  expirationTime: "2026-08-04T15:09:12Z"
+  finalProcessing:
+    roleBindings: {}
+  managedProcessing:
+    completionTime: "2026-07-28T15:28:16Z"
+    pipelineRun: rhtap-releng-tenant/managed-r52dw
+    roleBindings:
+      tenantRoleBinding: rhosdt-tenant/otel-main-20260728-150216-000-300fbe0-vrxdm-rolebinding-focnfrs
+    startTime: "2026-07-28T15:09:23Z"
+  startTime: "2026-07-28T15:09:12Z"
+  target: rhtap-releng-tenant
+  tenantProcessing:
+    roleBindings: {}
+  validation:
+    time: "2026-07-28T15:09:12Z"

@@ -1,0 +1,133 @@
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  name: otel-prod-otel-fbc-v4-12-main-20260728-180049-000
+  namespace: rhosdt-tenant
+  labels:
+    release.appstudio.openshift.io/author: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+spec:
+  releasePlan: otel-prod-fbc-v4-12-main
+  snapshot: otel-fbc-v4-12-main-20260728-180049-000
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  name: otel-prod-otel-fbc-v4-13-main-20260728-180403-000
+  namespace: rhosdt-tenant
+  labels:
+    release.appstudio.openshift.io/author: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+spec:
+  releasePlan: otel-prod-fbc-v4-13-main
+  snapshot: otel-fbc-v4-13-main-20260728-180403-000
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  name: otel-prod-otel-fbc-v4-14-main-20260728-175219-000
+  namespace: rhosdt-tenant
+  labels:
+    release.appstudio.openshift.io/author: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+spec:
+  releasePlan: otel-prod-fbc-v4-14-main
+  snapshot: otel-fbc-v4-14-main-20260728-175219-000
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  name: otel-prod-otel-fbc-v4-15-main-20260728-175136-000
+  namespace: rhosdt-tenant
+  labels:
+    release.appstudio.openshift.io/author: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+spec:
+  releasePlan: otel-prod-fbc-v4-15-main
+  snapshot: otel-fbc-v4-15-main-20260728-175136-000
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  name: otel-prod-otel-fbc-v4-16-main-20260728-175922-000
+  namespace: rhosdt-tenant
+  labels:
+    release.appstudio.openshift.io/author: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+spec:
+  releasePlan: otel-prod-fbc-v4-16-main
+  snapshot: otel-fbc-v4-16-main-20260728-175922-000
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  name: otel-prod-otel-fbc-v4-17-main-20260728-180047-000
+  namespace: rhosdt-tenant
+  labels:
+    release.appstudio.openshift.io/author: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+spec:
+  releasePlan: otel-prod-fbc-v4-17-main
+  snapshot: otel-fbc-v4-17-main-20260728-180047-000
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  name: otel-prod-otel-fbc-v4-18-main-20260728-175235-000
+  namespace: rhosdt-tenant
+  labels:
+    release.appstudio.openshift.io/author: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+spec:
+  releasePlan: otel-prod-fbc-v4-18-main
+  snapshot: otel-fbc-v4-18-main-20260728-175235-000
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  name: otel-prod-otel-fbc-v4-19-main-20260728-175144-000
+  namespace: rhosdt-tenant
+  labels:
+    release.appstudio.openshift.io/author: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+spec:
+  releasePlan: otel-prod-fbc-v4-19-main
+  snapshot: otel-fbc-v4-19-main-20260728-175144-000
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  name: otel-prod-otel-fbc-v4-20-main-20260728-175657-000
+  namespace: rhosdt-tenant
+  labels:
+    release.appstudio.openshift.io/author: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+spec:
+  releasePlan: otel-prod-fbc-v4-20-main
+  snapshot: otel-fbc-v4-20-main-20260728-175657-000
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  name: otel-prod-otel-fbc-v4-21-main-20260728-175220-000
+  namespace: rhosdt-tenant
+  labels:
+    release.appstudio.openshift.io/author: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+spec:
+  releasePlan: otel-prod-fbc-v4-21-main
+  snapshot: otel-fbc-v4-21-main-20260728-175220-000
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  name: otel-prod-otel-fbc-v4-22-main-20260728-175207-000
+  namespace: rhosdt-tenant
+  labels:
+    release.appstudio.openshift.io/author: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+spec:
+  releasePlan: otel-prod-fbc-v4-22-main
+  snapshot: otel-fbc-v4-22-main-20260728-175207-000
+

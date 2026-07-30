@@ -1,0 +1,1580 @@
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  annotations:
+    pac.test.appstudio.openshift.io/branch: main
+    pac.test.appstudio.openshift.io/check-run-id: "90361166706"
+    pac.test.appstudio.openshift.io/controller-info: '{"name":"default","configmap":"pipelines-as-code","secret":"pipelines-as-code-secret",
+      "gRepo": "pipelines-as-code"}'
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/git-auth-secret: pac-gitauth-xouypu
+    pac.test.appstudio.openshift.io/git-provider: github
+    pac.test.appstudio.openshift.io/installation-id: "54445919"
+    pac.test.appstudio.openshift.io/log-url: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhosdt-tenant/pipelinerun/otel-fbc-v4-12-main-on-push-rz9ls
+    pac.test.appstudio.openshift.io/max-keep-runs: "3"
+    pac.test.appstudio.openshift.io/on-cel-expression: event == "push" && target_branch
+      == "main" && (".tekton/fbc-build-pipeline.yaml".pathChanged() || ".tekton/otel-fbc-v4-12-pull-request.yaml".pathChanged()
+      || ".tekton/otel-fbc-v4-12-push.yaml".pathChanged() || "Dockerfile-v4-12.catalog".pathChanged()
+      || "catalog/***".pathChanged())
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-12-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/scm-reporting-plr-started: "true"
+    pac.test.appstudio.openshift.io/secret-created: "true"
+    pac.test.appstudio.openshift.io/sender: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/sha-title: Update catalog [release-driver] (#927)
+    pac.test.appstudio.openshift.io/sha-url: https://github.com/os-observability/konflux-opentelemetry/commit/e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/source-branch: refs/heads/main
+    pac.test.appstudio.openshift.io/source-repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+  creationTimestamp: "2026-07-28T21:13:48Z"
+  finalizers:
+  - appstudio.redhat.com/release-finalizer
+  generateName: otel-fbc-v4-12-main-20260728-180049-000-e72a607-cskfk-rerun-
+  generation: 1
+  labels:
+    appstudio.openshift.io/application: otel-fbc-v4-12-main
+    appstudio.openshift.io/build-pipelinerun: otel-fbc-v4-12-main-on-push-rz9ls
+    appstudio.openshift.io/component: otel-fbc-v4-12-main
+    pac.test.appstudio.openshift.io/check-run-id: "90361166706"
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-12-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+    release.appstudio.openshift.io/author: bbongart
+    release.appstudio.openshift.io/automated: "false"
+    release.appstudio.openshift.io/releasePlan: otel-stage-fbc-v4-12-main
+    release.appstudio.openshift.io/snapshot: otel-fbc-v4-12-main-20260728-180049-000
+  name: otel-fbc-v4-12-main-20260728-180049-000-e72a607-cskfk-rerup99n6
+  namespace: rhosdt-tenant
+  resourceVersion: "10222330060"
+  uid: 45e4d333-8550-4eb1-b3b0-7d771aab6712
+spec:
+  gracePeriodDays: 7
+  releasePlan: otel-stage-fbc-v4-12-main
+  snapshot: otel-fbc-v4-12-main-20260728-180049-000
+status:
+  artifacts:
+    components:
+    - completion_time: "1785266558"
+      fbc_fragment: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-12@sha256:375e838eb05699f9bf0df7f01748fe33a71ca64ed24a4a72041fb19cb7844029
+      iibLog: |
+        IIB log url is: https://iib.engineering.redhat.com/api/v1/builds/1185876/logs
+      image_digests:
+      - sha256:e79f76513a5f3401901cc90db02d33b055474a60c0d5bf60729a4f15ef1e6261
+      - sha256:871400684852f9675274fada79791210163d750088196a86459ccae47d873b32
+      - sha256:b249fb1f6b14addf1bb55d2243c2d1e7fd687e2b5529183c1db824dc0a63aebb
+      - sha256:32df26d8af9b90b0f2a4bbd4509ef6c6890e95879e970b0514033df1b4abcfc8
+      index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185876
+      index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:5566fce74b116308d5e1a3044a7af008445ebb63fea5b51107ff4a15e2ebd909
+      ocp_version: v4.12
+      target_index: ""
+    index_image:
+      v4.12:
+        index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185876
+        index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:5566fce74b116308d5e1a3044a7af008445ebb63fea5b51107ff4a15e2ebd909
+  attribution:
+    author: bbongart
+  collectorsProcessing:
+    managedCollectorsProcessing:
+      roleBindings: {}
+    tenantCollectorsProcessing:
+      roleBindings: {}
+  completionTime: "2026-07-28T21:29:08Z"
+  conditions:
+  - lastTransitionTime: "2026-07-28T21:29:08Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Released
+  - lastTransitionTime: "2026-07-28T21:13:48Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Validated
+  - lastTransitionTime: "2026-07-28T21:13:48Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T21:13:48Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: ManagedCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T21:13:48Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantPipelineProcessed
+  - lastTransitionTime: "2026-07-28T21:29:08Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: ManagedPipelineProcessed
+  - lastTransitionTime: "2026-07-28T21:29:08Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: FinalPipelineProcessed
+  expirationTime: "2026-08-04T21:13:48Z"
+  finalProcessing:
+    roleBindings: {}
+  managedProcessing:
+    completionTime: "2026-07-28T21:29:08Z"
+    pipelineRun: rhtap-releng-tenant/managed-fdljb
+    roleBindings:
+      tenantRoleBinding: rhosdt-tenant/otel-fbc-v4-12-main-20260728-180049-000-e72a607-cskfk-reru2x62z
+    startTime: "2026-07-28T21:13:58Z"
+  startTime: "2026-07-28T21:13:48Z"
+  target: rhtap-releng-tenant
+  tenantProcessing:
+    roleBindings: {}
+  validation:
+    time: "2026-07-28T21:13:48Z"
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  annotations:
+    pac.test.appstudio.openshift.io/branch: main
+    pac.test.appstudio.openshift.io/check-run-id: "90361166748"
+    pac.test.appstudio.openshift.io/controller-info: '{"name":"default","configmap":"pipelines-as-code","secret":"pipelines-as-code-secret",
+      "gRepo": "pipelines-as-code"}'
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/git-auth-secret: pac-gitauth-ganrjg
+    pac.test.appstudio.openshift.io/git-provider: github
+    pac.test.appstudio.openshift.io/installation-id: "54445919"
+    pac.test.appstudio.openshift.io/log-url: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhosdt-tenant/pipelinerun/otel-fbc-v4-13-main-on-push-8zssq
+    pac.test.appstudio.openshift.io/max-keep-runs: "3"
+    pac.test.appstudio.openshift.io/on-cel-expression: event == "push" && target_branch
+      == "main" && (".tekton/fbc-build-pipeline.yaml".pathChanged() || ".tekton/otel-fbc-v4-13-pull-request.yaml".pathChanged()
+      || ".tekton/otel-fbc-v4-13-push.yaml".pathChanged() || "Dockerfile-v4-13.catalog".pathChanged()
+      || "catalog/***".pathChanged())
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-13-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/scm-reporting-plr-started: "true"
+    pac.test.appstudio.openshift.io/secret-created: "true"
+    pac.test.appstudio.openshift.io/sender: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/sha-title: Update catalog [release-driver] (#927)
+    pac.test.appstudio.openshift.io/sha-url: https://github.com/os-observability/konflux-opentelemetry/commit/e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/source-branch: refs/heads/main
+    pac.test.appstudio.openshift.io/source-repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+  creationTimestamp: "2026-07-28T21:14:02Z"
+  finalizers:
+  - appstudio.redhat.com/release-finalizer
+  generateName: otel-fbc-v4-13-main-20260728-180403-000-e72a607-nflmr-rerun-
+  generation: 1
+  labels:
+    appstudio.openshift.io/application: otel-fbc-v4-13-main
+    appstudio.openshift.io/build-pipelinerun: otel-fbc-v4-13-main-on-push-8zssq
+    appstudio.openshift.io/component: otel-fbc-v4-13-main
+    pac.test.appstudio.openshift.io/check-run-id: "90361166748"
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-13-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+    release.appstudio.openshift.io/author: bbongart
+    release.appstudio.openshift.io/automated: "false"
+    release.appstudio.openshift.io/releasePlan: otel-stage-fbc-v4-13-main
+    release.appstudio.openshift.io/snapshot: otel-fbc-v4-13-main-20260728-180403-000
+  name: otel-fbc-v4-13-main-20260728-180403-000-e72a607-nflmr-reruhbhzl
+  namespace: rhosdt-tenant
+  resourceVersion: "10222243644"
+  uid: afe12cea-7a6c-4f19-93d7-2b64636700f6
+spec:
+  gracePeriodDays: 7
+  releasePlan: otel-stage-fbc-v4-13-main
+  snapshot: otel-fbc-v4-13-main-20260728-180403-000
+status:
+  artifacts:
+    components:
+    - completion_time: "1785266063"
+      fbc_fragment: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-13@sha256:6b3207f38362c785d11892e3c3e50ace0252395b865b59f33b7b5c2b6b8d7ce0
+      iibLog: |
+        IIB log url is: https://iib.engineering.redhat.com/api/v1/builds/1185866/logs
+      image_digests:
+      - sha256:40d4b6b51630e4713878b4f466db29e672ee327c416d251d4e7b75f4622eea53
+      - sha256:4002874e55f2727bdc4d8d80919fe86468015ff69131bf3837a84e7c8f870865
+      - sha256:788072d5d882f795db79ec7249e022b013d38bb2a21132b0e24225569f4e80d9
+      - sha256:8665956e29dd3c7c16d1fc30455f5651b2cfe5b5d48555faa48371fd97f7682c
+      index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185866
+      index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:30ae1512affeaaa1ce0dff90b61ac36d1cb597d77700b7923a7558ff80734f73
+      ocp_version: v4.13
+      target_index: ""
+    index_image:
+      v4.13:
+        index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185866
+        index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:30ae1512affeaaa1ce0dff90b61ac36d1cb597d77700b7923a7558ff80734f73
+  attribution:
+    author: bbongart
+  collectorsProcessing:
+    managedCollectorsProcessing:
+      roleBindings: {}
+    tenantCollectorsProcessing:
+      roleBindings: {}
+  completionTime: "2026-07-28T21:22:44Z"
+  conditions:
+  - lastTransitionTime: "2026-07-28T21:22:44Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Released
+  - lastTransitionTime: "2026-07-28T21:14:02Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Validated
+  - lastTransitionTime: "2026-07-28T21:14:02Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T21:14:02Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: ManagedCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T21:14:02Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantPipelineProcessed
+  - lastTransitionTime: "2026-07-28T21:22:44Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: ManagedPipelineProcessed
+  - lastTransitionTime: "2026-07-28T21:22:44Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: FinalPipelineProcessed
+  expirationTime: "2026-08-04T21:14:02Z"
+  finalProcessing:
+    roleBindings: {}
+  managedProcessing:
+    completionTime: "2026-07-28T21:22:44Z"
+    pipelineRun: rhtap-releng-tenant/managed-gw2lq
+    roleBindings:
+      tenantRoleBinding: rhosdt-tenant/otel-fbc-v4-13-main-20260728-180403-000-e72a607-nflmr-reruzdvl4
+    startTime: "2026-07-28T21:14:12Z"
+  startTime: "2026-07-28T21:14:02Z"
+  target: rhtap-releng-tenant
+  tenantProcessing:
+    roleBindings: {}
+  validation:
+    time: "2026-07-28T21:14:02Z"
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  annotations:
+    pac.test.appstudio.openshift.io/branch: main
+    pac.test.appstudio.openshift.io/check-run-id: "90361169738"
+    pac.test.appstudio.openshift.io/controller-info: '{"name":"default","configmap":"pipelines-as-code","secret":"pipelines-as-code-secret",
+      "gRepo": "pipelines-as-code"}'
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/git-auth-secret: pac-gitauth-ezlpoy
+    pac.test.appstudio.openshift.io/git-provider: github
+    pac.test.appstudio.openshift.io/installation-id: "54445919"
+    pac.test.appstudio.openshift.io/log-url: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhosdt-tenant/pipelinerun/otel-fbc-v4-14-main-on-push-2c76f
+    pac.test.appstudio.openshift.io/max-keep-runs: "3"
+    pac.test.appstudio.openshift.io/on-cel-expression: event == "push" && target_branch
+      == "main" && (".tekton/fbc-build-pipeline.yaml".pathChanged() || ".tekton/otel-fbc-v4-14-pull-request.yaml".pathChanged()
+      || ".tekton/otel-fbc-v4-14-push.yaml".pathChanged() || "Dockerfile-v4-14.catalog".pathChanged()
+      || "catalog/***".pathChanged())
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-14-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/scm-reporting-plr-started: "true"
+    pac.test.appstudio.openshift.io/secret-created: "true"
+    pac.test.appstudio.openshift.io/sender: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/sha-title: Update catalog [release-driver] (#927)
+    pac.test.appstudio.openshift.io/sha-url: https://github.com/os-observability/konflux-opentelemetry/commit/e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/source-branch: refs/heads/main
+    pac.test.appstudio.openshift.io/source-repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+  creationTimestamp: "2026-07-28T21:14:13Z"
+  finalizers:
+  - appstudio.redhat.com/release-finalizer
+  generateName: otel-fbc-v4-14-main-20260728-175219-000-e72a607-vzskf-rerun-
+  generation: 1
+  labels:
+    appstudio.openshift.io/application: otel-fbc-v4-14-main
+    appstudio.openshift.io/build-pipelinerun: otel-fbc-v4-14-main-on-push-2c76f
+    appstudio.openshift.io/component: otel-fbc-v4-14-main
+    pac.test.appstudio.openshift.io/check-run-id: "90361169738"
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-14-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+    release.appstudio.openshift.io/author: bbongart
+    release.appstudio.openshift.io/automated: "false"
+    release.appstudio.openshift.io/releasePlan: otel-stage-fbc-v4-14-main
+    release.appstudio.openshift.io/snapshot: otel-fbc-v4-14-main-20260728-175219-000
+  name: otel-fbc-v4-14-main-20260728-175219-000-e72a607-vzskf-reru77gzw
+  namespace: rhosdt-tenant
+  resourceVersion: "10222212020"
+  uid: c9ece8b0-f02c-4071-ae66-2f7f49b2502d
+spec:
+  gracePeriodDays: 7
+  releasePlan: otel-stage-fbc-v4-14-main
+  snapshot: otel-fbc-v4-14-main-20260728-175219-000
+status:
+  artifacts:
+    components:
+    - completion_time: "1785266611"
+      fbc_fragment: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-14@sha256:d113259767aacf8cbfd25808a2df58cbb6273ee0f7caff2f2c663e7b79f45c51
+      iibLog: |
+        IIB log url is: https://iib.engineering.redhat.com/api/v1/builds/1185877/logs
+      image_digests:
+      - sha256:784f3a6a8936be2fe6cdeb164a006d54518ec02a82029b7b98a870255bf1fa14
+      - sha256:64f5a123c5a0b57b05a9245002d9aade7934e087345819161971b8f5a416ff40
+      - sha256:de0213ee47000e4c541262a0d6c63abe47886a7e137c2b3b3abadc8a53640d97
+      - sha256:4a41288c54641fb3c5ce6ddd13e01f8a2d06b9db7008893e6750509399821f29
+      index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185877
+      index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:f08ad2e450861f24c03f8bd04cafeefc47cb7b4b25fd0125c520eeedb3e0645a
+      ocp_version: v4.14
+      target_index: ""
+    index_image:
+      v4.14:
+        index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185877
+        index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:f08ad2e450861f24c03f8bd04cafeefc47cb7b4b25fd0125c520eeedb3e0645a
+  attribution:
+    author: bbongart
+  collectorsProcessing:
+    managedCollectorsProcessing:
+      roleBindings: {}
+    tenantCollectorsProcessing:
+      roleBindings: {}
+  completionTime: "2026-07-28T21:20:33Z"
+  conditions:
+  - lastTransitionTime: "2026-07-28T21:20:33Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Released
+  - lastTransitionTime: "2026-07-28T21:14:13Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Validated
+  - lastTransitionTime: "2026-07-28T21:14:13Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T21:14:13Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: ManagedCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T21:14:13Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantPipelineProcessed
+  - lastTransitionTime: "2026-07-28T21:20:33Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: ManagedPipelineProcessed
+  - lastTransitionTime: "2026-07-28T21:20:33Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: FinalPipelineProcessed
+  expirationTime: "2026-08-04T21:14:13Z"
+  finalProcessing:
+    roleBindings: {}
+  managedProcessing:
+    completionTime: "2026-07-28T21:20:33Z"
+    pipelineRun: rhtap-releng-tenant/managed-jpsr4
+    roleBindings:
+      tenantRoleBinding: rhosdt-tenant/otel-fbc-v4-14-main-20260728-175219-000-e72a607-vzskf-reru6vrmr
+    startTime: "2026-07-28T21:14:23Z"
+  startTime: "2026-07-28T21:14:13Z"
+  target: rhtap-releng-tenant
+  tenantProcessing:
+    roleBindings: {}
+  validation:
+    time: "2026-07-28T21:14:13Z"
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  annotations:
+    pac.test.appstudio.openshift.io/branch: main
+    pac.test.appstudio.openshift.io/check-run-id: "90361166905"
+    pac.test.appstudio.openshift.io/controller-info: '{"name":"default","configmap":"pipelines-as-code","secret":"pipelines-as-code-secret",
+      "gRepo": "pipelines-as-code"}'
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/git-auth-secret: pac-gitauth-okyrzt
+    pac.test.appstudio.openshift.io/git-provider: github
+    pac.test.appstudio.openshift.io/installation-id: "54445919"
+    pac.test.appstudio.openshift.io/log-url: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhosdt-tenant/pipelinerun/otel-fbc-v4-15-main-on-push-sdspj
+    pac.test.appstudio.openshift.io/max-keep-runs: "3"
+    pac.test.appstudio.openshift.io/on-cel-expression: event == "push" && target_branch
+      == "main" && (".tekton/fbc-build-pipeline.yaml".pathChanged() || ".tekton/otel-fbc-v4-15-pull-request.yaml".pathChanged()
+      || ".tekton/otel-fbc-v4-15-push.yaml".pathChanged() || "Dockerfile-v4-15.catalog".pathChanged()
+      || "catalog/***".pathChanged())
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-15-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/scm-reporting-plr-started: "true"
+    pac.test.appstudio.openshift.io/secret-created: "true"
+    pac.test.appstudio.openshift.io/sender: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/sha-title: Update catalog [release-driver] (#927)
+    pac.test.appstudio.openshift.io/sha-url: https://github.com/os-observability/konflux-opentelemetry/commit/e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/source-branch: refs/heads/main
+    pac.test.appstudio.openshift.io/source-repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+  creationTimestamp: "2026-07-28T17:59:38Z"
+  finalizers:
+  - appstudio.redhat.com/release-finalizer
+  generateName: otel-fbc-v4-15-main-20260728-175136-000-e72a607-
+  generation: 1
+  labels:
+    appstudio.openshift.io/application: otel-fbc-v4-15-main
+    appstudio.openshift.io/build-pipelinerun: otel-fbc-v4-15-main-on-push-sdspj
+    appstudio.openshift.io/component: otel-fbc-v4-15-main
+    pac.test.appstudio.openshift.io/check-run-id: "90361166905"
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-15-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+    release.appstudio.openshift.io/automated: "true"
+    release.appstudio.openshift.io/releasePlan: otel-stage-fbc-v4-15-main
+    release.appstudio.openshift.io/snapshot: otel-fbc-v4-15-main-20260728-175136-000
+  name: otel-fbc-v4-15-main-20260728-175136-000-e72a607-46wp6
+  namespace: rhosdt-tenant
+  resourceVersion: "10219007632"
+  uid: f122d0e0-493d-44b1-9979-b2806c044ebc
+spec:
+  gracePeriodDays: 7
+  releasePlan: otel-stage-fbc-v4-15-main
+  snapshot: otel-fbc-v4-15-main-20260728-175136-000
+status:
+  artifacts:
+    components:
+    - completion_time: "1785264526"
+      fbc_fragment: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-15@sha256:dffc1955ad2b2eeb9c7ef6165a974091a3dafda3e8e9361ff7d6ae091ea382f5
+      iibLog: |
+        IIB log url is: https://iib.engineering.redhat.com/api/v1/builds/1185855/logs
+      image_digests:
+      - sha256:d11f9a170a3fd29a1668780374576721760e7db530fdf5e652a3c729b72e0fae
+      - sha256:32b9e0f485b050360ba1b5ca5783e56c72287e6512a322d4b7c774b0af7ac512
+      - sha256:a20f164de41c6fb67dc9e14ff26aff0035b35c6eedfc5ae9b7636e90d8cb0908
+      - sha256:b11153566e6faf5872e9f45bec58ad0f9c5c44e9140a806dfb480f3a81503c41
+      index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185855
+      index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:1e07ffd39853c9d29c452c1f679c0933a63f7853b3cd5dffc28f051395c39d98
+      ocp_version: v4.15
+      target_index: ""
+    index_image:
+      v4.15:
+        index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185855
+        index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:1e07ffd39853c9d29c452c1f679c0933a63f7853b3cd5dffc28f051395c39d98
+  attribution:
+    author: system_serviceaccount_project-controller_project-controller-con
+    standingAuthorization: true
+  automated: true
+  collectorsProcessing:
+    managedCollectorsProcessing:
+      roleBindings: {}
+    tenantCollectorsProcessing:
+      roleBindings: {}
+  completionTime: "2026-07-28T18:51:30Z"
+  conditions:
+  - lastTransitionTime: "2026-07-28T18:51:30Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Released
+  - lastTransitionTime: "2026-07-28T17:59:38Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Validated
+  - lastTransitionTime: "2026-07-28T17:59:38Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T17:59:38Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: ManagedCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T17:59:38Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:51:30Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: ManagedPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:51:30Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: FinalPipelineProcessed
+  expirationTime: "2026-08-04T17:59:38Z"
+  finalProcessing:
+    roleBindings: {}
+  managedProcessing:
+    completionTime: "2026-07-28T18:51:30Z"
+    pipelineRun: rhtap-releng-tenant/managed-mjdhz
+    roleBindings:
+      tenantRoleBinding: rhosdt-tenant/otel-fbc-v4-15-main-20260728-175136-000-e72a607-46wp6-roleb754c
+    startTime: "2026-07-28T17:59:48Z"
+  startTime: "2026-07-28T17:59:38Z"
+  target: rhtap-releng-tenant
+  tenantProcessing:
+    roleBindings: {}
+  validation:
+    time: "2026-07-28T17:59:38Z"
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  annotations:
+    pac.test.appstudio.openshift.io/branch: main
+    pac.test.appstudio.openshift.io/check-run-id: "90361166784"
+    pac.test.appstudio.openshift.io/controller-info: '{"name":"default","configmap":"pipelines-as-code","secret":"pipelines-as-code-secret",
+      "gRepo": "pipelines-as-code"}'
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/git-auth-secret: pac-gitauth-bylaxb
+    pac.test.appstudio.openshift.io/git-provider: github
+    pac.test.appstudio.openshift.io/installation-id: "54445919"
+    pac.test.appstudio.openshift.io/log-url: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhosdt-tenant/pipelinerun/otel-fbc-v4-16-main-on-push-t6rbr
+    pac.test.appstudio.openshift.io/max-keep-runs: "3"
+    pac.test.appstudio.openshift.io/on-cel-expression: event == "push" && target_branch
+      == "main" && (".tekton/fbc-build-pipeline.yaml".pathChanged() || ".tekton/otel-fbc-v4-16-pull-request.yaml".pathChanged()
+      || ".tekton/otel-fbc-v4-16-push.yaml".pathChanged() || "Dockerfile-v4-16.catalog".pathChanged()
+      || "catalog/***".pathChanged())
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-16-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/scm-reporting-plr-started: "true"
+    pac.test.appstudio.openshift.io/secret-created: "true"
+    pac.test.appstudio.openshift.io/sender: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/sha-title: Update catalog [release-driver] (#927)
+    pac.test.appstudio.openshift.io/sha-url: https://github.com/os-observability/konflux-opentelemetry/commit/e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/source-branch: refs/heads/main
+    pac.test.appstudio.openshift.io/source-repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+  creationTimestamp: "2026-07-28T18:07:50Z"
+  finalizers:
+  - appstudio.redhat.com/release-finalizer
+  generateName: otel-fbc-v4-16-main-20260728-175922-000-e72a607-
+  generation: 1
+  labels:
+    appstudio.openshift.io/application: otel-fbc-v4-16-main
+    appstudio.openshift.io/build-pipelinerun: otel-fbc-v4-16-main-on-push-t6rbr
+    appstudio.openshift.io/component: otel-fbc-v4-16-main
+    pac.test.appstudio.openshift.io/check-run-id: "90361166784"
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-16-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+    release.appstudio.openshift.io/automated: "true"
+    release.appstudio.openshift.io/releasePlan: otel-stage-fbc-v4-16-main
+    release.appstudio.openshift.io/snapshot: otel-fbc-v4-16-main-20260728-175922-000
+  name: otel-fbc-v4-16-main-20260728-175922-000-e72a607-kjhd5
+  namespace: rhosdt-tenant
+  resourceVersion: "10219111161"
+  uid: 4071efa9-fb4d-4f08-9379-5b58bea20f73
+spec:
+  gracePeriodDays: 7
+  releasePlan: otel-stage-fbc-v4-16-main
+  snapshot: otel-fbc-v4-16-main-20260728-175922-000
+status:
+  artifacts:
+    components:
+    - completion_time: "1785264874"
+      fbc_fragment: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-16@sha256:57413570da87e6430d35d2d853261f5d06329e2ad6bd44343ab3c6698653b161
+      iibLog: |
+        IIB log url is: https://iib.engineering.redhat.com/api/v1/builds/1185857/logs
+      image_digests:
+      - sha256:a79a2cf70e12209245e77e93bfa5f5ee51ce5446e9090980a3ab9f372bc0be73
+      - sha256:9af2bdb93da3c2fa5e7c295da2360ad9dc654d11eee97dd8e24ab255ad7da46c
+      - sha256:477252bd01f96eba7822556ef311d9eb5276383e075550d47bce5d629413871e
+      - sha256:bf09192c3cd9bc6d6dee2e90cefc9b8033612160a26b17d8d2cec2cfbfea376b
+      index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185857
+      index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:244244e0b9f0641e7ca9881530e78c959b6ae5e36fe3d0b1bd13f3a62f5d9411
+      ocp_version: v4.16
+      target_index: ""
+    index_image:
+      v4.16:
+        index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185857
+        index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:244244e0b9f0641e7ca9881530e78c959b6ae5e36fe3d0b1bd13f3a62f5d9411
+  attribution:
+    author: system_serviceaccount_project-controller_project-controller-con
+    standingAuthorization: true
+  automated: true
+  collectorsProcessing:
+    managedCollectorsProcessing:
+      roleBindings: {}
+    tenantCollectorsProcessing:
+      roleBindings: {}
+  completionTime: "2026-07-28T18:55:26Z"
+  conditions:
+  - lastTransitionTime: "2026-07-28T18:55:26Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Released
+  - lastTransitionTime: "2026-07-28T18:07:50Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Validated
+  - lastTransitionTime: "2026-07-28T18:07:50Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:07:50Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: ManagedCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:07:50Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:55:26Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: ManagedPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:55:26Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: FinalPipelineProcessed
+  expirationTime: "2026-08-04T18:07:50Z"
+  finalProcessing:
+    roleBindings: {}
+  managedProcessing:
+    completionTime: "2026-07-28T18:55:26Z"
+    pipelineRun: rhtap-releng-tenant/managed-2q7wr
+    roleBindings:
+      tenantRoleBinding: rhosdt-tenant/otel-fbc-v4-16-main-20260728-175922-000-e72a607-kjhd5-rolemshz4
+    startTime: "2026-07-28T18:08:01Z"
+  startTime: "2026-07-28T18:07:50Z"
+  target: rhtap-releng-tenant
+  tenantProcessing:
+    roleBindings: {}
+  validation:
+    time: "2026-07-28T18:07:50Z"
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  annotations:
+    pac.test.appstudio.openshift.io/branch: main
+    pac.test.appstudio.openshift.io/check-run-id: "90361166756"
+    pac.test.appstudio.openshift.io/controller-info: '{"name":"default","configmap":"pipelines-as-code","secret":"pipelines-as-code-secret",
+      "gRepo": "pipelines-as-code"}'
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/git-auth-secret: pac-gitauth-jeodkj
+    pac.test.appstudio.openshift.io/git-provider: github
+    pac.test.appstudio.openshift.io/installation-id: "54445919"
+    pac.test.appstudio.openshift.io/log-url: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhosdt-tenant/pipelinerun/otel-fbc-v4-17-main-on-push-t74q5
+    pac.test.appstudio.openshift.io/max-keep-runs: "3"
+    pac.test.appstudio.openshift.io/on-cel-expression: event == "push" && target_branch
+      == "main" && (".tekton/fbc-build-pipeline.yaml".pathChanged() || ".tekton/otel-fbc-v4-17-pull-request.yaml".pathChanged()
+      || ".tekton/otel-fbc-v4-17-push.yaml".pathChanged() || "Dockerfile-v4-17.catalog".pathChanged()
+      || "catalog/***".pathChanged())
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-17-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/scm-reporting-plr-started: "true"
+    pac.test.appstudio.openshift.io/secret-created: "true"
+    pac.test.appstudio.openshift.io/sender: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/sha-title: Update catalog [release-driver] (#927)
+    pac.test.appstudio.openshift.io/sha-url: https://github.com/os-observability/konflux-opentelemetry/commit/e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/source-branch: refs/heads/main
+    pac.test.appstudio.openshift.io/source-repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+  creationTimestamp: "2026-07-28T18:05:57Z"
+  finalizers:
+  - appstudio.redhat.com/release-finalizer
+  generateName: otel-fbc-v4-17-main-20260728-180047-000-e72a607-
+  generation: 1
+  labels:
+    appstudio.openshift.io/application: otel-fbc-v4-17-main
+    appstudio.openshift.io/build-pipelinerun: otel-fbc-v4-17-main-on-push-t74q5
+    appstudio.openshift.io/component: otel-fbc-v4-17-main
+    pac.test.appstudio.openshift.io/check-run-id: "90361166756"
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-17-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+    release.appstudio.openshift.io/automated: "true"
+    release.appstudio.openshift.io/releasePlan: otel-stage-fbc-v4-17-main
+    release.appstudio.openshift.io/snapshot: otel-fbc-v4-17-main-20260728-180047-000
+  name: otel-fbc-v4-17-main-20260728-180047-000-e72a607-88l6s
+  namespace: rhosdt-tenant
+  resourceVersion: "10219092072"
+  uid: ea0d9083-f5b7-4f84-aa29-c6e85d0315d6
+spec:
+  gracePeriodDays: 7
+  releasePlan: otel-stage-fbc-v4-17-main
+  snapshot: otel-fbc-v4-17-main-20260728-180047-000
+status:
+  artifacts:
+    components:
+    - completion_time: "1785264835"
+      fbc_fragment: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-17@sha256:f98c0c94e4ce615440de0ff340fedd353d8681f367a9fc620f9461e5baaee3bf
+      iibLog: |
+        IIB log url is: https://iib.engineering.redhat.com/api/v1/builds/1185861/logs
+      image_digests:
+      - sha256:20bf601d7727997aee95988726c41a30d4ce8a27dcc400b94c5fffb1beb41fee
+      - sha256:3d3a4f3afa119af48bdcd5ccb383e2e47a49ded726bbc4b98b9bb8ef88430bda
+      - sha256:a85938a20c5d22070f73030af9b9b960e88ab58f43a74808e010ccc420ed6734
+      - sha256:b7fab59358faa89b53bb5a36739c15a99f28e661a351d0bc4d3b1d0442c960b5
+      index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185861
+      index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:81275c07915b51ebb5b431e9574d8c509411f7d1b9f36a1fae2018a2ffc878b6
+      ocp_version: v4.17
+      target_index: ""
+    index_image:
+      v4.17:
+        index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185861
+        index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:81275c07915b51ebb5b431e9574d8c509411f7d1b9f36a1fae2018a2ffc878b6
+  attribution:
+    author: system_serviceaccount_project-controller_project-controller-con
+    standingAuthorization: true
+  automated: true
+  collectorsProcessing:
+    managedCollectorsProcessing:
+      roleBindings: {}
+    tenantCollectorsProcessing:
+      roleBindings: {}
+  completionTime: "2026-07-28T18:54:36Z"
+  conditions:
+  - lastTransitionTime: "2026-07-28T18:54:36Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Released
+  - lastTransitionTime: "2026-07-28T18:05:57Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Validated
+  - lastTransitionTime: "2026-07-28T18:05:57Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:05:57Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: ManagedCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:05:57Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:54:35Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: ManagedPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:54:35Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: FinalPipelineProcessed
+  expirationTime: "2026-08-04T18:05:57Z"
+  finalProcessing:
+    roleBindings: {}
+  managedProcessing:
+    completionTime: "2026-07-28T18:54:35Z"
+    pipelineRun: rhtap-releng-tenant/managed-vlklc
+    roleBindings:
+      tenantRoleBinding: rhosdt-tenant/otel-fbc-v4-17-main-20260728-180047-000-e72a607-88l6s-roleb96hf
+    startTime: "2026-07-28T18:06:07Z"
+  startTime: "2026-07-28T18:05:57Z"
+  target: rhtap-releng-tenant
+  tenantProcessing:
+    roleBindings: {}
+  validation:
+    time: "2026-07-28T18:05:57Z"
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  annotations:
+    pac.test.appstudio.openshift.io/branch: main
+    pac.test.appstudio.openshift.io/check-run-id: "90361166803"
+    pac.test.appstudio.openshift.io/controller-info: '{"name":"default","configmap":"pipelines-as-code","secret":"pipelines-as-code-secret",
+      "gRepo": "pipelines-as-code"}'
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/git-auth-secret: pac-gitauth-zmombp
+    pac.test.appstudio.openshift.io/git-provider: github
+    pac.test.appstudio.openshift.io/installation-id: "54445919"
+    pac.test.appstudio.openshift.io/log-url: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhosdt-tenant/pipelinerun/otel-fbc-v4-18-main-on-push-mdbd7
+    pac.test.appstudio.openshift.io/max-keep-runs: "3"
+    pac.test.appstudio.openshift.io/on-cel-expression: event == "push" && target_branch
+      == "main" && (".tekton/fbc-build-pipeline.yaml".pathChanged() || ".tekton/otel-fbc-v4-18-pull-request.yaml".pathChanged()
+      || ".tekton/otel-fbc-v4-18-push.yaml".pathChanged() || "Dockerfile-v4-18.catalog".pathChanged()
+      || "catalog/***".pathChanged())
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-18-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/scm-reporting-plr-started: "true"
+    pac.test.appstudio.openshift.io/secret-created: "true"
+    pac.test.appstudio.openshift.io/sender: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/sha-title: Update catalog [release-driver] (#927)
+    pac.test.appstudio.openshift.io/sha-url: https://github.com/os-observability/konflux-opentelemetry/commit/e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/source-branch: refs/heads/main
+    pac.test.appstudio.openshift.io/source-repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+  creationTimestamp: "2026-07-28T17:57:41Z"
+  finalizers:
+  - appstudio.redhat.com/release-finalizer
+  generateName: otel-fbc-v4-18-main-20260728-175235-000-e72a607-
+  generation: 1
+  labels:
+    appstudio.openshift.io/application: otel-fbc-v4-18-main
+    appstudio.openshift.io/build-pipelinerun: otel-fbc-v4-18-main-on-push-mdbd7
+    appstudio.openshift.io/component: otel-fbc-v4-18-main
+    pac.test.appstudio.openshift.io/check-run-id: "90361166803"
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-18-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+    release.appstudio.openshift.io/automated: "true"
+    release.appstudio.openshift.io/releasePlan: otel-stage-fbc-v4-18-main
+    release.appstudio.openshift.io/snapshot: otel-fbc-v4-18-main-20260728-175235-000
+  name: otel-fbc-v4-18-main-20260728-175235-000-e72a607-rlqhk
+  namespace: rhosdt-tenant
+  resourceVersion: "10218200084"
+  uid: 63e30d45-1473-4834-9a14-71d7d8a00b12
+spec:
+  gracePeriodDays: 7
+  releasePlan: otel-stage-fbc-v4-18-main
+  snapshot: otel-fbc-v4-18-main-20260728-175235-000
+status:
+  artifacts:
+    components:
+    - completion_time: "1785262475"
+      fbc_fragment: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-18@sha256:1fba993ae8e954350e9a86c1bfe80dc47cbe4b99297f81bf7efb154a324f5efb
+      iibLog: |
+        IIB log url is: https://iib.engineering.redhat.com/api/v1/builds/1185844/logs
+      image_digests:
+      - sha256:5b4e32719f5fcd6a618835db6c3c98e656185e72ce696aa508bb43ec42400013
+      - sha256:69b25a41bcad5b441ea1973486dd580ef78d4a9cd7e65822c33f99ef38f7279f
+      - sha256:43df2086a494a09317fa35544b8cd1a3f3f0d38e6c350673722979444eb46086
+      - sha256:cf77779f4edae464e7a60344ec10db4790e64f8efbdc25eef9ec393c11d587da
+      index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185844
+      index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:35080db2c336e015ead6bd2e2ffcc4c91aee10082bf021176f176ef963499aad
+      ocp_version: v4.18
+      target_index: ""
+    index_image:
+      v4.18:
+        index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185844
+        index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:35080db2c336e015ead6bd2e2ffcc4c91aee10082bf021176f176ef963499aad
+  attribution:
+    author: system_serviceaccount_project-controller_project-controller-con
+    standingAuthorization: true
+  automated: true
+  collectorsProcessing:
+    managedCollectorsProcessing:
+      roleBindings: {}
+    tenantCollectorsProcessing:
+      roleBindings: {}
+  completionTime: "2026-07-28T18:15:20Z"
+  conditions:
+  - lastTransitionTime: "2026-07-28T18:15:20Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Released
+  - lastTransitionTime: "2026-07-28T17:57:41Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Validated
+  - lastTransitionTime: "2026-07-28T17:57:42Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T17:57:42Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: ManagedCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T17:57:42Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:15:20Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: ManagedPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:15:20Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: FinalPipelineProcessed
+  expirationTime: "2026-08-04T17:57:41Z"
+  finalProcessing:
+    roleBindings: {}
+  managedProcessing:
+    completionTime: "2026-07-28T18:15:20Z"
+    pipelineRun: rhtap-releng-tenant/managed-qgnfl
+    roleBindings:
+      tenantRoleBinding: rhosdt-tenant/otel-fbc-v4-18-main-20260728-175235-000-e72a607-rlqhk-rolexbwnf
+    startTime: "2026-07-28T17:57:52Z"
+  startTime: "2026-07-28T17:57:41Z"
+  target: rhtap-releng-tenant
+  tenantProcessing:
+    roleBindings: {}
+  validation:
+    time: "2026-07-28T17:57:41Z"
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  annotations:
+    pac.test.appstudio.openshift.io/branch: main
+    pac.test.appstudio.openshift.io/check-run-id: "90361163148"
+    pac.test.appstudio.openshift.io/controller-info: '{"name":"default","configmap":"pipelines-as-code","secret":"pipelines-as-code-secret",
+      "gRepo": "pipelines-as-code"}'
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/git-auth-secret: pac-gitauth-mzcmlx
+    pac.test.appstudio.openshift.io/git-provider: github
+    pac.test.appstudio.openshift.io/installation-id: "54445919"
+    pac.test.appstudio.openshift.io/log-url: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhosdt-tenant/pipelinerun/otel-fbc-v4-19-main-on-push-ttv86
+    pac.test.appstudio.openshift.io/max-keep-runs: "3"
+    pac.test.appstudio.openshift.io/on-cel-expression: event == "push" && target_branch
+      == "main" && (".tekton/fbc-build-pipeline.yaml".pathChanged() || ".tekton/otel-fbc-v4-19-pull-request.yaml".pathChanged()
+      || ".tekton/otel-fbc-v4-19-push.yaml".pathChanged() || "Dockerfile-v4-19.catalog".pathChanged()
+      || "catalog/***".pathChanged())
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-19-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/scm-reporting-plr-started: "true"
+    pac.test.appstudio.openshift.io/secret-created: "true"
+    pac.test.appstudio.openshift.io/sender: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/sha-title: Update catalog [release-driver] (#927)
+    pac.test.appstudio.openshift.io/sha-url: https://github.com/os-observability/konflux-opentelemetry/commit/e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/source-branch: refs/heads/main
+    pac.test.appstudio.openshift.io/source-repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+  creationTimestamp: "2026-07-28T17:57:18Z"
+  finalizers:
+  - appstudio.redhat.com/release-finalizer
+  generateName: otel-fbc-v4-19-main-20260728-175144-000-e72a607-
+  generation: 1
+  labels:
+    appstudio.openshift.io/application: otel-fbc-v4-19-main
+    appstudio.openshift.io/build-pipelinerun: otel-fbc-v4-19-main-on-push-ttv86
+    appstudio.openshift.io/component: otel-fbc-v4-19-main
+    pac.test.appstudio.openshift.io/check-run-id: "90361163148"
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-19-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+    release.appstudio.openshift.io/automated: "true"
+    release.appstudio.openshift.io/releasePlan: otel-stage-fbc-v4-19-main
+    release.appstudio.openshift.io/snapshot: otel-fbc-v4-19-main-20260728-175144-000
+  name: otel-fbc-v4-19-main-20260728-175144-000-e72a607-jcltw
+  namespace: rhosdt-tenant
+  resourceVersion: "10218486835"
+  uid: 71239cc0-e868-4d91-bbda-94771aa2e14b
+spec:
+  gracePeriodDays: 7
+  releasePlan: otel-stage-fbc-v4-19-main
+  snapshot: otel-fbc-v4-19-main-20260728-175144-000
+status:
+  artifacts:
+    components:
+    - completion_time: "1785263323"
+      fbc_fragment: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-19@sha256:d0401f587e3b4cb74bae249da6a004bc8910c0e13a6f588ec991a45270efd228
+      iibLog: |
+        IIB log url is: https://iib.engineering.redhat.com/api/v1/builds/1185850/logs
+      image_digests:
+      - sha256:87b04e762695fd2ec8afc5ea6addc2f4a2831204eac32c1ebef5167dd14a9cf1
+      - sha256:3ec620a0a8a5a6327e55f4e83f94c04fc448d5e39784fa51a723c86ecf208e3c
+      - sha256:421886295bbf48679bb9999714400f1caf46ab424501fbef9a4684e510c7b56c
+      - sha256:77dce40080d4c346107cc653274bcb759ff28b0976d4d429e42b1b1d782f27c1
+      index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185850
+      index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:4fcd55ab6b291b169cbc8a4fa9690e155de42be49786cb8e770fb19640fe473f
+      ocp_version: v4.19
+      target_index: ""
+    index_image:
+      v4.19:
+        index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185850
+        index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:4fcd55ab6b291b169cbc8a4fa9690e155de42be49786cb8e770fb19640fe473f
+  attribution:
+    author: system_serviceaccount_project-controller_project-controller-con
+    standingAuthorization: true
+  automated: true
+  collectorsProcessing:
+    managedCollectorsProcessing:
+      roleBindings: {}
+    tenantCollectorsProcessing:
+      roleBindings: {}
+  completionTime: "2026-07-28T18:30:10Z"
+  conditions:
+  - lastTransitionTime: "2026-07-28T18:30:10Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Released
+  - lastTransitionTime: "2026-07-28T17:57:18Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Validated
+  - lastTransitionTime: "2026-07-28T17:57:18Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T17:57:18Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: ManagedCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T17:57:18Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:30:10Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: ManagedPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:30:10Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: FinalPipelineProcessed
+  expirationTime: "2026-08-04T17:57:18Z"
+  finalProcessing:
+    roleBindings: {}
+  managedProcessing:
+    completionTime: "2026-07-28T18:30:10Z"
+    pipelineRun: rhtap-releng-tenant/managed-mw7kv
+    roleBindings:
+      tenantRoleBinding: rhosdt-tenant/otel-fbc-v4-19-main-20260728-175144-000-e72a607-jcltw-rolen2tzx
+    startTime: "2026-07-28T17:57:28Z"
+  startTime: "2026-07-28T17:57:18Z"
+  target: rhtap-releng-tenant
+  tenantProcessing:
+    roleBindings: {}
+  validation:
+    time: "2026-07-28T17:57:18Z"
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  annotations:
+    pac.test.appstudio.openshift.io/branch: main
+    pac.test.appstudio.openshift.io/check-run-id: "90361166817"
+    pac.test.appstudio.openshift.io/controller-info: '{"name":"default","configmap":"pipelines-as-code","secret":"pipelines-as-code-secret",
+      "gRepo": "pipelines-as-code"}'
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/git-auth-secret: pac-gitauth-rsqeqr
+    pac.test.appstudio.openshift.io/git-provider: github
+    pac.test.appstudio.openshift.io/installation-id: "54445919"
+    pac.test.appstudio.openshift.io/log-url: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhosdt-tenant/pipelinerun/otel-fbc-v4-20-main-on-push-mcc5f
+    pac.test.appstudio.openshift.io/max-keep-runs: "3"
+    pac.test.appstudio.openshift.io/on-cel-expression: event == "push" && target_branch
+      == "main" && (".tekton/fbc-build-pipeline.yaml".pathChanged() || ".tekton/otel-fbc-v4-20-pull-request.yaml".pathChanged()
+      || ".tekton/otel-fbc-v4-20-push.yaml".pathChanged() || "Dockerfile-v4-20.catalog".pathChanged()
+      || "catalog/***".pathChanged())
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-20-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/scm-reporting-plr-started: "true"
+    pac.test.appstudio.openshift.io/secret-created: "true"
+    pac.test.appstudio.openshift.io/sender: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/sha-title: Update catalog [release-driver] (#927)
+    pac.test.appstudio.openshift.io/sha-url: https://github.com/os-observability/konflux-opentelemetry/commit/e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/source-branch: refs/heads/main
+    pac.test.appstudio.openshift.io/source-repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+  creationTimestamp: "2026-07-28T18:02:08Z"
+  finalizers:
+  - appstudio.redhat.com/release-finalizer
+  generateName: otel-fbc-v4-20-main-20260728-175657-000-e72a607-
+  generation: 1
+  labels:
+    appstudio.openshift.io/application: otel-fbc-v4-20-main
+    appstudio.openshift.io/build-pipelinerun: otel-fbc-v4-20-main-on-push-mcc5f
+    appstudio.openshift.io/component: otel-fbc-v4-20-main
+    pac.test.appstudio.openshift.io/check-run-id: "90361166817"
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-20-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+    release.appstudio.openshift.io/automated: "true"
+    release.appstudio.openshift.io/releasePlan: otel-stage-fbc-v4-20-main
+    release.appstudio.openshift.io/snapshot: otel-fbc-v4-20-main-20260728-175657-000
+  name: otel-fbc-v4-20-main-20260728-175657-000-e72a607-tlf8d
+  namespace: rhosdt-tenant
+  resourceVersion: "10219004481"
+  uid: c79906fb-71eb-49e4-bc0b-4a29d194900b
+spec:
+  gracePeriodDays: 7
+  releasePlan: otel-stage-fbc-v4-20-main
+  snapshot: otel-fbc-v4-20-main-20260728-175657-000
+status:
+  artifacts:
+    components:
+    - completion_time: "1785264463"
+      fbc_fragment: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-20@sha256:9562f1d27152176ec92849b79537d2ecee3f61f1c8254fbbeb55330bff226b63
+      iibLog: |
+        IIB log url is: https://iib.engineering.redhat.com/api/v1/builds/1185859/logs
+      image_digests:
+      - sha256:87854badc0d7109230d3968562063f9da0aeb5f24997f80f105f239d74b02828
+      - sha256:c8e7ef31d075407585938f27b8124f0cabbf98e2efec793be5157ca73586b73c
+      - sha256:9631c1b8215a84246b901eeaa74a75f6db5ec7a9ede797fac8add984911d9eee
+      - sha256:c95b3ae39793bce57e8f30a5a7d40cb38ba0b477c6933dd0b029573e91f02c15
+      index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185859
+      index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:b1388bd3e997f6e479d6c0e8a4bc94e214e6e522a7d7e37fb90f1019b4092c58
+      ocp_version: v4.20
+      target_index: ""
+    index_image:
+      v4.20:
+        index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185859
+        index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:b1388bd3e997f6e479d6c0e8a4bc94e214e6e522a7d7e37fb90f1019b4092c58
+  attribution:
+    author: system_serviceaccount_project-controller_project-controller-con
+    standingAuthorization: true
+  automated: true
+  collectorsProcessing:
+    managedCollectorsProcessing:
+      roleBindings: {}
+    tenantCollectorsProcessing:
+      roleBindings: {}
+  completionTime: "2026-07-28T18:51:22Z"
+  conditions:
+  - lastTransitionTime: "2026-07-28T18:51:22Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Released
+  - lastTransitionTime: "2026-07-28T18:02:08Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Validated
+  - lastTransitionTime: "2026-07-28T18:02:08Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:02:08Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: ManagedCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:02:08Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:51:22Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: ManagedPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:51:22Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: FinalPipelineProcessed
+  expirationTime: "2026-08-04T18:02:08Z"
+  finalProcessing:
+    roleBindings: {}
+  managedProcessing:
+    completionTime: "2026-07-28T18:51:22Z"
+    pipelineRun: rhtap-releng-tenant/managed-zbq8h
+    roleBindings:
+      tenantRoleBinding: rhosdt-tenant/otel-fbc-v4-20-main-20260728-175657-000-e72a607-tlf8d-role4p47t
+    startTime: "2026-07-28T18:02:18Z"
+  startTime: "2026-07-28T18:02:08Z"
+  target: rhtap-releng-tenant
+  tenantProcessing:
+    roleBindings: {}
+  validation:
+    time: "2026-07-28T18:02:08Z"
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  annotations:
+    pac.test.appstudio.openshift.io/branch: main
+    pac.test.appstudio.openshift.io/check-run-id: "90361166844"
+    pac.test.appstudio.openshift.io/controller-info: '{"name":"default","configmap":"pipelines-as-code","secret":"pipelines-as-code-secret",
+      "gRepo": "pipelines-as-code"}'
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/git-auth-secret: pac-gitauth-vupyzb
+    pac.test.appstudio.openshift.io/git-provider: github
+    pac.test.appstudio.openshift.io/installation-id: "54445919"
+    pac.test.appstudio.openshift.io/log-url: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhosdt-tenant/pipelinerun/otel-fbc-v4-21-main-on-push-mmztb
+    pac.test.appstudio.openshift.io/max-keep-runs: "3"
+    pac.test.appstudio.openshift.io/on-cel-expression: event == "push" && target_branch
+      == "main" && (".tekton/fbc-build-pipeline.yaml".pathChanged() || ".tekton/otel-fbc-v4-21-pull-request.yaml".pathChanged()
+      || ".tekton/otel-fbc-v4-21-push.yaml".pathChanged() || "Dockerfile-v4-21.catalog".pathChanged()
+      || "catalog/***".pathChanged())
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-21-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/scm-reporting-plr-started: "true"
+    pac.test.appstudio.openshift.io/secret-created: "true"
+    pac.test.appstudio.openshift.io/sender: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/sha-title: Update catalog [release-driver] (#927)
+    pac.test.appstudio.openshift.io/sha-url: https://github.com/os-observability/konflux-opentelemetry/commit/e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/source-branch: refs/heads/main
+    pac.test.appstudio.openshift.io/source-repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+  creationTimestamp: "2026-07-28T17:57:13Z"
+  finalizers:
+  - appstudio.redhat.com/release-finalizer
+  generateName: otel-fbc-v4-21-main-20260728-175220-000-e72a607-
+  generation: 1
+  labels:
+    appstudio.openshift.io/application: otel-fbc-v4-21-main
+    appstudio.openshift.io/build-pipelinerun: otel-fbc-v4-21-main-on-push-mmztb
+    appstudio.openshift.io/component: otel-fbc-v4-21-main
+    pac.test.appstudio.openshift.io/check-run-id: "90361166844"
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-21-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+    release.appstudio.openshift.io/automated: "true"
+    release.appstudio.openshift.io/releasePlan: otel-stage-fbc-v4-21-main
+    release.appstudio.openshift.io/snapshot: otel-fbc-v4-21-main-20260728-175220-000
+  name: otel-fbc-v4-21-main-20260728-175220-000-e72a607-zth5j
+  namespace: rhosdt-tenant
+  resourceVersion: "10218188710"
+  uid: 9a6f675b-d36d-4388-8eb1-b7e4218640c0
+spec:
+  gracePeriodDays: 7
+  releasePlan: otel-stage-fbc-v4-21-main
+  snapshot: otel-fbc-v4-21-main-20260728-175220-000
+status:
+  artifacts:
+    components:
+    - completion_time: "1785262437"
+      fbc_fragment: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-21@sha256:e74cc48ff03902267d513a3e59c5f25aef348e6c9186f6c5628daaf8d4133ca4
+      iibLog: |
+        IIB log url is: https://iib.engineering.redhat.com/api/v1/builds/1185843/logs
+      image_digests:
+      - sha256:9ea8ae3b22d8e603f07ae2c15b1da510862f1e39df670ce0c702da763dd91ac3
+      - sha256:a3f1764d63ea8df10985dc64ee606212f22cca1431e92d5fe62b0bb4102152a3
+      - sha256:17c15a53a32ae45e0136d71ad266bddc579c2208d495740aa1c091df1b24b6a9
+      - sha256:b90aceb24a7aa3ec9af217ee9fcc900370d7fd8c2c23d9f7485ffea91fc91623
+      index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185843
+      index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:4a1f44200d0cd8fa4e11341103ec3272f5dac2cef6f6e7e52e9e94316bb3da2d
+      ocp_version: v4.21
+      target_index: ""
+    index_image:
+      v4.21:
+        index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185843
+        index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:4a1f44200d0cd8fa4e11341103ec3272f5dac2cef6f6e7e52e9e94316bb3da2d
+  attribution:
+    author: system_serviceaccount_project-controller_project-controller-con
+    standingAuthorization: true
+  automated: true
+  collectorsProcessing:
+    managedCollectorsProcessing:
+      roleBindings: {}
+    tenantCollectorsProcessing:
+      roleBindings: {}
+  completionTime: "2026-07-28T18:14:40Z"
+  conditions:
+  - lastTransitionTime: "2026-07-28T18:14:40Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Released
+  - lastTransitionTime: "2026-07-28T17:57:13Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Validated
+  - lastTransitionTime: "2026-07-28T17:57:13Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T17:57:13Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: ManagedCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T17:57:14Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:14:40Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: ManagedPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:14:40Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: FinalPipelineProcessed
+  expirationTime: "2026-08-04T17:57:13Z"
+  finalProcessing:
+    roleBindings: {}
+  managedProcessing:
+    completionTime: "2026-07-28T18:14:40Z"
+    pipelineRun: rhtap-releng-tenant/managed-qsjrk
+    roleBindings:
+      tenantRoleBinding: rhosdt-tenant/otel-fbc-v4-21-main-20260728-175220-000-e72a607-zth5j-role8cmqc
+    startTime: "2026-07-28T17:57:24Z"
+  startTime: "2026-07-28T17:57:13Z"
+  target: rhtap-releng-tenant
+  tenantProcessing:
+    roleBindings: {}
+  validation:
+    time: "2026-07-28T17:57:13Z"
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  annotations:
+    pac.test.appstudio.openshift.io/branch: main
+    pac.test.appstudio.openshift.io/check-run-id: "90361166954"
+    pac.test.appstudio.openshift.io/controller-info: '{"name":"default","configmap":"pipelines-as-code","secret":"pipelines-as-code-secret",
+      "gRepo": "pipelines-as-code"}'
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/git-auth-secret: pac-gitauth-wmnpgw
+    pac.test.appstudio.openshift.io/git-provider: github
+    pac.test.appstudio.openshift.io/installation-id: "54445919"
+    pac.test.appstudio.openshift.io/log-url: https://konflux-ui.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/ns/rhosdt-tenant/pipelinerun/otel-fbc-v4-22-main-on-push-4q2zf
+    pac.test.appstudio.openshift.io/max-keep-runs: "3"
+    pac.test.appstudio.openshift.io/on-cel-expression: event == "push" && target_branch
+      == "main" && (".tekton/fbc-build-pipeline.yaml".pathChanged() || ".tekton/otel-fbc-v4-22-pull-request.yaml".pathChanged()
+      || ".tekton/otel-fbc-v4-22-push.yaml".pathChanged() || "Dockerfile-v4-22.catalog".pathChanged()
+      || "catalog/***".pathChanged())
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-22-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/scm-reporting-plr-started: "true"
+    pac.test.appstudio.openshift.io/secret-created: "true"
+    pac.test.appstudio.openshift.io/sender: frzifus
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/sha-title: Update catalog [release-driver] (#927)
+    pac.test.appstudio.openshift.io/sha-url: https://github.com/os-observability/konflux-opentelemetry/commit/e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/source-branch: refs/heads/main
+    pac.test.appstudio.openshift.io/source-repo-url: https://github.com/os-observability/konflux-opentelemetry
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+  creationTimestamp: "2026-07-28T17:57:27Z"
+  finalizers:
+  - appstudio.redhat.com/release-finalizer
+  generateName: otel-fbc-v4-22-main-20260728-175207-000-e72a607-
+  generation: 1
+  labels:
+    appstudio.openshift.io/application: otel-fbc-v4-22-main
+    appstudio.openshift.io/build-pipelinerun: otel-fbc-v4-22-main-on-push-4q2zf
+    appstudio.openshift.io/component: otel-fbc-v4-22-main
+    pac.test.appstudio.openshift.io/check-run-id: "90361166954"
+    pac.test.appstudio.openshift.io/event-type: push
+    pac.test.appstudio.openshift.io/original-prname: otel-fbc-v4-22-main-on-push
+    pac.test.appstudio.openshift.io/pull-request: "927"
+    pac.test.appstudio.openshift.io/repository: otel-collector-main
+    pac.test.appstudio.openshift.io/sha: e72a607255f8111fde14fe17547ec17d0fb62b95
+    pac.test.appstudio.openshift.io/state: completed
+    pac.test.appstudio.openshift.io/url-org: os-observability
+    pac.test.appstudio.openshift.io/url-repository: konflux-opentelemetry
+    release.appstudio.openshift.io/automated: "true"
+    release.appstudio.openshift.io/releasePlan: otel-stage-fbc-v4-22-main
+    release.appstudio.openshift.io/snapshot: otel-fbc-v4-22-main-20260728-175207-000
+  name: otel-fbc-v4-22-main-20260728-175207-000-e72a607-l8gr4
+  namespace: rhosdt-tenant
+  resourceVersion: "10218785197"
+  uid: e1471bbe-3f04-4628-94bd-7023f8281775
+spec:
+  gracePeriodDays: 7
+  releasePlan: otel-stage-fbc-v4-22-main
+  snapshot: otel-fbc-v4-22-main-20260728-175207-000
+status:
+  artifacts:
+    components:
+    - completion_time: "1785264078"
+      fbc_fragment: quay.io/redhat-user-workloads/rhosdt-tenant/otel/otel-fbc-v4-22@sha256:22f6321a75f75695cd580cd8ab504c2aa78e0f12a194bea3b1b5e01c3f67983f
+      iibLog: |
+        IIB log url is: https://iib.engineering.redhat.com/api/v1/builds/1185856/logs
+      image_digests:
+      - sha256:a5b3c4a0c9f41bfdb228a6e0236a27af834ce4ef159d77e46a55be39966df250
+      - sha256:5fdfda6277f829cb979b076577bffa817be8738f2b67f1db23ecda466207b396
+      - sha256:a1aa61723bb1b436b4698811dc8b3d2a3bf8f15ca98781384f18e8dccb434897
+      - sha256:e2a8d0e1fe1c229f796f65fa141a132d75b5c9b9e1e7e09cfa99f945c11ff92f
+      index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185856
+      index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:7f53fb081e6a86895b314514984813d421aa46c05b32d08b4d51291e24ce6ce0
+      ocp_version: v4.22
+      target_index: ""
+    index_image:
+      v4.22:
+        index_image: registry-proxy.engineering.redhat.com/rh-osbs/iib:1185856
+        index_image_resolved: registry-proxy.engineering.redhat.com/rh-osbs/iib@sha256:7f53fb081e6a86895b314514984813d421aa46c05b32d08b4d51291e24ce6ce0
+  attribution:
+    author: system_serviceaccount_project-controller_project-controller-con
+    standingAuthorization: true
+  automated: true
+  collectorsProcessing:
+    managedCollectorsProcessing:
+      roleBindings: {}
+    tenantCollectorsProcessing:
+      roleBindings: {}
+  completionTime: "2026-07-28T18:42:24Z"
+  conditions:
+  - lastTransitionTime: "2026-07-28T18:42:24Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Released
+  - lastTransitionTime: "2026-07-28T17:57:27Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: Validated
+  - lastTransitionTime: "2026-07-28T17:57:27Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T17:57:27Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: ManagedCollectorsPipelineProcessed
+  - lastTransitionTime: "2026-07-28T17:57:27Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: TenantPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:42:24Z"
+    message: ""
+    reason: Succeeded
+    status: "True"
+    type: ManagedPipelineProcessed
+  - lastTransitionTime: "2026-07-28T18:42:24Z"
+    message: ""
+    reason: Skipped
+    status: "True"
+    type: FinalPipelineProcessed
+  expirationTime: "2026-08-04T17:57:27Z"
+  finalProcessing:
+    roleBindings: {}
+  managedProcessing:
+    completionTime: "2026-07-28T18:42:24Z"
+    pipelineRun: rhtap-releng-tenant/managed-vq78s
+    roleBindings:
+      tenantRoleBinding: rhosdt-tenant/otel-fbc-v4-22-main-20260728-175207-000-e72a607-l8gr4-rolecszbm
+    startTime: "2026-07-28T17:57:38Z"
+  startTime: "2026-07-28T17:57:27Z"
+  target: rhtap-releng-tenant
+  tenantProcessing:
+    roleBindings: {}
+  validation:
+    time: "2026-07-28T17:57:27Z"
