@@ -1,3 +1,4 @@
+
 # konflux-opentelemetry
 
 This repository contains Konflux configuration to build Red Hat build of OpenTelemetry.
