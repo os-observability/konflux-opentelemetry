@@ -6,3 +6,7 @@
 	path = opentelemetry-operator
 	url = https://github.com/os-observability/opentelemetry-operator.git
 	branch = rhosdt-3.10
+[submodule "opentelemetry-ebpf-instrumentation"]
+	path = opentelemetry-ebpf-instrumentation
+	url = https://github.com/open-telemetry/opentelemetry-ebpf-instrumentation.git
+	branch = v0.10.0
