@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 import argparse
 import json
-import re
 import subprocess
 import sys
 import tempfile
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
@@ -174,7 +173,7 @@ def _count_cves(packages, cves_by_source):
 
 def format_markdown(runtime, buildonly, cves_by_source, lockfile_path, arch):
     """Generate the full markdown report."""
-    today = datetime.utcnow().strftime("%Y-%m-%d")
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     lines = [
         "# RPM CVE Report",
         "",
@@ -218,7 +217,7 @@ def format_markdown(runtime, buildonly, cves_by_source, lockfile_path, arch):
 
 def format_json(runtime, buildonly, cves_by_source, lockfile_path, arch):
     """Generate the JSON report."""
-    today = datetime.utcnow().strftime("%Y-%m-%d")
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
     def enrich(pkg):
         source = extract_source_name(pkg["sourcerpm"])
