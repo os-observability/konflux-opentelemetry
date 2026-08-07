@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 import re
+import subprocess
+import tempfile
+from pathlib import Path
 
 import yaml
 
@@ -35,3 +38,43 @@ def dedupe_by_source(packages):
         src = extract_source_name(pkg["sourcerpm"])
         grouped.setdefault(src, []).append(pkg)
     return grouped
+
+
+def get_image_rpms(image_ref):
+    """Get set of RPM package names installed in a container image."""
+    tmpdir = tempfile.mkdtemp(prefix="rpm-cve-check-")
+    try:
+        cid = subprocess.check_output(
+            ["podman", "create", image_ref],
+            text=True,
+        ).strip()
+        try:
+            subprocess.run(
+                ["podman", "cp", f"{cid}:/var/lib/rpm", tmpdir],
+                check=True,
+                capture_output=True,
+            )
+        finally:
+            subprocess.run(["podman", "rm", cid], capture_output=True)
+
+        rpm_db_path = Path(tmpdir) / "rpm"
+        output = subprocess.check_output(
+            ["rpm", "-qa", "--dbpath", str(rpm_db_path), "--queryformat", "%{NAME}\\n"],
+            text=True,
+        )
+        return set(output.strip().splitlines())
+    finally:
+        subprocess.run(["rm", "-rf", tmpdir], capture_output=True)
+
+
+def classify_packages(packages, image_rpm_sets):
+    """Classify packages as runtime or build-only based on image contents."""
+    runtime = []
+    buildonly = []
+    for pkg in packages:
+        found_in = [name for name, rpms in image_rpm_sets.items() if pkg["name"] in rpms]
+        if found_in:
+            runtime.append({**pkg, "images": found_in})
+        else:
+            buildonly.append(pkg)
+    return runtime, buildonly

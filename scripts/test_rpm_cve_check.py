@@ -100,5 +100,41 @@ class TestDedupeBySource(unittest.TestCase):
         self.assertEqual(len(grouped["openssl"]), 1)
 
 
+class TestClassifyPackages(unittest.TestCase):
+    def test_runtime_package(self):
+        from rpm_cve_check import classify_packages
+        packages = [
+            {"name": "openssl-libs", "evr": "1:3.5.5-6.el9_8", "sourcerpm": "openssl-3.5.5-6.el9_8.src.rpm"},
+        ]
+        image_rpm_sets = {"operator": {"openssl-libs", "glibc"}, "collector": {"openssl-libs"}}
+        runtime, buildonly = classify_packages(packages, image_rpm_sets)
+        self.assertEqual(len(runtime), 1)
+        self.assertEqual(len(buildonly), 0)
+        self.assertEqual(set(runtime[0]["images"]), {"operator", "collector"})
+
+    def test_buildonly_package(self):
+        from rpm_cve_check import classify_packages
+        packages = [
+            {"name": "gcc", "evr": "11.5.0-14.el9", "sourcerpm": "gcc-11.5.0-14.el9.src.rpm"},
+        ]
+        image_rpm_sets = {"operator": {"openssl-libs"}}
+        runtime, buildonly = classify_packages(packages, image_rpm_sets)
+        self.assertEqual(len(runtime), 0)
+        self.assertEqual(len(buildonly), 1)
+
+    def test_mixed_packages(self):
+        from rpm_cve_check import classify_packages
+        packages = [
+            {"name": "openssl-libs", "evr": "1:3.5.5-6.el9_8", "sourcerpm": "openssl-3.5.5-6.el9_8.src.rpm"},
+            {"name": "gcc", "evr": "11.5.0-14.el9", "sourcerpm": "gcc-11.5.0-14.el9.src.rpm"},
+        ]
+        image_rpm_sets = {"operator": {"openssl-libs"}}
+        runtime, buildonly = classify_packages(packages, image_rpm_sets)
+        self.assertEqual(len(runtime), 1)
+        self.assertEqual(len(buildonly), 1)
+        self.assertEqual(runtime[0]["name"], "openssl-libs")
+        self.assertEqual(buildonly[0]["name"], "gcc")
+
+
 if __name__ == "__main__":
     unittest.main()
