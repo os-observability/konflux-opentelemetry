@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import argparse
 import json
 import re
 import subprocess
@@ -13,6 +14,12 @@ import yaml
 
 RH_CVE_API = "https://access.redhat.com/hydra/rest/securitydata/cve.json"
 RH_CVE_URL = "https://access.redhat.com/security/cve"
+
+IMAGES = {
+    "operator": "registry.redhat.io/rhosdt/opentelemetry-rhel9-operator",
+    "collector": "registry.redhat.io/rhosdt/opentelemetry-collector-rhel9",
+    "target-allocator": "registry.redhat.io/rhosdt/opentelemetry-target-allocator-rhel9",
+}
 
 
 def extract_source_name(sourcerpm):
@@ -225,3 +232,72 @@ def format_json(runtime, buildonly, cves_by_source, lockfile_path, arch):
         "buildonly_packages": [enrich(p) for p in buildonly],
     }
     return json.dumps(data, indent=2)
+
+
+def resolve_image_names(image_arg):
+    """Return list of image keys based on --image flag."""
+    if image_arg == "all":
+        return list(IMAGES.keys())
+    if image_arg in IMAGES:
+        return [image_arg]
+    print(f"Error: unknown image '{image_arg}'. Choose from: {', '.join(IMAGES.keys())}, all", file=sys.stderr)
+    sys.exit(1)
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Analyze rpms.lock.yaml for known CVEs against production images."
+    )
+    parser.add_argument("lockfile", help="Path to rpms.lock.yaml")
+    parser.add_argument("--image", default="all",
+                        help="Image to check: operator, collector, target-allocator, or all (default: all)")
+    parser.add_argument("--tag", default="latest",
+                        help="Production image tag, e.g. rhosdt-3.10.0 (default: latest)")
+    parser.add_argument("--output", choices=["markdown", "json"], default="markdown",
+                        help="Output format (default: markdown)")
+    parser.add_argument("--arch", default="x86_64",
+                        help="Architecture to analyze (default: x86_64)")
+    args = parser.parse_args()
+
+    if not Path(args.lockfile).exists():
+        print(f"Error: lock file not found: {args.lockfile}", file=sys.stderr)
+        sys.exit(1)
+
+    image_keys = resolve_image_names(args.image)
+
+    # Step 1: Parse lock file
+    print(f"Parsing {args.lockfile} for arch {args.arch}...", file=sys.stderr)
+    packages = parse_lockfile(args.lockfile, args.arch)
+    if not packages:
+        print(f"No packages found for arch {args.arch}", file=sys.stderr)
+        sys.exit(1)
+    print(f"Found {len(packages)} packages", file=sys.stderr)
+
+    # Step 2: Classify packages
+    print(f"Inspecting production images (tag={args.tag})...", file=sys.stderr)
+    image_rpm_sets = {}
+    for key in image_keys:
+        ref = f"{IMAGES[key]}:{args.tag}"
+        print(f"  Pulling RPM list from {ref}...", file=sys.stderr)
+        image_rpm_sets[key] = get_image_rpms(ref)
+        print(f"  Found {len(image_rpm_sets[key])} RPMs in {key}", file=sys.stderr)
+
+    runtime, buildonly = classify_packages(packages, image_rpm_sets)
+    print(f"Classified: {len(runtime)} runtime, {len(buildonly)} build-only", file=sys.stderr)
+
+    # Step 3: Fetch CVEs
+    source_packages = dedupe_by_source(packages)
+    print(f"Querying Red Hat CVE API for {len(source_packages)} source packages...", file=sys.stderr)
+    cves_by_source = fetch_all_cves(source_packages)
+    total_cves = sum(len(v) for v in cves_by_source.values())
+    print(f"Found {total_cves} CVEs across all packages", file=sys.stderr)
+
+    # Step 4: Format output
+    if args.output == "markdown":
+        print(format_markdown(runtime, buildonly, cves_by_source, args.lockfile, args.arch))
+    else:
+        print(format_json(runtime, buildonly, cves_by_source, args.lockfile, args.arch))
+
+
+if __name__ == "__main__":
+    main()
