@@ -2,6 +2,7 @@
 import os
 import tempfile
 import unittest
+from unittest.mock import patch, MagicMock
 
 import yaml
 
@@ -134,6 +135,70 @@ class TestClassifyPackages(unittest.TestCase):
         self.assertEqual(len(buildonly), 1)
         self.assertEqual(runtime[0]["name"], "openssl-libs")
         self.assertEqual(buildonly[0]["name"], "gcc")
+
+
+class TestFetchCvesForSource(unittest.TestCase):
+    @patch("rpm_cve_check.requests.get")
+    def test_parses_api_response(self, mock_get):
+        from rpm_cve_check import fetch_cves_for_source
+        mock_response = MagicMock()
+        mock_response.ok = True
+        mock_response.json.return_value = [
+            {
+                "CVE": "CVE-2026-42771",
+                "severity": "low",
+                "cvss3_score": "6.5",
+                "public_date": "2026-07-10T00:00:00Z",
+                "bugzilla_description": "openssl: Possible OOB Read",
+                "resource_url": "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2026-42771.json",
+            }
+        ]
+        mock_get.return_value = mock_response
+
+        cves = fetch_cves_for_source("openssl")
+        self.assertEqual(len(cves), 1)
+        self.assertEqual(cves[0]["cve_id"], "CVE-2026-42771")
+        self.assertEqual(cves[0]["severity"], "low")
+        self.assertEqual(cves[0]["cvss3_score"], "6.5")
+        self.assertEqual(cves[0]["link"], "https://access.redhat.com/security/cve/CVE-2026-42771")
+
+    @patch("rpm_cve_check.requests.get")
+    def test_handles_api_error(self, mock_get):
+        from rpm_cve_check import fetch_cves_for_source
+        mock_response = MagicMock()
+        mock_response.ok = False
+        mock_response.status_code = 500
+        mock_get.return_value = mock_response
+
+        cves = fetch_cves_for_source("nonexistent")
+        self.assertEqual(cves, [])
+
+    @patch("rpm_cve_check.requests.get")
+    def test_handles_empty_response(self, mock_get):
+        from rpm_cve_check import fetch_cves_for_source
+        mock_response = MagicMock()
+        mock_response.ok = True
+        mock_response.json.return_value = []
+        mock_get.return_value = mock_response
+
+        cves = fetch_cves_for_source("zlib")
+        self.assertEqual(cves, [])
+
+
+class TestFetchAllCves(unittest.TestCase):
+    @patch("rpm_cve_check.fetch_cves_for_source")
+    def test_deduplicates_api_calls(self, mock_fetch):
+        from rpm_cve_check import fetch_all_cves
+        mock_fetch.return_value = [{"cve_id": "CVE-2024-1234", "severity": "moderate", "cvss3_score": "5.0", "public_date": "2024-01-01", "summary": "test", "link": "https://example.com"}]
+
+        source_packages = {
+            "glibc": [{"name": "glibc", "evr": "2.34"}, {"name": "glibc-common", "evr": "2.34"}],
+            "openssl": [{"name": "openssl-libs", "evr": "3.5.5"}],
+        }
+        result = fetch_all_cves(source_packages)
+        self.assertEqual(mock_fetch.call_count, 2)
+        self.assertIn("glibc", result)
+        self.assertIn("openssl", result)
 
 
 if __name__ == "__main__":
