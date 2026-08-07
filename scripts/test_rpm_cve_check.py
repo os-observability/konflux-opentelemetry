@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import json
 import os
 import tempfile
 import unittest
@@ -199,6 +200,73 @@ class TestFetchAllCves(unittest.TestCase):
         self.assertEqual(mock_fetch.call_count, 2)
         self.assertIn("glibc", result)
         self.assertIn("openssl", result)
+
+
+class TestFormatMarkdown(unittest.TestCase):
+    def test_runtime_with_cves(self):
+        from rpm_cve_check import format_markdown, extract_source_name
+        runtime = [
+            {"name": "openssl-libs", "evr": "1:3.5.5-6.el9_8", "sourcerpm": "openssl-3.5.5-6.el9_8.src.rpm", "images": ["operator", "collector"]},
+        ]
+        buildonly = []
+        cves_by_source = {
+            "openssl": [
+                {"cve_id": "CVE-2026-42771", "severity": "low", "cvss3_score": "6.5", "public_date": "2026-07-10T00:00:00Z", "summary": "openssl: Possible OOB Read", "link": "https://access.redhat.com/security/cve/CVE-2026-42771"},
+            ],
+        }
+        report = format_markdown(runtime, buildonly, cves_by_source, "rpms.lock.yaml", "x86_64")
+        self.assertIn("# RPM CVE Report", report)
+        self.assertIn("## Runtime Packages", report)
+        self.assertIn("openssl-libs", report)
+        self.assertIn("CVE-2026-42771", report)
+        self.assertIn("6.5", report)
+        self.assertIn("operator", report)
+        self.assertIn("collector", report)
+
+    def test_buildonly_section(self):
+        from rpm_cve_check import format_markdown
+        runtime = []
+        buildonly = [
+            {"name": "gcc", "evr": "11.5.0-14.el9", "sourcerpm": "gcc-11.5.0-14.el9.src.rpm"},
+        ]
+        cves_by_source = {"gcc": []}
+        report = format_markdown(runtime, buildonly, cves_by_source, "rpms.lock.yaml", "x86_64")
+        self.assertIn("## Build-Only Packages", report)
+        self.assertIn("gcc", report)
+        self.assertIn("_No known CVEs_", report)
+
+    def test_summary_table(self):
+        from rpm_cve_check import format_markdown
+        runtime = [
+            {"name": "openssl-libs", "evr": "1:3.5.5-6.el9_8", "sourcerpm": "openssl-3.5.5-6.el9_8.src.rpm", "images": ["operator"]},
+        ]
+        buildonly = [
+            {"name": "gcc", "evr": "11.5.0-14.el9", "sourcerpm": "gcc-11.5.0-14.el9.src.rpm"},
+        ]
+        cves_by_source = {
+            "openssl": [{"cve_id": "CVE-2026-42771", "severity": "important", "cvss3_score": "6.5", "public_date": "2026-07-10", "summary": "test", "link": "https://example.com"}],
+            "gcc": [],
+        }
+        report = format_markdown(runtime, buildonly, cves_by_source, "rpms.lock.yaml", "x86_64")
+        self.assertIn("## Summary", report)
+        self.assertIn("Runtime", report)
+        self.assertIn("Build-only", report)
+
+
+class TestFormatJson(unittest.TestCase):
+    def test_valid_json_output(self):
+        from rpm_cve_check import format_json
+        runtime = [
+            {"name": "openssl-libs", "evr": "1:3.5.5-6.el9_8", "sourcerpm": "openssl-3.5.5-6.el9_8.src.rpm", "images": ["operator"]},
+        ]
+        buildonly = []
+        cves_by_source = {"openssl": []}
+        output = format_json(runtime, buildonly, cves_by_source, "rpms.lock.yaml", "x86_64")
+        data = json.loads(output)
+        self.assertIn("runtime_packages", data)
+        self.assertIn("buildonly_packages", data)
+        self.assertIn("lockfile", data)
+        self.assertEqual(data["arch"], "x86_64")
 
 
 if __name__ == "__main__":

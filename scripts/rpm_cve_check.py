@@ -1,8 +1,10 @@
 #!/usr/bin/env python
+import json
 import re
 import subprocess
 import sys
 import tempfile
+from datetime import datetime
 from pathlib import Path
 
 import requests
@@ -115,3 +117,111 @@ def fetch_all_cves(source_packages):
     for source_name in source_packages:
         results[source_name] = fetch_cves_for_source(source_name)
     return results
+
+
+def _format_pkg_section(pkg, cves_by_source, include_images=False):
+    """Format a single package's section with CVE table."""
+    source = extract_source_name(pkg["sourcerpm"])
+    header = f"### {pkg['name']} {pkg['evr']}"
+    if include_images and "images" in pkg:
+        header += f" ({', '.join(sorted(pkg['images']))})"
+    lines = [header, ""]
+
+    cves = cves_by_source.get(source, [])
+    if not cves:
+        lines.append("_No known CVEs_")
+    else:
+        lines.append("| CVE | CVSS | Severity | Date | Summary | Link |")
+        lines.append("|-----|------|----------|------|---------|------|")
+        for cve in sorted(cves, key=lambda c: float(c.get("cvss3_score") or 0), reverse=True):
+            date_str = cve["public_date"][:10] if cve["public_date"] else "N/A"
+            score = cve.get("cvss3_score") or "N/A"
+            lines.append(
+                f"| {cve['cve_id']} | {score} | {cve['severity'].capitalize()} "
+                f"| {date_str} | {cve['summary']} | [Details]({cve['link']}) |"
+            )
+    lines.append("")
+    return "\n".join(lines)
+
+
+def _count_cves(packages, cves_by_source):
+    """Count CVE stats for a set of packages."""
+    sources_seen = set()
+    total_cves = 0
+    pkgs_with_cves = 0
+    critical_important = 0
+    for pkg in packages:
+        source = extract_source_name(pkg["sourcerpm"])
+        if source in sources_seen:
+            continue
+        sources_seen.add(source)
+        cves = cves_by_source.get(source, [])
+        if cves:
+            pkgs_with_cves += 1
+            total_cves += len(cves)
+            critical_important += sum(
+                1 for c in cves if c.get("severity", "").lower() in ("critical", "important")
+            )
+    return len(packages), pkgs_with_cves, total_cves, critical_important
+
+
+def format_markdown(runtime, buildonly, cves_by_source, lockfile_path, arch):
+    """Generate the full markdown report."""
+    today = datetime.utcnow().strftime("%Y-%m-%d")
+    lines = [
+        "# RPM CVE Report",
+        "",
+        f"**Lock file:** {lockfile_path}",
+        f"**Architecture:** {arch}",
+        f"**Date:** {today}",
+        "",
+    ]
+
+    lines.append("## Runtime Packages")
+    lines.append("")
+    if not runtime:
+        lines.append("_No runtime packages found in lock file._")
+        lines.append("")
+    else:
+        for pkg in runtime:
+            lines.append(_format_pkg_section(pkg, cves_by_source, include_images=True))
+
+    lines.append("## Build-Only Packages")
+    lines.append("")
+    if not buildonly:
+        lines.append("_No build-only packages found in lock file._")
+        lines.append("")
+    else:
+        for pkg in buildonly:
+            lines.append(_format_pkg_section(pkg, cves_by_source, include_images=False))
+
+    rt_pkgs, rt_with, rt_total, rt_crit = _count_cves(runtime, cves_by_source)
+    bo_pkgs, bo_with, bo_total, bo_crit = _count_cves(buildonly, cves_by_source)
+
+    lines.append("## Summary")
+    lines.append("")
+    lines.append("| Category | Packages | With CVEs | Total CVEs | Critical/Important |")
+    lines.append("|----------|----------|-----------|------------|--------------------|")
+    lines.append(f"| Runtime | {rt_pkgs} | {rt_with} | {rt_total} | {rt_crit} |")
+    lines.append(f"| Build-only | {bo_pkgs} | {bo_with} | {bo_total} | {bo_crit} |")
+    lines.append("")
+
+    return "\n".join(lines)
+
+
+def format_json(runtime, buildonly, cves_by_source, lockfile_path, arch):
+    """Generate the JSON report."""
+    today = datetime.utcnow().strftime("%Y-%m-%d")
+
+    def enrich(pkg):
+        source = extract_source_name(pkg["sourcerpm"])
+        return {**pkg, "cves": cves_by_source.get(source, [])}
+
+    data = {
+        "lockfile": lockfile_path,
+        "arch": arch,
+        "date": today,
+        "runtime_packages": [enrich(p) for p in runtime],
+        "buildonly_packages": [enrich(p) for p in buildonly],
+    }
+    return json.dumps(data, indent=2)
