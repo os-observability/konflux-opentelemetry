@@ -10,14 +10,11 @@ When an optional [rpms.lock.yaml](https://hermetoproject.github.io/hermeto/lates
 ## Usage
 
 ```bash
-# Build
-podman build -t rpm-cve-check:latest tools/rpm-cve/
-
 # Scan an image for CVEs
 podman run --rm \
   -v $XDG_RUNTIME_DIR/containers/auth.json:/auth.json:Z \
   -e REGISTRY_AUTH_FILE=/auth.json \
-  rpm-cve-check:latest \
+  ghcr.io/os-observability/konflux-opentelemetry/rpm-cve-check:latest \
   --image registry.redhat.io/rhosdt/opentelemetry-rhel9-operator:rhosdt-3.10.0
 
 # Scan and compare against a lock file update
@@ -25,7 +22,7 @@ podman run --rm \
   -v $XDG_RUNTIME_DIR/containers/auth.json:/auth.json:Z \
   -e REGISTRY_AUTH_FILE=/auth.json \
   -v $(pwd):/workspace:Z \
-  rpm-cve-check:latest \
+  ghcr.io/os-observability/konflux-opentelemetry/rpm-cve-check:latest \
   --image registry.redhat.io/rhosdt/opentelemetry-rhel9-operator:rhosdt-3.10.0 \
   --lockfile /workspace/rpms.lock.yaml
 ```
