@@ -47,7 +47,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: prefetch-input
-    value: '[{"type": "gomod", "path": "./redhat-opentelemetry-collector/_build"}, {"type": "gomod", "path": "./opentelemetry-ebpf-instrumentation"}, {"type": "gomod", "path": "./opentelemetry-ebpf-instrumentation/internal/tools"}, {"type": "rpm"}]'
+    value: '[{"type": "gomod", "path": "./redhat-opentelemetry-collector/_build"}, {"type": "gomod", "path": "./redhat-opentelemetry-collector/.obi-src"}, {"type": "gomod", "path": "./redhat-opentelemetry-collector/.obi-src/internal/tools"}, {"type": "rpm"}]'
   - name: hermetic
     value: "true"
   - name: output-image
