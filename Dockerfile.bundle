@@ -1,5 +1,5 @@
 # Based on ./gatekeeper-operator/bundle.Dockerfile
-FROM registry.redhat.io/ubi9/ubi-minimal:latest@sha256:ae09ecc3d754bc1726cbda3e2599cc7839e09fe1cc547ce173cf669b645be3cc as builder
+FROM registry.redhat.io/ubi9/ubi-minimal:latest@sha256:17fd831ced9434de0a984d60b3fbe61008308261ba98bbc348d6fbdef05fa7c0 as builder
 
 USER root
 WORKDIR /opt/bundle-build
@@ -25,7 +25,7 @@ RUN ./update_bundle.sh && cat manifests/opentelemetry-operator.clusterservicever
 
 FROM scratch
 
-ARG VERSION=0.152.0-1
+ARG VERSION=0.152.1-2
 
 WORKDIR /
 
@@ -54,8 +54,7 @@ LABEL release="${VERSION}" \
       distribution-scope="public" \
       description="Bundle for OpenTelemetry operator" \
       io.k8s.description="Bundle for OpenTelemetry operator" \
-      # TODO check if this is correct
-      com.redhat.component="rhosdt" \
+      com.redhat.component="opentelemetry-operator-bundle-container" \
       io.openshift.tags="tracing" \
       io.k8s.display-name="OpenTelemetry Operator Bundle" \
       url="https://github.com/open-telemetry/opentelemetry-operator" \

@@ -22,17 +22,24 @@ spec:
       type: string
     - name: namespace
       description: 'Namespace to run tests in'
-      default: 'openshift-opentelemetry-operator'
+      default: 'opentelemetry-operator-system'
       type: string
     - name: operator_csv_version
       description: Version of OpenTelemetry Operator CSV
       type: string
-    - name: otel_version
-      description: Version of OpenTelemetry operator and collector
+      default: "opentelemetry-operator.v0.152.0-1"
+    - name: collector_version
+      description: Version of OpenTelemetry Collector (from opentelemetry-collector in versions.txt)
       type: string
+      default: "0.152.1"
+    - name: ta_version
+      description: Version of Target Allocator (from targetallocator in versions.txt)
+      type: string
+      default: "0.152.0"
     - name: otel_tests_branch
       description: "The repository branch from which to run the tests"
       type: string
+      default: "rhosdt-3.10"
     - name: PACKAGE_NAME
       description: "Package name for the bundle"
       default: "opentelemetry-product"
@@ -162,8 +169,10 @@ spec:
       params:
         - name: OTEL_TESTS_BRANCH
           value: $(params.otel_tests_branch)
-        - name: OTEL_VERSION
-          value: $(params.otel_version)
+        - name: COLLECTOR_VERSION
+          value: $(params.collector_version)
+        - name: TA_VERSION
+          value: $(params.ta_version)
         - name: OPERATOR_CSV_VERSION
           value: $(params.operator_csv_version)
         - name: FBC_FRAGMENT
@@ -172,7 +181,9 @@ spec:
         params:
           - name: OTEL_TESTS_BRANCH
             type: string
-          - name: OTEL_VERSION
+          - name: COLLECTOR_VERSION
+            type: string
+          - name: TA_VERSION
             type: string
           - name: OPERATOR_CSV_VERSION
             type: string
@@ -208,8 +219,10 @@ spec:
                 value: "/credentials/$(steps.get-kubeconfig.results.kubeconfig)"
               - name: FBC_FRAGMENT
                 value: "$(params.FBC_FRAGMENT)"
-              - name: OTEL_VERSION
-                value: "$(params.OTEL_VERSION)"
+              - name: COLLECTOR_VERSION
+                value: "$(params.COLLECTOR_VERSION)"
+              - name: TA_VERSION
+                value: "$(params.TA_VERSION)"
               - name: OPERATOR_CSV_VERSION
                 value: "$(params.OPERATOR_CSV_VERSION)"
             image: quay.io/redhat-distributed-tracing-qe/konflux-e2e:latest
@@ -220,7 +233,7 @@ spec:
               OTEL_TESTS_BRANCH=$(params.OTEL_TESTS_BRANCH)
 
               echo "Run e2e tests"
-              git clone https://github.com/IshwarKanse/opentelemetry-operator.git /tmp/otel-tests
+              git clone https://github.com/os-observability/opentelemetry-operator.git /tmp/otel-tests
               cd /tmp/otel-tests 
               git checkout $OTEL_TESTS_BRANCH
 
@@ -233,6 +246,7 @@ spec:
               
               chainsaw test --quiet tests/e2e-openshift-upgrade --values - <<EOF
               upgrade_fbc_image: $FBC_FRAGMENT
-              upgrade_otel_version: $OTEL_VERSION
+              upgrade_collector_version: $COLLECTOR_VERSION
+              upgrade_ta_version: $TA_VERSION
               upgrade_operator_csv_name: $OPERATOR_CSV_VERSION
               EOF
