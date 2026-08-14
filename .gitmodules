@@ -1,7 +1,7 @@
 [submodule "redhat-opentelemetry-collector"]
 	path = redhat-opentelemetry-collector
 	url = https://github.com/os-observability/redhat-opentelemetry-collector.git
-	branch = rhosdt-3.10
+	branch = main
 [submodule "opentelemetry-operator"]
 	path = opentelemetry-operator
 	url = https://github.com/os-observability/opentelemetry-operator.git
