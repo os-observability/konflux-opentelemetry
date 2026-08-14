@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi9/ubi:latest@sha256:d3e61197e0f96aee94872141b429f63eadb939de95a25fe6b504843f427b7a3f as builder
+FROM registry.redhat.io/ubi9/ubi:latest@sha256:bcbf1fe577df63bd975ea19ebae604b5f072e1833b2bde417a0ffd4afd938b96 as builder
 
 WORKDIR /opt/app-root/src
 USER root
@@ -43,7 +43,7 @@ RUN exportOrFail() { echo $1; if [[ $1 == *= ]]; then echo "Error: empty variabl
 
 FROM registry.redhat.io/ubi9/ubi-micro:latest@sha256:7e7f79ab747bf2b452e3043dd89f388e92be4c7fdcc8b815b58adf6c99c39c95 AS target-base
 
-FROM registry.redhat.io/ubi9/ubi:latest@sha256:d3e61197e0f96aee94872141b429f63eadb939de95a25fe6b504843f427b7a3f as install-additional-packages
+FROM registry.redhat.io/ubi9/ubi:latest@sha256:bcbf1fe577df63bd975ea19ebae604b5f072e1833b2bde417a0ffd4afd938b96 as install-additional-packages
 COPY --from=target-base / /mnt/rootfs
 RUN rpm --root /mnt/rootfs --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 RUN dnf install --installroot /mnt/rootfs --releasever 9 --setopt install_weak_deps=false --setopt reposdir=/etc/yum.repos.d --nodocs -y openssl && \
