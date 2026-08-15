@@ -740,12 +740,6 @@ arches:
     evr: 252-67.el9_8.4
     sourcerpm: systemd-252-67.el9_8.4.src.rpm
   source:
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/source/SRPMS/Packages/n/nghttp2-1.43.0-6.el9_8.2.src.rpm
-    repoid: ubi-9-for-aarch64-baseos-source-rpms
-    size: 4006795
-    checksum: sha256:ef340ebe10c9a22422e6951262619e9c6cf10eb66aa18ad032ac5fab3bdf44d4
-    name: nghttp2
-    evr: 1.43.0-6.el9_8.2
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/source/SRPMS/Packages/g/golang-1.26.5-1.el9_8.src.rpm
     repoid: ubi-9-for-x86_64-appstream-source-rpms
     size: 36513301
@@ -1070,6 +1064,12 @@ arches:
     checksum: sha256:c812e3c35d5bd5c3e33c65cdcf39d434acfd538aaa68ac04e3a5a9cc60556d50
     name: mpfr
     evr: 4.1.0-10.el9
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/n/nghttp2-1.43.0-6.el9_8.2.src.rpm
+    repoid: ubi-9-for-x86_64-baseos-source-rpms
+    size: 4006795
+    checksum: sha256:ef340ebe10c9a22422e6951262619e9c6cf10eb66aa18ad032ac5fab3bdf44d4
+    name: nghttp2
+    evr: 1.43.0-6.el9_8.2
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/o/openldap-2.6.8-4.el9.src.rpm
     repoid: ubi-9-for-x86_64-baseos-source-rpms
     size: 6548889
@@ -1912,12 +1912,6 @@ arches:
     evr: 252-67.el9_8.4
     sourcerpm: systemd-252-67.el9_8.4.src.rpm
   source:
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/source/SRPMS/Packages/n/nghttp2-1.43.0-6.el9_8.2.src.rpm
-    repoid: ubi-9-for-aarch64-baseos-source-rpms
-    size: 4006795
-    checksum: sha256:ef340ebe10c9a22422e6951262619e9c6cf10eb66aa18ad032ac5fab3bdf44d4
-    name: nghttp2
-    evr: 1.43.0-6.el9_8.2
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/source/SRPMS/Packages/l/librtas-2.0.6-3.el9.src.rpm
     repoid: ubi-9-for-ppc64le-baseos-source-rpms
     size: 177776
@@ -2248,6 +2242,12 @@ arches:
     checksum: sha256:c812e3c35d5bd5c3e33c65cdcf39d434acfd538aaa68ac04e3a5a9cc60556d50
     name: mpfr
     evr: 4.1.0-10.el9
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/n/nghttp2-1.43.0-6.el9_8.2.src.rpm
+    repoid: ubi-9-for-x86_64-baseos-source-rpms
+    size: 4006795
+    checksum: sha256:ef340ebe10c9a22422e6951262619e9c6cf10eb66aa18ad032ac5fab3bdf44d4
+    name: nghttp2
+    evr: 1.43.0-6.el9_8.2
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/o/openldap-2.6.8-4.el9.src.rpm
     repoid: ubi-9-for-x86_64-baseos-source-rpms
     size: 6548889
@@ -3090,12 +3090,6 @@ arches:
     evr: 252-67.el9_8.4
     sourcerpm: systemd-252-67.el9_8.4.src.rpm
   source:
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/source/SRPMS/Packages/n/nghttp2-1.43.0-6.el9_8.2.src.rpm
-    repoid: ubi-9-for-aarch64-baseos-source-rpms
-    size: 4006795
-    checksum: sha256:ef340ebe10c9a22422e6951262619e9c6cf10eb66aa18ad032ac5fab3bdf44d4
-    name: nghttp2
-    evr: 1.43.0-6.el9_8.2
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/source/SRPMS/Packages/g/golang-1.26.5-1.el9_8.src.rpm
     repoid: ubi-9-for-x86_64-appstream-source-rpms
     size: 36513301
@@ -3420,6 +3414,12 @@ arches:
     checksum: sha256:c812e3c35d5bd5c3e33c65cdcf39d434acfd538aaa68ac04e3a5a9cc60556d50
     name: mpfr
     evr: 4.1.0-10.el9
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/n/nghttp2-1.43.0-6.el9_8.2.src.rpm
+    repoid: ubi-9-for-x86_64-baseos-source-rpms
+    size: 4006795
+    checksum: sha256:ef340ebe10c9a22422e6951262619e9c6cf10eb66aa18ad032ac5fab3bdf44d4
+    name: nghttp2
+    evr: 1.43.0-6.el9_8.2
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/o/openldap-2.6.8-4.el9.src.rpm
     repoid: ubi-9-for-x86_64-baseos-source-rpms
     size: 6548889
@@ -3925,13 +3925,13 @@ arches:
     name: libmount
     evr: 2.37.4-25.el9
     sourcerpm: util-linux-2.37.4-25.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/l/libnghttp2-1.43.0-6.el9_8.1.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/l/libnghttp2-1.43.0-6.el9_8.2.x86_64.rpm
     repoid: ubi-9-for-x86_64-baseos-rpms
-    size: 80371
-    checksum: sha256:3e99ec9ac85e7b1bf8348a503b14eb8d41e6df788c181202484a8cbc399f630a
+    size: 80410
+    checksum: sha256:adb3260b6610917c07bda0a6bc521d5628bb1892a66d008f0fea81dc022ac699
     name: libnghttp2
-    evr: 1.43.0-6.el9_8.1
-    sourcerpm: nghttp2-1.43.0-6.el9_8.1.src.rpm
+    evr: 1.43.0-6.el9_8.2
+    sourcerpm: nghttp2-1.43.0-6.el9_8.2.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/l/libpkgconf-1.7.3-10.el9.x86_64.rpm
     repoid: ubi-9-for-x86_64-baseos-rpms
     size: 38387
@@ -4565,12 +4565,12 @@ arches:
     checksum: sha256:c812e3c35d5bd5c3e33c65cdcf39d434acfd538aaa68ac04e3a5a9cc60556d50
     name: mpfr
     evr: 4.1.0-10.el9
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/n/nghttp2-1.43.0-6.el9_8.1.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/n/nghttp2-1.43.0-6.el9_8.2.src.rpm
     repoid: ubi-9-for-x86_64-baseos-source-rpms
-    size: 4003756
-    checksum: sha256:8b25596d58db32cf06c747c764ffc8ae328a9b7efb579d2ba2a302e887b3cf50
+    size: 4006795
+    checksum: sha256:ef340ebe10c9a22422e6951262619e9c6cf10eb66aa18ad032ac5fab3bdf44d4
     name: nghttp2
-    evr: 1.43.0-6.el9_8.1
+    evr: 1.43.0-6.el9_8.2
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/o/openldap-2.6.8-4.el9.src.rpm
     repoid: ubi-9-for-x86_64-baseos-source-rpms
     size: 6548889
