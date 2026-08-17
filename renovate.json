@@ -10,6 +10,7 @@
   "packageRules": [
     {
       "groupName": "ubi9",
+      "automerge": true,
       "matchPackageNames": [
         "registry.redhat.io/ubi9/ubi",
         "registry.redhat.io/ubi9/ubi-minimal",
@@ -18,6 +19,7 @@
     },
     {
       "groupName": "RPM lockfiles",
+      "automerge": true,
       "matchUpdateTypes": ["lockFileMaintenance", "lockfileVulnerabilityAlerts"]
     }
   ],
