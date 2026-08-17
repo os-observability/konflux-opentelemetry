@@ -7,6 +7,20 @@
   "git-submodules": {
     "enabled": false
   },
+  "packageRules": [
+    {
+      "groupName": "ubi9",
+      "matchPackageNames": [
+        "registry.redhat.io/ubi9/ubi",
+        "registry.redhat.io/ubi9/ubi-minimal",
+        "registry.redhat.io/ubi9/ubi-micro"
+      ]
+    },
+    {
+      "groupName": "RPM lockfiles",
+      "matchUpdateTypes": ["lockFileMaintenance", "lockfileVulnerabilityAlerts"]
+    }
+  ],
   "customManagers": [
     {
       "customType": "regex",
