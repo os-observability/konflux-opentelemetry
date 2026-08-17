@@ -15,6 +15,10 @@
         "registry.redhat.io/ubi9/ubi-minimal",
         "registry.redhat.io/ubi9/ubi-micro"
       ]
+    },
+    {
+      "groupName": "RPM lockfiles",
+      "matchUpdateTypes": ["lockFileMaintenance", "lockfileVulnerabilityAlerts"]
     }
   ],
   "customManagers": [
