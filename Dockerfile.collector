@@ -3,7 +3,7 @@ FROM registry.redhat.io/ubi9/ubi:latest@sha256:bcbf1fe577df63bd975ea19ebae604b5f
 WORKDIR /opt/app-root/src
 USER root
 
-RUN dnf install --nodocs -y golang clang llvm make git && \
+RUN dnf install --nodocs -y golang clang llvm make && \
     dnf clean all && \
     rm -rf /var/cache/yum
 
