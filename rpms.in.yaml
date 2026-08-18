@@ -10,6 +10,7 @@ packages:
   - golang
   - openssl
   - systemd
+  - crypto-policies-scripts
 arches:
   - x86_64
   - aarch64
