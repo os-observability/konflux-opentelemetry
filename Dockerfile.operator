@@ -27,7 +27,7 @@ RUN exportOrFail() { echo $1; if [[ $1 == *= ]]; then echo "Error: empty variabl
     exportOrFail AUTO_INSTRUMENTATION_GO_VERSION=`grep -v '\#' versions.txt | grep autoinstrumentation-go | awk -F= '{print $2}'` && \
     exportOrFail AUTO_INSTRUMENTATION_APACHE_HTTPD_VERSION=`grep -v '\#' versions.txt | grep autoinstrumentation-apache-httpd | awk -F= '{print $2}'` && \
     exportOrFail AUTO_INSTRUMENTATION_NGINX_VERSION=`grep -v '\#' versions.txt | grep autoinstrumentation-nginx | awk -F= '{print $2}'` && \
-    CGO_ENABLED=1 GOEXPERIMENT=strictfipsruntime go build -mod=mod -tags strictfipsruntime -o ./opentelemetry-operator -trimpath -ldflags "-s -w \
+    CGO_ENABLED=0 GOFIPS140=certified go build -mod=mod -tags no_openssl -o ./opentelemetry-operator -trimpath -ldflags "-s -w \
               -X ${VERSION_PKG}.version=${OPERATOR_VERSION} \
               -X ${VERSION_PKG}.buildDate=${BUILD_DATE} \
               -X ${VERSION_PKG}.otelCol=${OTELCOL_VERSION} \
@@ -43,25 +43,9 @@ RUN exportOrFail() { echo $1; if [[ $1 == *= ]]; then echo "Error: empty variabl
 
 FROM registry.redhat.io/ubi9/ubi-micro:latest@sha256:7e7f79ab747bf2b452e3043dd89f388e92be4c7fdcc8b815b58adf6c99c39c95 AS target-base
 
-FROM registry.redhat.io/ubi9/ubi:latest@sha256:5426a8f45e80a07168a30ea24d84f266094b3756624a5508cc53927e6ee39e09 as install-additional-packages
-COPY --from=target-base / /mnt/rootfs
-RUN rpm --root /mnt/rootfs --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
-RUN dnf install --installroot /mnt/rootfs --releasever 9 --setopt install_weak_deps=false --setopt reposdir=/etc/yum.repos.d --nodocs -y openssl && \
-    dnf clean all && \
-    rm -rf /var/cache/yum
-RUN rm -rf /mnt/rootfs/var/cache/*
-
-# Enable post-quantum cryptography (ML-KEM) via DEFAULT:PQ crypto policy (OCPSTRAT-3113)
-# Install crypto-policies-scripts on builder (not target) to avoid Python in final image
-FROM registry.redhat.io/ubi9/ubi:latest@sha256:5426a8f45e80a07168a30ea24d84f266094b3756624a5508cc53927e6ee39e09 as crypto-policies
-RUN dnf install --nodocs -y crypto-policies-scripts && \
-    update-crypto-policies --set DEFAULT:PQ && \
-    dnf clean all
-
 FROM scratch
 WORKDIR /
-COPY --from=install-additional-packages /mnt/rootfs/ /
-COPY --from=crypto-policies /etc/crypto-policies/ /etc/crypto-policies/
+COPY --from=target-base / /
 
 ARG VERSION=0.158.0-1
 
@@ -69,6 +53,7 @@ RUN mkdir /licenses
 COPY opentelemetry-operator/LICENSE /licenses/.
 COPY --from=builder /opt/app-root/src/opentelemetry-operator/opentelemetry-operator /usr/bin/opentelemetry-operator
 
+ENV GODEBUG=fips140=auto
 ARG USER_UID=1001
 USER ${USER_UID}
 ENTRYPOINT ["/usr/bin/opentelemetry-operator"]
