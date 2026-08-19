@@ -27,7 +27,7 @@ RUN rm -rf /mnt/rootfs/var/cache/*
 
 # Enable post-quantum cryptography (ML-KEM) via DEFAULT:PQ crypto policy (OCPSTRAT-3113)
 # Install crypto-policies-scripts on builder (not target) to avoid Python in final image
-FROM registry.redhat.io/ubi9/ubi:latest@sha256:1b99266db480e8aa6dfda6900697a07ec99334095b4f87d1687edfc06c965132 as crypto-policies
+FROM registry.redhat.io/ubi9/ubi:latest@sha256:5426a8f45e80a07168a30ea24d84f266094b3756624a5508cc53927e6ee39e09 as crypto-policies
 RUN dnf install --nodocs -y crypto-policies-scripts && \
     update-crypto-policies --set DEFAULT:PQ && \
     dnf clean all
@@ -37,7 +37,7 @@ WORKDIR /
 COPY --from=install-additional-packages /mnt/rootfs/ /
 COPY --from=crypto-policies /etc/crypto-policies/ /etc/crypto-policies/
 
-ARG VERSION=0.152.1-3
+ARG VERSION=0.158.0-1
 
 RUN mkdir /licenses
 COPY opentelemetry-operator/LICENSE /licenses/.
@@ -49,7 +49,7 @@ ENTRYPOINT ["/usr/bin/opentelemetry-target-allocator"]
 
 LABEL release="${VERSION}" \
       version="${VERSION}" \
-      cpe="cpe:/a:redhat:openshift_distributed_tracing:3.10::el9" \
+      cpe="cpe:/a:redhat:openshift_distributed_tracing:3.11::el9" \
       vendor="Red Hat, Inc." \
       distribution-scope="public" \
       url="https://github.com/open-telemetry/opentelemetry-operator" \
