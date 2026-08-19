@@ -37,7 +37,7 @@ WORKDIR /
 COPY --from=install-additional-packages /mnt/rootfs/ /
 COPY --from=crypto-policies /etc/crypto-policies/ /etc/crypto-policies/
 
-ARG VERSION=0.152.1-3
+ARG VERSION=0.158.0-1
 
 RUN mkdir /licenses
 COPY opentelemetry-operator/LICENSE /licenses/.
@@ -49,7 +49,7 @@ ENTRYPOINT ["/usr/bin/opentelemetry-target-allocator"]
 
 LABEL release="${VERSION}" \
       version="${VERSION}" \
-      cpe="cpe:/a:redhat:openshift_distributed_tracing:3.10::el9" \
+      cpe="cpe:/a:redhat:openshift_distributed_tracing:3.11::el9" \
       vendor="Red Hat, Inc." \
       distribution-scope="public" \
       url="https://github.com/open-telemetry/opentelemetry-operator" \
