@@ -11,6 +11,8 @@ packages:
   - openssl
   - systemd
   - crypto-policies-scripts
+  - clang
+  - llvm
 arches:
   - x86_64
   - aarch64
