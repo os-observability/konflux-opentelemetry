@@ -76,6 +76,15 @@ Create a PR `Release - update bundle version x.y` and update [patch_csv.yaml](./
    ```
 1. Merge the PR and wait until all builds were successful.
 
+### Integration test pipelines
+
+The version defaults in the integration test pipelines under
+[.tekton/integration-tests/pipelines](./.tekton/integration-tests/pipelines) are the source of truth for the
+operator/operand versions, test branch and product version used by the e2e and upgrade tests (the Konflux
+IntegrationTestScenario does not override them). They are asserted by the `check-opentelemetry-version` task
+against the actual bundle, so stale values fail the runs (e.g. `otelcol version 0.158.0` not matching an expected
+`0.152.1`). These defaults are updated automatically by [versions.sh](./versions.sh); no manual edit is needed.
+
 ### Catalog
 
 The Konflux nudging is configured from the bundle component to update the [catalog.env](./catalog/catalog.env) file which contains the bundle pullspec.
