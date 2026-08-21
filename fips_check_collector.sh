@@ -23,3 +23,6 @@ if [[ $(go tool objdump -s "$pattern" _build/opentelemetry-collector) ]]; then
     echo "found $pattern"
     exit 1
 fi
+
+# Verify the FIPS 140 module version embedded in the binary
+go version -m _build/opentelemetry-collector | grep "GOFIPS140=v1.0.0"

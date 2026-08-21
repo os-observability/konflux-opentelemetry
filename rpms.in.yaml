@@ -8,9 +8,10 @@ contentOrigin:
     - ubi9.repo
 packages:
   - golang
-  - openssl
   - systemd
-  - crypto-policies-scripts
+  - clang
+  - llvm
+  - make
 arches:
   - x86_64
   - aarch64
