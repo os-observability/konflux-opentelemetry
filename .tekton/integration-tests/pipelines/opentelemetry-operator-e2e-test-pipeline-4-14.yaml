@@ -641,6 +641,9 @@ spec:
               # Execute OpenTelemetry e2e tests
               chainsaw test \
               --quiet \
+              --report-format JUNIT-TEST \
+              --report-path .testresults/e2e \
+              --report-name e2e \
               --test-dir \
               tests/e2e \
               tests/e2e-autoscale \
@@ -656,6 +659,9 @@ spec:
               # Execute sidecar-related tests with version-dependent selector
               chainsaw test \
               --quiet \
+              --report-format JUNIT-TEST \
+              --report-path .testresults/e2e \
+              --report-name sidecar \
               --selector "$selector" \
               --test-dir \
               tests/e2e-prometheuscr \
@@ -678,12 +684,22 @@ spec:
               # Execute OpenTelemetry e2e tests
               chainsaw test \
               --quiet \
+              --report-format JUNIT-TEST \
+              --report-path .testresults/e2e \
+              --report-name metadata-filters \
               --test-dir \
               tests/e2e-metadata-filters || any_errors=true
 
               # Check if any errors occurred
               if $any_errors; then
                 echo "Tests failed, check the logs for more details."
+                # Surface the JUnit reports so failing tests' reasons appear in the
+                # task log (the run uses --quiet, which otherwise hides all detail).
+                for report in .testresults/e2e/*.xml; do
+                  [ -e "$report" ] || continue
+                  echo "===== chainsaw report: $report ====="
+                  cat "$report"
+                done
                 exit 1
               else
                 echo "All the tests passed."
