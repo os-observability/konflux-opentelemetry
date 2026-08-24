@@ -67,3 +67,14 @@ spec:
                         value: opentelemetry-collector-container-pullspec
                       - name: RELATED_IMAGE_TARGET_ALLOCATOR
                         value: opentelemetry-target-allocator-container-pullspec
+        - name: opentelemetry-operator-webhook
+          spec:
+            template:
+              spec:
+                containers:
+                  - name: webhook
+                    extra_env:
+                      - name: RELATED_IMAGE_COLLECTOR
+                        value: opentelemetry-collector-container-pullspec
+                      - name: RELATED_IMAGE_TARGET_ALLOCATOR
+                        value: opentelemetry-target-allocator-container-pullspec
