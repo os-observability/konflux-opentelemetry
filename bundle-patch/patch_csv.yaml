@@ -73,6 +73,7 @@ spec:
               spec:
                 containers:
                   - name: webhook
+                    image: opentelemetry-operator-container-pullspec
                     extra_env:
                       - name: RELATED_IMAGE_COLLECTOR
                         value: opentelemetry-collector-container-pullspec
