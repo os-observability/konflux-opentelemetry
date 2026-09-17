@@ -21,7 +21,7 @@ FROM scratch
 WORKDIR /
 COPY --from=target-base / /
 
-ARG VERSION=0.158.0-1
+ARG VERSION=0.158.0-2
 
 RUN mkdir /licenses
 COPY opentelemetry-operator/LICENSE /licenses/.
