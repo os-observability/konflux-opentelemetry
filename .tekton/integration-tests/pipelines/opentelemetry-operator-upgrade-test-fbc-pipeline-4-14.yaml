@@ -27,7 +27,7 @@ spec:
     - name: operator_csv_version
       description: Version of OpenTelemetry Operator CSV
       type: string
-      default: "opentelemetry-operator.v0.158.0-1"
+      default: "opentelemetry-operator.v0.158.0-2"
     - name: collector_version
       description: Version of OpenTelemetry Collector (from opentelemetry-collector in versions.txt)
       type: string
