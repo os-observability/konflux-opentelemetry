@@ -346,7 +346,7 @@ spec:
         emptyDir: {}
       steps:
       - name: use-trusted-artifact
-        image: quay.io/konflux-ci/build-trusted-artifacts:latest@sha256:dc542700b2e7ba806adfab360682d491c069bc2d6157d235c26adbe09480e26b
+        image: quay.io/konflux-ci/build-trusted-artifacts:latest@sha256:d4155ab6553b406bd5ab96b98bb10ab97a38a6f9dcb7c39dd18678428e8b2e64
         args:
         - use
         - $(params.SOURCE_ARTIFACT)=/var/workdir/source
@@ -401,7 +401,7 @@ spec:
         emptyDir: {}
       steps:
       - name: use-trusted-artifact
-        image: quay.io/konflux-ci/build-trusted-artifacts:latest@sha256:dc542700b2e7ba806adfab360682d491c069bc2d6157d235c26adbe09480e26b
+        image: quay.io/konflux-ci/build-trusted-artifacts:latest@sha256:d4155ab6553b406bd5ab96b98bb10ab97a38a6f9dcb7c39dd18678428e8b2e64
         args:
         - use
         - $(params.SOURCE_ARTIFACT)=/var/workdir/source
