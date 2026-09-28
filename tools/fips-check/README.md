@@ -65,71 +65,86 @@ The tool maintains a classification of crypto packages:
 
 ## Example Output
 
-Running against the OpenTelemetry Collector build:
+Running against the OpenTelemetry Operator binary and module with YAML output:
 
+```bash
+fips-check --binary opentelemetry-operator --module . --yaml
 ```
-=== FIPS Compliance Report ===
 
-Module: ./redhat-opentelemetry-collector/_build
-
---- Dependencies ---
-
-[WARNING] ? github.com/go-jose/go-jose/v4
-  JOSE/JWE implementation, uses x/crypto/pbkdf2 for key derivation in JWE
-  Imported by:
-    - github.com/coreos/go-oidc/v3/oidc
-      github.com/os-observability/redhat-opentelemetry-collector
-      -> github.com/open-telemetry/opentelemetry-collector-contrib/extension/oidcauthextension
-      -> github.com/coreos/go-oidc/v3/oidc
-    - github.com/open-telemetry/opentelemetry-collector-contrib/extension/oidcauthextension
-      github.com/os-observability/redhat-opentelemetry-collector
-      -> github.com/open-telemetry/opentelemetry-collector-contrib/extension/oidcauthextension
-
-[WARNING] ? golang.org/x/crypto/bcrypt
-  standalone Blowfish-based implementation, not FIPS approved
-  Imported by:
-    - github.com/prometheus/exporter-toolkit/web
-      github.com/os-observability/redhat-opentelemetry-collector
-      -> github.com/open-telemetry/opentelemetry-collector-contrib/receiver/prometheusreceiver
-      -> github.com/open-telemetry/opentelemetry-collector-contrib/receiver/prometheusreceiver/internal/apiserver
-      -> github.com/prometheus/exporter-toolkit/web
-
-[WARNING] ? golang.org/x/crypto/chacha20poly1305
-  standalone AEAD implementation, not FIPS approved
-  Imported by:
-    - github.com/foxboron/go-tpm-keyfiles
-      github.com/os-observability/redhat-opentelemetry-collector
-      -> github.com/open-telemetry/opentelemetry-collector-contrib/extension/oauth2clientauthextension
-      -> go.opentelemetry.io/collector/config/configtls
-      -> github.com/foxboron/go-tpm-keyfiles
-    - github.com/google/s2a-go/internal/record/internal/aeadcrypter
-      github.com/os-observability/redhat-opentelemetry-collector
-      -> github.com/open-telemetry/opentelemetry-collector-contrib/exporter/googlecloudexporter
-      -> github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/collector
-      -> google.golang.org/api/option
-      -> google.golang.org/api/internal
-      -> github.com/google/s2a-go
-      -> github.com/google/s2a-go/internal/handshaker
-      -> github.com/google/s2a-go/internal/record
-      -> github.com/google/s2a-go/internal/record/internal/halfconn
-      -> github.com/google/s2a-go/internal/record/internal/aeadcrypter
-
-[INFO] - golang.org/x/crypto/pbkdf2
-  wrapper around crypto/pbkdf2 since Go 1.24 (delegates to crypto/pbkdf2 → FIPS module)
-  Imported by:
-    - github.com/jcmturner/gokrb5/v8/crypto/rfc8009
-      github.com/os-observability/redhat-opentelemetry-collector
-      -> github.com/open-telemetry/opentelemetry-collector-contrib/exporter/kafkaexporter
-      -> github.com/open-telemetry/opentelemetry-collector-contrib/internal/kafka
-      -> github.com/jcmturner/gokrb5/v8/keytab
-      -> github.com/jcmturner/gokrb5/v8/crypto
-      -> github.com/jcmturner/gokrb5/v8/crypto/rfc8009
-    - github.com/twmb/franz-go/pkg/kadm
-      github.com/os-observability/redhat-opentelemetry-collector
-      -> github.com/open-telemetry/opentelemetry-collector-contrib/exporter/kafkaexporter
-      -> github.com/open-telemetry/opentelemetry-collector-contrib/internal/kafka
-      -> github.com/twmb/franz-go/pkg/kadm
-
---- Summary ---
-Errors: 0  Warnings: 9  Info: 3
+```yaml
+binaryPath: opentelemetry-operator
+modulePath: .
+findings:
+    - checker: buildinfo
+      severity: ERROR
+      message: binary was not built with GOFIPS140 — no FIPS 140 module embedded
+    - checker: buildinfo
+      severity: WARNING
+      message: CGO_ENABLED=1 — binary uses cgo, verify no non-FIPS C crypto is linked
+    - checker: symbol
+      severity: ERROR
+      package: golang.org/x/crypto/chacha20
+      message: 'non-delegating symbols linked in binary: standalone ChaCha20 implementation, not FIPS approved'
+      symbols:
+        - vendor/golang.org/x/crypto/chacha20.(*Cipher).XORKeyStream
+        - vendor/golang.org/x/crypto/chacha20.(*Cipher).xorKeyStreamBlocksGeneric
+        - vendor/golang.org/x/crypto/chacha20.hChaCha20
+        - vendor/golang.org/x/crypto/chacha20.newUnauthenticatedCipher
+      category: non-delegating
+    - checker: symbol
+      severity: ERROR
+      package: golang.org/x/crypto/chacha20poly1305
+      message: 'non-delegating symbols linked in binary: standalone AEAD implementation, not FIPS approved'
+      symbols:
+        - vendor/golang.org/x/crypto/chacha20poly1305.(*chacha20poly1305).Open
+        - vendor/golang.org/x/crypto/chacha20poly1305.(*chacha20poly1305).Seal
+        - vendor/golang.org/x/crypto/chacha20poly1305.(*chacha20poly1305).seal
+        - vendor/golang.org/x/crypto/chacha20poly1305.(*chacha20poly1305).sealGeneric
+        - '... and 17 more'
+      category: non-delegating
+    - checker: symbol
+      severity: OK
+      package: golang.org/x/crypto/bcrypt
+      message: no symbols found in binary (dead-code-eliminated or not imported)
+    - checker: dependency
+      severity: WARNING
+      package: golang.org/x/crypto/chacha20poly1305
+      message: standalone AEAD implementation, not FIPS approved
+      importers:
+        - importer: github.com/google/s2a-go/internal/record/internal/aeadcrypter
+          chain:
+            - github.com/open-telemetry/opentelemetry-operator/cmd/otel-allocator/internal/config
+            - github.com/prometheus/prometheus/config
+            - github.com/prometheus/prometheus/storage/remote/googleiam
+            - google.golang.org/api/option
+            - google.golang.org/api/internal
+            - github.com/google/s2a-go
+            - github.com/google/s2a-go/internal/handshaker
+            - github.com/google/s2a-go/internal/record
+            - github.com/google/s2a-go/internal/record/internal/halfconn
+            - github.com/google/s2a-go/internal/record/internal/aeadcrypter
+        - importer: github.com/quic-go/quic-go/internal/handshake
+          chain:
+            - github.com/open-telemetry/opentelemetry-operator/cmd/otel-allocator/internal/server
+            - github.com/gin-gonic/gin
+            - github.com/quic-go/quic-go/http3
+            - github.com/quic-go/quic-go
+            - github.com/quic-go/quic-go/internal/handshake
+      category: non-delegating
+    - checker: dependency
+      severity: INFO
+      package: golang.org/x/crypto/sha3
+      message: wrapper around crypto/sha3 since Go 1.24 (delegates to crypto/sha3 → FIPS module)
+      importers:
+        - importer: github.com/go-playground/validator/v10
+          chain:
+            - github.com/open-telemetry/opentelemetry-operator/cmd/otel-allocator/internal/server
+            - github.com/gin-gonic/gin
+            - github.com/gin-gonic/gin/binding
+            - github.com/go-playground/validator/v10
+      category: delegating
+summary:
+    errors: 3
+    warnings: 4
+    info: 2
 ```
