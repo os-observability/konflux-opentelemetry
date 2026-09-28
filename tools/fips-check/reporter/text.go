@@ -52,13 +52,18 @@ func writeSection(w io.Writer, title string, findings []checker.Finding, checker
 			fmt.Fprintf(w, "[%s] %s %s\n", f.Severity, icon, f.Message)
 		}
 
-		if len(f.Chain) > 0 {
-			fmt.Fprintln(w, "  Chain:")
-			for i, step := range f.Chain {
-				if i == 0 {
-					fmt.Fprintf(w, "    %s\n", step)
-				} else {
-					fmt.Fprintf(w, "    -> %s\n", step)
+		if len(f.Importers) > 0 {
+			fmt.Fprintln(w, "  Imported by:")
+			for _, ic := range f.Importers {
+				fmt.Fprintf(w, "    - %s\n", ic.Importer)
+				if len(ic.Chain) > 1 {
+					for i, step := range ic.Chain {
+						if i == 0 {
+							fmt.Fprintf(w, "      %s\n", step)
+						} else {
+							fmt.Fprintf(w, "      -> %s\n", step)
+						}
+					}
 				}
 			}
 		}

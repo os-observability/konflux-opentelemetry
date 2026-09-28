@@ -10,111 +10,180 @@ import (
 )
 
 func CheckDependencies(modulePath string, classification map[string]PackageInfo) ([]Finding, error) {
+	graph, err := buildImportGraph(modulePath)
+	if err != nil {
+		return nil, fmt.Errorf("building import graph: %w", err)
+	}
+
+	reverseGraph := buildReverseGraph(graph)
+	roots := findRoots(graph, modulePath)
+
 	var findings []Finding
 
-	nonDelegating := NonDelegatingPackages(classification)
-	sort.Strings(nonDelegating)
-
-	for _, pkg := range nonDelegating {
-		info := classification[pkg]
-		chain, err := resolveChain(modulePath, pkg, info.ModuleCheck)
-		if err != nil {
-			return nil, fmt.Errorf("checking %s: %w", pkg, err)
-		}
-		if chain == nil {
-			continue
-		}
-
-		findings = append(findings, Finding{
-			Checker:  "dependency",
-			Severity: SeverityWarning,
-			Package:  pkg,
-			Message:  info.Reason,
-			Chain:    chain,
-			Category: string(info.Category),
-		})
-	}
-
-	var delegating []string
 	for pkg, info := range classification {
-		if info.Category == CategoryDelegating {
-			delegating = append(delegating, pkg)
-		}
-	}
-	sort.Strings(delegating)
-
-	for _, pkg := range delegating {
-		info := classification[pkg]
-		chain, err := resolveChain(modulePath, pkg, info.ModuleCheck)
-		if err != nil {
-			return nil, fmt.Errorf("checking %s: %w", pkg, err)
-		}
-		if chain == nil {
+		importers := findImporters(graph, pkg)
+		if len(importers) == 0 {
 			continue
 		}
+
+		sort.Strings(importers)
+
+		severity := SeverityInfo
+		message := info.Reason
+		if info.Category == CategoryNonDelegating {
+			severity = SeverityWarning
+		} else if info.Category == CategoryDelegating {
+			message = fmt.Sprintf("%s (delegates to %s → FIPS module)", info.Reason, info.DelegatesTo)
+		} else {
+			continue
+		}
+
+		var chains []ImportChain
+		for _, imp := range importers {
+			chain := traceToRoot(reverseGraph, roots, imp)
+			chains = append(chains, ImportChain{
+				Importer: imp,
+				Chain:    chain,
+			})
+		}
+
 		findings = append(findings, Finding{
-			Checker:  "dependency",
-			Severity: SeverityInfo,
-			Package:  pkg,
-			Message:  fmt.Sprintf("%s (delegates to %s → FIPS module)", info.Reason, info.DelegatesTo),
-			Chain:    chain,
-			Category: string(info.Category),
+			Checker:   "dependency",
+			Severity:  severity,
+			Package:   pkg,
+			Message:   message,
+			Importers: chains,
+			Category:  string(info.Category),
 		})
 	}
+
+	sort.Slice(findings, func(i, j int) bool {
+		if findings[i].Severity != findings[j].Severity {
+			return findings[i].Severity < findings[j].Severity
+		}
+		return findings[i].Package < findings[j].Package
+	})
 
 	return findings, nil
 }
 
-func resolveChain(modulePath, pkg string, moduleLevel bool) ([]string, error) {
-	if moduleLevel {
-		return goModWhyModule(modulePath, pkg)
-	}
-	return goModWhy(modulePath, pkg)
+type importEdge struct {
+	ImportPath string
+	Imports    []string
 }
 
-func goModWhy(modulePath, pkg string) ([]string, error) {
-	cmd := exec.Command("go", "mod", "why", pkg)
+func buildImportGraph(modulePath string) ([]importEdge, error) {
+	cmd := exec.Command("go", "list", "-deps", "-f", "{{.ImportPath}} {{join .Imports \" \"}}", "./...")
 	cmd.Dir = modulePath
-	return parseModWhy(cmd)
-}
 
-func goModWhyModule(modulePath, module string) ([]string, error) {
-	cmd := exec.Command("go", "mod", "why", "-m", module)
-	cmd.Dir = modulePath
-	return parseModWhy(cmd)
-}
-
-func parseModWhy(cmd *exec.Cmd) ([]string, error) {
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 
 	if err := cmd.Run(); err != nil {
-		output := stdout.String()
-		if strings.Contains(output, "does not need") {
-			return nil, nil
-		}
-		return nil, fmt.Errorf("%s: %s", err, stderr.String())
+		return nil, fmt.Errorf("go list: %s: %s", err, stderr.String())
 	}
 
-	output := stdout.String()
-	if strings.Contains(output, "does not need") {
-		return nil, nil
-	}
-
-	var chain []string
-	scanner := bufio.NewScanner(strings.NewReader(output))
+	var edges []importEdge
+	scanner := bufio.NewScanner(&stdout)
 	for scanner.Scan() {
-		line := strings.TrimSpace(scanner.Text())
-		if line == "" || strings.HasPrefix(line, "#") {
+		fields := strings.Fields(scanner.Text())
+		if len(fields) == 0 {
 			continue
 		}
-		chain = append(chain, line)
+		edges = append(edges, importEdge{
+			ImportPath: fields[0],
+			Imports:    fields[1:],
+		})
 	}
 
-	if len(chain) == 0 {
-		return nil, nil
+	return edges, nil
+}
+
+func buildReverseGraph(graph []importEdge) map[string][]string {
+	reverse := make(map[string][]string)
+	for _, edge := range graph {
+		for _, imp := range edge.Imports {
+			reverse[imp] = append(reverse[imp], edge.ImportPath)
+		}
+	}
+	return reverse
+}
+
+// findRoots returns the main module's own packages (the ./... packages).
+func findRoots(graph []importEdge, modulePath string) map[string]bool {
+	cmd := exec.Command("go", "list", "./...")
+	cmd.Dir = modulePath
+
+	var stdout bytes.Buffer
+	cmd.Stdout = &stdout
+	cmd.Run()
+
+	roots := make(map[string]bool)
+	scanner := bufio.NewScanner(&stdout)
+	for scanner.Scan() {
+		roots[strings.TrimSpace(scanner.Text())] = true
+	}
+	return roots
+}
+
+func findImporters(graph []importEdge, target string) []string {
+	var importers []string
+	for _, edge := range graph {
+		if edge.ImportPath == target {
+			continue
+		}
+		for _, imp := range edge.Imports {
+			if imp == target || strings.HasPrefix(imp, target+"/") {
+				importers = append(importers, edge.ImportPath)
+				break
+			}
+		}
+	}
+	return importers
+}
+
+// traceToRoot finds the shortest path from any root package to the given
+// importer using BFS on the reverse graph.
+func traceToRoot(reverseGraph map[string][]string, roots map[string]bool, target string) []string {
+	if roots[target] {
+		return []string{target}
 	}
 
-	return chain, nil
+	type node struct {
+		pkg  string
+		path []string
+	}
+
+	visited := make(map[string]bool)
+	queue := []node{{pkg: target, path: []string{target}}}
+	visited[target] = true
+
+	for len(queue) > 0 {
+		current := queue[0]
+		queue = queue[1:]
+
+		for _, parent := range reverseGraph[current.pkg] {
+			if visited[parent] {
+				continue
+			}
+			visited[parent] = true
+
+			newPath := make([]string, len(current.path)+1)
+			copy(newPath, current.path)
+			newPath[len(current.path)] = parent
+
+			if roots[parent] {
+				// Reverse so it reads root → ... → importer
+				for i, j := 0, len(newPath)-1; i < j; i, j = i+1, j-1 {
+					newPath[i], newPath[j] = newPath[j], newPath[i]
+				}
+				return newPath
+			}
+
+			queue = append(queue, node{pkg: parent, path: newPath})
+		}
+	}
+
+	return []string{target}
 }

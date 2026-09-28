@@ -23,7 +23,12 @@ func TestWriteText(t *testing.T) {
 				Severity: checker.SeverityWarning,
 				Package:  "golang.org/x/crypto/bcrypt",
 				Message:  "standalone Blowfish-based implementation",
-				Chain:    []string{"myapp", "exporter-toolkit/web", "x/crypto/bcrypt"},
+				Importers: []checker.ImportChain{
+					{
+						Importer: "github.com/prometheus/exporter-toolkit/web",
+						Chain:    []string{"myapp", "prometheusreceiver", "exporter-toolkit/web"},
+					},
+				},
 				Category: "non-delegating",
 			},
 			{
@@ -51,7 +56,7 @@ func TestWriteText(t *testing.T) {
 		t.Error("missing bcrypt finding")
 	}
 	if !strings.Contains(output, "exporter-toolkit/web") {
-		t.Error("missing chain step")
+		t.Error("missing importer")
 	}
 	if !strings.Contains(output, "Errors: 1") {
 		t.Error("missing error count")

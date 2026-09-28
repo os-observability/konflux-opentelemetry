@@ -5,7 +5,7 @@ A Go CLI tool that validates FIPS 140-3 compliance of Go binaries and modules.
 It performs three layers of checks:
 
 1. **Build Info** (`--binary`): Verifies the binary was built with `GOFIPS140` and reports the module version.
-2. **Dependency Analysis** (`--module`): Checks for non-FIPS-compliant crypto dependencies using `go mod why` and reports the full import chain showing which feature pulls in each package.
+2. **Dependency Analysis** (`--module`): Checks for non-FIPS-compliant crypto dependencies by building the full import graph (via `go list -deps`) and reports all import chains showing which features pull in each package.
 3. **Symbol Analysis** (`--binary`): Scans the binary's symbol table for linked symbols from non-FIPS crypto packages, distinguishing packages that are dead-code-eliminated from those actually compiled in.
 
 ## Installation
@@ -65,27 +65,71 @@ The tool maintains a classification of crypto packages:
 
 ## Example Output
 
+Running against the OpenTelemetry Collector build:
+
 ```
 === FIPS Compliance Report ===
 
-Module: ./_build
+Module: ./redhat-opentelemetry-collector/_build
 
 --- Dependencies ---
 
+[WARNING] ? github.com/go-jose/go-jose/v4
+  JOSE/JWE implementation, uses x/crypto/pbkdf2 for key derivation in JWE
+  Imported by:
+    - github.com/coreos/go-oidc/v3/oidc
+      github.com/os-observability/redhat-opentelemetry-collector
+      -> github.com/open-telemetry/opentelemetry-collector-contrib/extension/oidcauthextension
+      -> github.com/coreos/go-oidc/v3/oidc
+    - github.com/open-telemetry/opentelemetry-collector-contrib/extension/oidcauthextension
+      github.com/os-observability/redhat-opentelemetry-collector
+      -> github.com/open-telemetry/opentelemetry-collector-contrib/extension/oidcauthextension
+
 [WARNING] ? golang.org/x/crypto/bcrypt
   standalone Blowfish-based implementation, not FIPS approved
-  Chain:
-    github.com/example/myapp
-    -> github.com/prometheus/exporter-toolkit/web
-    -> golang.org/x/crypto/bcrypt
+  Imported by:
+    - github.com/prometheus/exporter-toolkit/web
+      github.com/os-observability/redhat-opentelemetry-collector
+      -> github.com/open-telemetry/opentelemetry-collector-contrib/receiver/prometheusreceiver
+      -> github.com/open-telemetry/opentelemetry-collector-contrib/receiver/prometheusreceiver/internal/apiserver
+      -> github.com/prometheus/exporter-toolkit/web
+
+[WARNING] ? golang.org/x/crypto/chacha20poly1305
+  standalone AEAD implementation, not FIPS approved
+  Imported by:
+    - github.com/foxboron/go-tpm-keyfiles
+      github.com/os-observability/redhat-opentelemetry-collector
+      -> github.com/open-telemetry/opentelemetry-collector-contrib/extension/oauth2clientauthextension
+      -> go.opentelemetry.io/collector/config/configtls
+      -> github.com/foxboron/go-tpm-keyfiles
+    - github.com/google/s2a-go/internal/record/internal/aeadcrypter
+      github.com/os-observability/redhat-opentelemetry-collector
+      -> github.com/open-telemetry/opentelemetry-collector-contrib/exporter/googlecloudexporter
+      -> github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/collector
+      -> google.golang.org/api/option
+      -> google.golang.org/api/internal
+      -> github.com/google/s2a-go
+      -> github.com/google/s2a-go/internal/handshaker
+      -> github.com/google/s2a-go/internal/record
+      -> github.com/google/s2a-go/internal/record/internal/halfconn
+      -> github.com/google/s2a-go/internal/record/internal/aeadcrypter
 
 [INFO] - golang.org/x/crypto/pbkdf2
   wrapper around crypto/pbkdf2 since Go 1.24 (delegates to crypto/pbkdf2 → FIPS module)
-  Chain:
-    github.com/example/myapp
-    -> github.com/twmb/franz-go/pkg/kadm
-    -> golang.org/x/crypto/pbkdf2
+  Imported by:
+    - github.com/jcmturner/gokrb5/v8/crypto/rfc8009
+      github.com/os-observability/redhat-opentelemetry-collector
+      -> github.com/open-telemetry/opentelemetry-collector-contrib/exporter/kafkaexporter
+      -> github.com/open-telemetry/opentelemetry-collector-contrib/internal/kafka
+      -> github.com/jcmturner/gokrb5/v8/keytab
+      -> github.com/jcmturner/gokrb5/v8/crypto
+      -> github.com/jcmturner/gokrb5/v8/crypto/rfc8009
+    - github.com/twmb/franz-go/pkg/kadm
+      github.com/os-observability/redhat-opentelemetry-collector
+      -> github.com/open-telemetry/opentelemetry-collector-contrib/exporter/kafkaexporter
+      -> github.com/open-telemetry/opentelemetry-collector-contrib/internal/kafka
+      -> github.com/twmb/franz-go/pkg/kadm
 
 --- Summary ---
-Errors: 0  Warnings: 1  Info: 1
+Errors: 0  Warnings: 9  Info: 3
 ```
