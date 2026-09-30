@@ -1,0 +1,137 @@
+# FIPS compliance classification of crypto packages.
+# Updated for Go 1.24+ where sha3, pbkdf2, and hkdf were promoted to the
+# standard library and x/crypto versions became wrappers.
+#
+# Categories:
+#   delegating     - wrappers around standard library FIPS module (safe)
+#   non-delegating - standalone crypto implementations outside FIPS boundary (concern)
+#   utility        - encoding/parsing helpers with no crypto operations (safe)
+
+packages:
+  # Delegating x/crypto packages (safe since Go 1.24)
+  - package: golang.org/x/crypto/sha3
+    category: delegating
+    reason: wrapper around crypto/sha3 since Go 1.24
+    delegatesTo: crypto/sha3
+
+  - package: golang.org/x/crypto/pbkdf2
+    category: delegating
+    reason: wrapper around crypto/pbkdf2 since Go 1.24
+    delegatesTo: crypto/pbkdf2
+
+  - package: golang.org/x/crypto/hkdf
+    category: delegating
+    reason: wrapper around crypto/hkdf since Go 1.24
+    delegatesTo: crypto/hkdf
+
+  # Non-delegating x/crypto packages
+  - package: golang.org/x/crypto/bcrypt
+    category: non-delegating
+    reason: standalone Blowfish-based implementation, not FIPS approved
+
+  - package: golang.org/x/crypto/blowfish
+    category: non-delegating
+    reason: Blowfish cipher, not FIPS approved
+
+  - package: golang.org/x/crypto/chacha20
+    category: non-delegating
+    reason: standalone ChaCha20 implementation, not FIPS approved
+
+  - package: golang.org/x/crypto/chacha20poly1305
+    category: non-delegating
+    reason: standalone AEAD implementation, not FIPS approved
+
+  - package: golang.org/x/crypto/ssh
+    category: non-delegating
+    reason: implements own crypto protocol, not FIPS validated
+
+  - package: golang.org/x/crypto/pkcs12
+    category: non-delegating
+    reason: uses RC2 internally, not FIPS approved
+
+  - package: golang.org/x/crypto/curve25519
+    category: non-delegating
+    reason: standalone Curve25519 implementation
+
+  - package: golang.org/x/crypto/salsa20
+    category: non-delegating
+    reason: Salsa20 cipher, not FIPS approved
+
+  - package: golang.org/x/crypto/nacl
+    category: non-delegating
+    reason: NaCl crypto box/secretbox, not FIPS approved
+
+  - package: golang.org/x/crypto/argon2
+    category: non-delegating
+    reason: Argon2 KDF, not FIPS approved
+
+  - package: golang.org/x/crypto/scrypt
+    category: non-delegating
+    reason: scrypt KDF, not FIPS approved
+
+  - package: golang.org/x/crypto/tea
+    category: non-delegating
+    reason: TEA/XTEA cipher, not FIPS approved
+
+  - package: golang.org/x/crypto/xtea
+    category: non-delegating
+    reason: XTEA cipher, not FIPS approved
+
+  - package: golang.org/x/crypto/twofish
+    category: non-delegating
+    reason: Twofish cipher, not FIPS approved
+
+  - package: golang.org/x/crypto/cast5
+    category: non-delegating
+    reason: CAST5 cipher, not FIPS approved
+
+  - package: golang.org/x/crypto/openpgp
+    category: non-delegating
+    reason: OpenPGP implementation with non-FIPS ciphers
+
+  - package: golang.org/x/crypto/bn256
+    category: non-delegating
+    reason: BN256 pairing-based crypto, not FIPS approved
+
+  - package: golang.org/x/crypto/blake2b
+    category: non-delegating
+    reason: BLAKE2b hash, not FIPS approved
+
+  - package: golang.org/x/crypto/blake2s
+    category: non-delegating
+    reason: BLAKE2s hash, not FIPS approved
+
+  # Third-party crypto packages (checked at module level)
+  - package: github.com/jcmturner/gokrb5/v8
+    category: non-delegating
+    reason: Kerberos v5 crypto, uses own DES/AES implementations
+    moduleCheck: true
+
+  - package: github.com/jcmturner/aescts/v2
+    category: non-delegating
+    reason: AES CTS mode for Kerberos, standalone implementation
+    moduleCheck: true
+
+  - package: github.com/jcmturner/gofork
+    category: non-delegating
+    reason: forked x/crypto for Kerberos, not FIPS validated
+    moduleCheck: true
+
+  - package: github.com/xdg-go/pbkdf2
+    category: non-delegating
+    reason: standalone PBKDF2 for MongoDB SCRAM, not using FIPS module
+    moduleCheck: true
+
+  - package: github.com/go-jose/go-jose/v4
+    category: non-delegating
+    reason: JOSE/JWE implementation, uses x/crypto/pbkdf2 for key derivation in JWE
+    moduleCheck: true
+
+  # Utility packages (safe, no crypto operations)
+  - package: golang.org/x/crypto/cryptobyte
+    category: utility
+    reason: ASN.1 and low-level encoding, no crypto operations
+
+  - package: golang.org/x/crypto/ocsp
+    category: utility
+    reason: OCSP parsing, delegates to crypto/x509
