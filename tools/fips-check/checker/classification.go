@@ -1,6 +1,7 @@
 package checker
 
 import (
+	"bytes"
 	_ "embed"
 	"fmt"
 
@@ -51,8 +52,23 @@ func MergeClassifications(base, override map[string]PackageInfo) map[string]Pack
 
 func parseClassification(data []byte) (map[string]PackageInfo, error) {
 	var config ClassificationConfig
-	if err := yaml.Unmarshal(data, &config); err != nil {
+	decoder := yaml.NewDecoder(bytes.NewReader(data))
+	decoder.KnownFields(true)
+	if err := decoder.Decode(&config); err != nil {
 		return nil, fmt.Errorf("parsing classification config: %w", err)
+	}
+	if len(config.Packages) == 0 {
+		return nil, fmt.Errorf("classification config must contain at least one package")
+	}
+	for _, pkg := range config.Packages {
+		if pkg.Package == "" {
+			return nil, fmt.Errorf("classification package name must not be empty")
+		}
+		switch pkg.Category {
+		case CategoryDelegating, CategoryNonDelegating, CategoryUtility:
+		default:
+			return nil, fmt.Errorf("unsupported package category %q for %s", pkg.Category, pkg.Package)
+		}
 	}
 
 	result := make(map[string]PackageInfo, len(config.Packages))

@@ -3,20 +3,21 @@ package checker
 import (
 	"bufio"
 	"bytes"
+	"context"
 	"fmt"
 	"os/exec"
 	"sort"
 	"strings"
 )
 
-func CheckDependencies(modulePath string, classification map[string]PackageInfo) ([]Finding, error) {
-	graph, err := buildImportGraph(modulePath)
+func CheckDependencies(ctx context.Context, modulePath string, classification map[string]PackageInfo) ([]Finding, error) {
+	graph, err := buildImportGraph(ctx, modulePath)
 	if err != nil {
 		return nil, fmt.Errorf("building import graph: %w", err)
 	}
 
 	reverseGraph := buildReverseGraph(graph)
-	roots := findRoots(graph, modulePath)
+	roots := findRoots(ctx, graph, modulePath)
 
 	var findings []Finding
 
@@ -72,8 +73,8 @@ type importEdge struct {
 	Imports    []string
 }
 
-func buildImportGraph(modulePath string) ([]importEdge, error) {
-	cmd := exec.Command("go", "list", "-deps", "-f", "{{.ImportPath}} {{join .Imports \" \"}}", "./...")
+func buildImportGraph(ctx context.Context, modulePath string) ([]importEdge, error) {
+	cmd := exec.CommandContext(ctx, "go", "list", "-deps", "-f", "{{.ImportPath}} {{join .Imports \" \"}}", "./...")
 	cmd.Dir = modulePath
 
 	var stdout, stderr bytes.Buffer
@@ -111,8 +112,8 @@ func buildReverseGraph(graph []importEdge) map[string][]string {
 }
 
 // findRoots returns the main module's own packages (the ./... packages).
-func findRoots(graph []importEdge, modulePath string) map[string]bool {
-	cmd := exec.Command("go", "list", "./...")
+func findRoots(ctx context.Context, graph []importEdge, modulePath string) map[string]bool {
+	cmd := exec.CommandContext(ctx, "go", "list", "./...")
 	cmd.Dir = modulePath
 
 	var stdout bytes.Buffer

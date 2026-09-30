@@ -1,9 +1,12 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"os"
+	"os/signal"
+	"time"
 
 	"github.com/os-observability/konflux-opentelemetry/tools/fips-check/checker"
 	"github.com/os-observability/konflux-opentelemetry/tools/fips-check/reporter"
@@ -62,7 +65,11 @@ func main() {
 	}
 
 	if *modulePath != "" {
-		dep, err := checker.CheckDependencies(*modulePath, classification)
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
+		ctx, stop := signal.NotifyContext(ctx, os.Interrupt)
+		defer cancel()
+		defer stop()
+		dep, err := checker.CheckDependencies(ctx, *modulePath, classification)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "dependency check failed: %v\n", err)
 			os.Exit(2)

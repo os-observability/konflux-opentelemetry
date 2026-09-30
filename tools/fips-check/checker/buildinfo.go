@@ -3,6 +3,7 @@ package checker
 import (
 	"debug/buildinfo"
 	"fmt"
+	"regexp"
 )
 
 func CheckBuildInfo(binaryPath string) ([]Finding, error) {
@@ -21,17 +22,24 @@ func CheckBuildInfo(binaryPath string) ([]Finding, error) {
 		}
 	}
 
-	if gofips140 == "" {
+	switch {
+	case gofips140 == "" || gofips140 == "off":
 		findings = append(findings, Finding{
 			Checker:  "buildinfo",
 			Severity: SeverityError,
 			Message:  "binary was not built with GOFIPS140 — no FIPS 140 module embedded",
 		})
-	} else {
+	case isValidGOFIPS140(gofips140):
 		findings = append(findings, Finding{
 			Checker:  "buildinfo",
 			Severity: SeverityOK,
 			Message:  fmt.Sprintf("GOFIPS140=%s", gofips140),
+		})
+	default:
+		findings = append(findings, Finding{
+			Checker:  "buildinfo",
+			Severity: SeverityError,
+			Message:  fmt.Sprintf("GOFIPS140=%s — unrecognized value, expected certified, latest, inprocess, or vX.Y.Z", gofips140),
 		})
 	}
 
@@ -51,4 +59,14 @@ func CheckBuildInfo(binaryPath string) ([]Finding, error) {
 	}
 
 	return findings, nil
+}
+
+var validGOFIPS140 = regexp.MustCompile(`^v\d+\.\d+\.\d+(-[a-zA-Z0-9]+)?$`)
+
+func isValidGOFIPS140(value string) bool {
+	switch value {
+	case "certified", "latest", "inprocess":
+		return true
+	}
+	return validGOFIPS140.MatchString(value)
 }

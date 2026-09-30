@@ -2,6 +2,7 @@ package checker
 
 import (
 	"debug/elf"
+	"errors"
 	"fmt"
 	"sort"
 	"strings"
@@ -75,6 +76,9 @@ func readSymbols(binaryPath string) ([]string, error) {
 
 	syms, err := f.Symbols()
 	if err != nil {
+		if errors.Is(err, elf.ErrNoSymbols) {
+			return nil, fmt.Errorf("binary %s has no symbol table (stripped with -ldflags=\"-s\") — symbol analysis requires an unstripped binary", binaryPath)
+		}
 		return nil, fmt.Errorf("reading symbols from %s: %w", binaryPath, err)
 	}
 
