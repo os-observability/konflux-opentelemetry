@@ -87,6 +87,7 @@ func buildImportGraph(ctx context.Context, modulePath string) ([]importEdge, err
 
 	var edges []importEdge
 	scanner := bufio.NewScanner(&stdout)
+	scanner.Buffer(make([]byte, 0, bufio.MaxScanTokenSize), 1024*1024)
 	for scanner.Scan() {
 		fields := strings.Fields(scanner.Text())
 		if len(fields) == 0 {
@@ -96,6 +97,9 @@ func buildImportGraph(ctx context.Context, modulePath string) ([]importEdge, err
 			ImportPath: fields[0],
 			Imports:    fields[1:],
 		})
+	}
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("parsing go list output: %w", err)
 	}
 
 	return edges, nil
