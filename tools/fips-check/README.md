@@ -55,7 +55,7 @@ When `--config` is specified, it **replaces** the built-in defaults entirely.
 
 The `--allowlist` flag accepts a YAML file with verified import chains. This is designed for CI gating — you verify each import chain once, add it to the allowlist, and the tool only fails on new, unverified chains.
 
-The allowlist matches on the **exact import chain** from the root module package to the direct importer. If the same crypto package is imported through a different chain (e.g., a new feature adds a dependency that also uses `chacha20poly1305`), it won't be allowed until you verify and add that chain.
+The allowlist matches on the **shortest reported import chain** from the root module package to the direct importer (one chain per importer, found via BFS). If the same crypto package is imported through a different chain (e.g., a new feature adds a dependency that also uses `chacha20poly1305`), it won't be allowed until you verify and add that chain. Note: if a dependency upgrade changes the shortest path to an already-allowed importer, the allowlist entry may need updating.
 
 ```yaml
 allow:
@@ -77,7 +77,7 @@ allow:
     reason: Azure cert auth, not used in our deployment
 
 # Exclude entire features that are disabled in FIPS mode
-excludeRoots:
+excludePackages:
   - github.com/open-telemetry/opentelemetry-collector-contrib/extension/oidcauthextension
 ```
 
@@ -328,7 +328,7 @@ summary:
     info: 2
 ```
 
-Allow list for the operator (`--allowlist`). The `fipsckeck` tool exists with `0`:
+Example allowlist for the operator (`--allowlist`). With this allowlist, `fips-check` exits with status `0` for the findings above:
 
 ```yaml
 # Verified FIPS allowlist for the OpenTelemetry Operator.

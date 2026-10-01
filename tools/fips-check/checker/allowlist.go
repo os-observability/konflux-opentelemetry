@@ -16,7 +16,7 @@ type AllowEntry struct {
 
 type AllowlistConfig struct {
 	Allow        []AllowEntry `yaml:"allow"`
-	ExcludeRoots []string     `yaml:"excludeRoots"`
+	ExcludePackages []string     `yaml:"excludePackages"`
 }
 
 func LoadAllowlist(path string) (*AllowlistConfig, error) {
@@ -53,7 +53,7 @@ func chainsEqual(a, b []string) bool {
 }
 
 func (a *AllowlistConfig) isChainExcluded(chain []string) bool {
-	for _, root := range a.ExcludeRoots {
+	for _, root := range a.ExcludePackages {
 		for _, step := range chain {
 			if step == root || strings.HasPrefix(step, root+"/") {
 				return true

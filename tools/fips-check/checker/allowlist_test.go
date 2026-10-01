@@ -96,7 +96,7 @@ func TestApplyAllowlistAllChainsAllowed(t *testing.T) {
 	}
 }
 
-func TestApplyAllowlistExcludeRoots(t *testing.T) {
+func TestApplyAllowlistExcludePackages(t *testing.T) {
 	findings := []Finding{
 		{
 			Checker:  "dependency",
@@ -117,7 +117,7 @@ func TestApplyAllowlistExcludeRoots(t *testing.T) {
 	}
 
 	allowlist := &AllowlistConfig{
-		ExcludeRoots: []string{"github.com/open-telemetry/opentelemetry-collector-contrib/extension/oidcauthextension"},
+		ExcludePackages: []string{"github.com/open-telemetry/opentelemetry-collector-contrib/extension/oidcauthextension"},
 	}
 
 	result := ApplyAllowlist(findings, allowlist)
