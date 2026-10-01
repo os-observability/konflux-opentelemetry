@@ -16,6 +16,7 @@ func main() {
 	binaryPath := flag.String("binary", "", "Path to compiled Go binary (enables build-info + symbol checks)")
 	modulePath := flag.String("module", "", "Path to Go module directory (enables dependency check)")
 	configPath := flag.String("config", "", "Path to classification YAML (replaces built-in defaults)")
+	allowlistPath := flag.String("allowlist", "", "Path to allowlist YAML with verified import paths")
 	yamlOutput := flag.Bool("yaml", false, "Output as YAML instead of text")
 	flag.Parse()
 
@@ -75,6 +76,15 @@ func main() {
 			os.Exit(2)
 		}
 		findings = append(findings, dep...)
+	}
+
+	if *allowlistPath != "" {
+		allowlist, err := checker.LoadAllowlist(*allowlistPath)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "loading allowlist: %v\n", err)
+			os.Exit(2)
+		}
+		findings = checker.ApplyAllowlist(findings, allowlist)
 	}
 
 	report := reporter.Report{
