@@ -8,9 +8,9 @@ metadata:
 spec:
   description: |
     This pipeline automates the process of running end-to-end tests for OpenShift OpenTelemetry Operator
-    using a ROSA (Red Hat OpenShift Service on AWS) cluster. The pipeline provisions
-    the ROSA cluster, installs the OpenShift OpenTelemetry operator using the installer, installs dependent operators, runs the tests, collects artifacts,
-    and finally deprovisions the ROSA cluster.
+    using an ephemeral OpenShift CI HyperShift cluster. The pipeline provisions the cluster, installs the
+    OpenShift OpenTelemetry operator and its dependencies, runs the tests, and collects artifacts. The cluster
+    is cleaned up automatically with the owning PipelineRun.
   params:
     - name: SNAPSHOT
       description: 'The JSON string representing the snapshot of the application under test.'
@@ -43,6 +43,18 @@ spec:
     - name: rhosdt_version
       description: "RHOSDT product version used to tag RapiDAST scan results in GCS"
       default: "3.11"
+    - name: ocp_version
+      description: OpenShift minor version for the ephemeral HyperShift cluster
+      default: "4.14"
+    - name: compute_node_type
+      description: AWS instance type for ephemeral HyperShift worker nodes
+      default: "m5.2xlarge"
+    - name: hypershift_node_count
+      description: Number of worker nodes for the ephemeral HyperShift cluster
+      default: "3"
+    - name: hosted_management_cluster
+      description: Hosted management cluster used to provision the ephemeral cluster
+      default: "hosted-mgmt2"
   tasks:
     - name: parse-metadata
       taskRef:
@@ -57,9 +69,68 @@ spec:
       params:
         - name: SNAPSHOT
           value: $(params.SNAPSHOT)
-    - name: eaas-provision-space
+    - name: prepare-cluster-env
       runAfter:
         - parse-metadata
+      when:
+        - input: $(tasks.parse-metadata.results.test-event-type)
+          operator: in
+          values: [ "push", "Push", "PUSH", "incoming", "Incoming", "INCOMING" ]
+      params:
+        - name: compute_node_type
+          value: $(params.compute_node_type)
+        - name: hypershift_node_count
+          value: $(params.hypershift_node_count)
+        - name: hosted_management_cluster
+          value: $(params.hosted_management_cluster)
+      taskSpec:
+        params:
+          - name: compute_node_type
+            type: string
+          - name: hypershift_node_count
+            type: string
+          - name: hosted_management_cluster
+            type: string
+        results:
+          - name: env
+            description: OpenShift CI workflow environment as JSON
+        steps:
+          - name: prepare-env
+            image: quay.io/konflux-ci/konflux-test:latest
+            script: |
+              #!/bin/bash
+              set -euo pipefail
+
+              image_content_sources=$(cat <<'EOF'
+              - source: registry.redhat.io/rhosdt/opentelemetry-collector-rhel9
+                mirrors:
+                  - quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-collector
+              - source: registry.redhat.io/rhosdt/opentelemetry-target-allocator-rhel9
+                mirrors:
+                  - quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-target-allocator
+              - source: registry.redhat.io/rhosdt/opentelemetry-rhel9-operator
+                mirrors:
+                  - quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-operator
+              - source: registry.redhat.io/rhosdt/opentelemetry-operator-bundle
+                mirrors:
+                  - quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle
+              EOF
+              )
+
+              jq -cn \
+                --arg computeNodeType "$(params.compute_node_type)" \
+                --arg nodeCount "$(params.hypershift_node_count)" \
+                --arg managementCluster "$(params.hosted_management_cluster)" \
+                --arg imageContentSources "$image_content_sources" \
+                '{
+                  COMPUTE_NODE_TYPE: $computeNodeType,
+                  HYPERSHIFT_NODE_COUNT: $nodeCount,
+                  HOSTED_MANAGEMENT_CLUSTER: $managementCluster,
+                  IMAGE_CONTENT_SOURCES: $imageContentSources
+                }' | tee "$(results.env.path)"
+    - name: provision-cluster
+      runAfter:
+        - prepare-cluster-env
       when:
         - input: $(tasks.parse-metadata.results.test-event-type)
           operator: in
@@ -68,91 +139,27 @@ spec:
         resolver: git
         params:
           - name: url
-            value: https://github.com/konflux-ci/build-definitions.git
+            value: https://github.com/openshift/konflux-tasks
           - name: revision
             value: main
           - name: pathInRepo
-            value: task/eaas-provision-space/0.1/eaas-provision-space.yaml
+            value: tasks/provision-ephemeral-cluster/0.1/provision-ephemeral-cluster.yaml
       params:
-        - name: ownerKind
-          value: PipelineRun
         - name: ownerName
           value: $(context.pipelineRun.name)
         - name: ownerUid
           value: $(context.pipelineRun.uid)
-    - name: provision-cluster
-      runAfter:
-        - eaas-provision-space
-      when:
-        - input: $(tasks.parse-metadata.results.test-event-type)
-          operator: in
-          values: [ "push", "Push", "PUSH", "incoming", "Incoming", "INCOMING" ]
-      taskSpec:
-        results:
-          - name: clusterName
-            value: "$(steps.create-cluster.results.clusterName)"
-        steps:
-          - name: get-supported-versions
-            ref:
-              resolver: git
-              params:
-                - name: url
-                  value: https://github.com/konflux-ci/build-definitions.git
-                - name: revision
-                  value: main
-                - name: pathInRepo
-                  value: stepactions/eaas-get-supported-ephemeral-cluster-versions/0.1/eaas-get-supported-ephemeral-cluster-versions.yaml
-            params:
-              - name: eaasSpaceSecretRef
-                value: $(tasks.eaas-provision-space.results.secretRef)
-          - name: pick-version
-            ref:
-              resolver: git
-              params:
-                - name: url
-                  value: https://github.com/konflux-ci/build-definitions.git
-                - name: revision
-                  value: main
-                - name: pathInRepo
-                  value: stepactions/eaas-get-latest-openshift-version-by-prefix/0.1/eaas-get-latest-openshift-version-by-prefix.yaml
-            params:
-              - name: prefix
-                value: "4.14."
-          - name: create-cluster
-            ref:
-              resolver: git
-              params:
-                - name: url
-                  value: https://github.com/konflux-ci/build-definitions.git
-                - name: revision
-                  value: main
-                - name: pathInRepo
-                  value: stepactions/eaas-create-ephemeral-cluster-hypershift-aws/0.1/eaas-create-ephemeral-cluster-hypershift-aws.yaml
-            params:
-              - name: eaasSpaceSecretRef
-                value: $(tasks.eaas-provision-space.results.secretRef)
-              - name: version
-                value: "$(steps.pick-version.results.version)"
-              - name: instanceType
-                value: "m5.2xlarge"
-              - name: timeout
-                value: "40m"
-              - name: fips
-                value: "false"
-              - name: imageContentSources
-                value: |
-                  - source: registry.redhat.io/rhosdt/opentelemetry-collector-rhel9
-                    mirrors:
-                      - quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-collector
-                  - source: registry.redhat.io/rhosdt/opentelemetry-target-allocator-rhel9
-                    mirrors:
-                      - quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-target-allocator
-                  - source: registry.redhat.io/rhosdt/opentelemetry-rhel9-operator
-                    mirrors:
-                      - quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-operator
-                  - source: registry.redhat.io/rhosdt/opentelemetry-operator-bundle
-                    mirrors:
-                      - quay.io/redhat-user-workloads/rhosdt-tenant/otel/opentelemetry-bundle
+        - name: workflow
+          value: hypershift-hostedcluster-workflow
+        - name: clusterProfile
+          value: aws-konflux-prod
+        - name: timeout
+          value: 1h
+        - name: releases
+          value: >-
+            {"latest":{"release":{"channel":"stable","version":"$(params.ocp_version)","architecture":"multi"}}}
+        - name: env
+          value: $(tasks.prepare-cluster-env.results.env)
     - name: opentelemetry-install
       description: Task to install bundle onto ephemeral namespace
       runAfter:
@@ -166,32 +173,20 @@ spec:
           value: $(params.SNAPSHOT)
         - name: namespace
           value: "$(params.namespace)"
+        - name: clusterCredentialsSecretRef
+          value: $(tasks.provision-cluster.results.secretRef)
       taskSpec:
         params:
           - name: SNAPSHOT
           - name: namespace
             type: string
+          - name: clusterCredentialsSecretRef
+            type: string
         volumes:
           - name: credentials
-            emptyDir: {}
+            secret:
+              secretName: $(params.clusterCredentialsSecretRef)
         steps:
-          - name: get-kubeconfig
-            ref:
-              resolver: git
-              params:
-                - name: url
-                  value: https://github.com/konflux-ci/build-definitions.git
-                - name: revision
-                  value: main
-                - name: pathInRepo
-                  value: stepactions/eaas-get-ephemeral-cluster-credentials/0.1/eaas-get-ephemeral-cluster-credentials.yaml
-            params:
-              - name: eaasSpaceSecretRef
-                value: $(tasks.eaas-provision-space.results.secretRef)
-              - name: clusterName
-                value: "$(tasks.provision-cluster.results.clusterName)"
-              - name: credentials
-                value: credentials
           - name: install-operator
             env:
               - name: SNAPSHOT
@@ -201,7 +196,7 @@ spec:
                   fieldRef:
                     fieldPath: metadata.labels['appstudio.openshift.io/component']
               - name: KUBECONFIG
-                value: "/credentials/$(steps.get-kubeconfig.results.kubeconfig)"
+                value: /credentials/kubeconfig
             volumeMounts:
               - name: credentials
                 mountPath: /credentials
@@ -243,6 +238,8 @@ spec:
           value: "$(params.operator_targetallocator_version)"
         - name: OTEL_COLLECTOR_VERSION
           value: "$(params.otel_collector_version)"
+        - name: clusterCredentialsSecretRef
+          value: $(tasks.provision-cluster.results.secretRef)
       taskSpec:
         params:
           - name: SNAPSHOT
@@ -256,31 +253,17 @@ spec:
             type: string
           - name: OTEL_COLLECTOR_VERSION
             type: string
+          - name: clusterCredentialsSecretRef
+            type: string
         volumes:
           - name: credentials
-            emptyDir: {}
+            secret:
+              secretName: $(params.clusterCredentialsSecretRef)
         steps:
-          - name: get-kubeconfig
-            ref:
-              resolver: git
-              params:
-                - name: url
-                  value: https://github.com/konflux-ci/build-definitions.git
-                - name: revision
-                  value: main
-                - name: pathInRepo
-                  value: stepactions/eaas-get-ephemeral-cluster-credentials/0.1/eaas-get-ephemeral-cluster-credentials.yaml
-            params:
-              - name: eaasSpaceSecretRef
-                value: $(tasks.eaas-provision-space.results.secretRef)
-              - name: clusterName
-                value: "$(tasks.provision-cluster.results.clusterName)"
-              - name: credentials
-                value: credentials
           - name: check-version
             env:
               - name: KUBECONFIG
-                value: "/credentials/$(steps.get-kubeconfig.results.kubeconfig)"
+                value: /credentials/kubeconfig
             volumeMounts:
               - name: credentials
                 mountPath: /credentials
@@ -347,8 +330,6 @@ spec:
               otel_images=$(oc get deployment opentelemetry-operator-controller-manager -n opentelemetry-operator-system -o yaml | grep -o "registry.redhat.io/rhosdt/.*" | sort | uniq)
               [ $(echo "$otel_images" | wc -l) -eq 3 ] || exit_error "Expected 3 images, found:\n$otel_images"
 
-              oc project default
-
               for image in $otel_images; do
                   oc image info "$image" --icsp-file /tmp/ImageContentSourcePolicy.yaml --filter-by-os linux/amd64
                   echo
@@ -356,16 +337,16 @@ spec:
                   random_name=$(generate_random_name)
 
                   if [[ $image == *opentelemetry-rhel9-operator* ]]; then
-                      log_cmd oc run $random_name --image=$image
+                      log_cmd oc run $random_name -n default --image=$image
                       wait_for_pod_running $random_name default
-                      log_cmd oc logs pod/$random_name | head -n 2
+                      log_cmd oc logs pod/$random_name -n default | head -n 2
                       check_strings_in_logs $random_name default "\"opentelemetry-operator\":\"${OPERATOR_VERSION}\"" "opentelemetry-collector:${OPERATOR_OTEL_COLLECTOR_VERSION}" "target-allocator:${OPERATOR_TARGETALLOCATOR_VERSION}"
                   elif [[ $image == *opentelemetry-target-allocator-rhel9* ]]; then
                       echo "SKIPPED: $image doesn't have a version command"
                   else
-                      log_cmd oc run $random_name --image=$image -- --version
+                      log_cmd oc run $random_name -n default --image=$image -- --version
                       wait_for_pod_running $random_name default
-                      log_cmd oc logs pod/$random_name
+                      log_cmd oc logs pod/$random_name -n default
                       check_strings_in_logs $random_name default "otelcol version ${OTEL_COLLECTOR_VERSION}"
                   fi
 
@@ -385,32 +366,20 @@ spec:
           value: $(params.SNAPSHOT)
         - name: namespace
           value: "$(params.namespace)"
+        - name: clusterCredentialsSecretRef
+          value: $(tasks.provision-cluster.results.secretRef)
       taskSpec:
         params:
           - name: SNAPSHOT
           - name: namespace
             type: string
+          - name: clusterCredentialsSecretRef
+            type: string
         volumes:
           - name: credentials
-            emptyDir: {}
+            secret:
+              secretName: $(params.clusterCredentialsSecretRef)
         steps:
-          - name: get-kubeconfig
-            ref:
-              resolver: git
-              params:
-                - name: url
-                  value: https://github.com/konflux-ci/build-definitions.git
-                - name: revision
-                  value: main
-                - name: pathInRepo
-                  value: stepactions/eaas-get-ephemeral-cluster-credentials/0.1/eaas-get-ephemeral-cluster-credentials.yaml
-            params:
-              - name: eaasSpaceSecretRef
-                value: $(tasks.eaas-provision-space.results.secretRef)
-              - name: clusterName
-                value: "$(tasks.provision-cluster.results.clusterName)"
-              - name: credentials
-                value: credentials
           - name: install-operators
             env:
               - name: SNAPSHOT
@@ -420,7 +389,7 @@ spec:
                   fieldRef:
                     fieldPath: metadata.labels['appstudio.openshift.io/component']
               - name: KUBECONFIG
-                value: "/credentials/$(steps.get-kubeconfig.results.kubeconfig)"
+                value: /credentials/kubeconfig
             volumeMounts:
               - name: credentials
                 mountPath: /credentials
@@ -478,31 +447,21 @@ spec:
         - input: $(tasks.parse-metadata.results.test-event-type)
           operator: in
           values: [ "push", "Push", "PUSH", "incoming", "Incoming", "INCOMING" ]
+      params:
+        - name: clusterCredentialsSecretRef
+          value: $(tasks.provision-cluster.results.secretRef)
       taskSpec:
+        params:
+          - name: clusterCredentialsSecretRef
+            type: string
         volumes:
           - name: credentials
-            emptyDir: {}
+            secret:
+              secretName: $(params.clusterCredentialsSecretRef)
           - name: gcs-key
             secret:
               secretName: rapidast-sa-rhosdt-key
         steps:
-          - name: get-kubeconfig
-            ref:
-              resolver: git
-              params:
-                - name: url
-                  value: https://github.com/konflux-ci/build-definitions.git
-                - name: revision
-                  value: main
-                - name: pathInRepo
-                  value: stepactions/eaas-get-ephemeral-cluster-credentials/0.1/eaas-get-ephemeral-cluster-credentials.yaml
-            params:
-              - name: eaasSpaceSecretRef
-                value: $(tasks.eaas-provision-space.results.secretRef)
-              - name: clusterName
-                value: "$(tasks.provision-cluster.results.clusterName)"
-              - name: credentials
-                value: credentials
           - name: rapidast-scan
             volumeMounts:
               - name: credentials
@@ -512,7 +471,7 @@ spec:
                 readOnly: true
             env:
               - name: KUBECONFIG
-                value: "/credentials/$(steps.get-kubeconfig.results.kubeconfig)"
+                value: /credentials/kubeconfig
               - name: RHOSDT_VERSION
                 value: $(params.rhosdt_version)
             image: quay.io/redhat-distributed-tracing-qe/konflux-e2e:latest
@@ -551,40 +510,28 @@ spec:
           value: $(params.otel_tests_branch)
         - name: SKIP_TESTS
           value: $(params.skip_tests)
+        - name: clusterCredentialsSecretRef
+          value: $(tasks.provision-cluster.results.secretRef)
       taskSpec:
         params:
           - name: OTEL_TESTS_BRANCH
             type: string
           - name: SKIP_TESTS
             type: string
+          - name: clusterCredentialsSecretRef
+            type: string
         volumes:
           - name: credentials
-            emptyDir: {}
+            secret:
+              secretName: $(params.clusterCredentialsSecretRef)
         steps:
-          - name: get-kubeconfig
-            ref:
-              resolver: git
-              params:
-                - name: url
-                  value: https://github.com/konflux-ci/build-definitions.git
-                - name: revision
-                  value: main
-                - name: pathInRepo
-                  value: stepactions/eaas-get-ephemeral-cluster-credentials/0.1/eaas-get-ephemeral-cluster-credentials.yaml
-            params:
-              - name: eaasSpaceSecretRef
-                value: $(tasks.eaas-provision-space.results.secretRef)
-              - name: clusterName
-                value: "$(tasks.provision-cluster.results.clusterName)"
-              - name: credentials
-                value: credentials
           - name: run-e2e-tests
             volumeMounts:
               - name: credentials
                 mountPath: /credentials
             env:
               - name: KUBECONFIG
-                value: "/credentials/$(steps.get-kubeconfig.results.kubeconfig)"
+                value: /credentials/kubeconfig
             image: quay.io/redhat-distributed-tracing-qe/konflux-e2e:latest
             script: |
               echo "Kubeconfig file"
