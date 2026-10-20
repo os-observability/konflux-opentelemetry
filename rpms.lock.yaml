@@ -333,13 +333,13 @@ arches:
     name: elfutils-libs
     evr: 0.194-1.el9
     sourcerpm: elfutils-0.194-1.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/os/Packages/e/environment-modules-5.3.0-2.el9.aarch64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/os/Packages/e/environment-modules-5.3.0-2.el9_8.1.aarch64.rpm
     repoid: ubi-9-for-aarch64-baseos-rpms
-    size: 605165
-    checksum: sha256:569419a5a9256714a4d0f665ff2bada6f565bcc104479115c584cdbe897cf6bf
+    size: 607854
+    checksum: sha256:72643b6f50b4b818ef339b6778467cf3ec96f05fe29d94cc8be7c0d73830084e
     name: environment-modules
-    evr: 5.3.0-2.el9
-    sourcerpm: environment-modules-5.3.0-2.el9.src.rpm
+    evr: 5.3.0-2.el9_8.1
+    sourcerpm: environment-modules-5.3.0-2.el9_8.1.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/os/Packages/e/expat-2.5.0-6.el9_8.5.aarch64.rpm
     repoid: ubi-9-for-aarch64-baseos-rpms
     size: 122957
@@ -1069,12 +1069,6 @@ arches:
     evr: 2:8.2.2637-26.el9_8.23
     sourcerpm: vim-8.2.2637-26.el9_8.23.src.rpm
   source:
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/source/SRPMS/Packages/e/environment-modules-5.3.0-2.el9.src.rpm
-    repoid: ubi-9-for-aarch64-baseos-source-rpms
-    size: 1685315
-    checksum: sha256:f990f48e0cc8aa4322d5b18fb7c548da3ad4fbf79614df275d7603dcfc7e8f5b
-    name: environment-modules
-    evr: 5.3.0-2.el9
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/source/SRPMS/Packages/c/checkpolicy-3.6-1.el9.src.rpm
     repoid: ubi-9-for-x86_64-appstream-source-rpms
     size: 94887
@@ -1231,6 +1225,12 @@ arches:
     checksum: sha256:643279e796ded16c5be5cdc2a91839c787e62e59757008675eb0580a4a42af21
     name: elfutils
     evr: 0.194-1.el9
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/e/environment-modules-5.3.0-2.el9_8.1.src.rpm
+    repoid: ubi-9-for-x86_64-baseos-source-rpms
+    size: 1691907
+    checksum: sha256:3786b3e7ca0917281f4aab45faa8135b479cd8fbd170fa16d0a5cc663113cfab
+    name: environment-modules
+    evr: 5.3.0-2.el9_8.1
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/e/expat-2.5.0-6.el9_8.5.src.rpm
     repoid: ubi-9-for-x86_64-baseos-source-rpms
     size: 8411609
@@ -2001,13 +2001,13 @@ arches:
     name: elfutils-libs
     evr: 0.194-1.el9
     sourcerpm: elfutils-0.194-1.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/e/environment-modules-5.3.0-2.el9.ppc64le.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/e/environment-modules-5.3.0-2.el9_8.1.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-baseos-rpms
-    size: 605401
-    checksum: sha256:8c9f77d309ec86d763c537f987874088be691ddbbfea28509807030b3c2eb960
+    size: 608434
+    checksum: sha256:5851f1d50a68e0fe61bf02f89408fff3f96698841dd11492e6743d2ce943072d
     name: environment-modules
-    evr: 5.3.0-2.el9
-    sourcerpm: environment-modules-5.3.0-2.el9.src.rpm
+    evr: 5.3.0-2.el9_8.1
+    sourcerpm: environment-modules-5.3.0-2.el9_8.1.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/e/expat-2.5.0-6.el9_8.5.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-baseos-rpms
     size: 133703
@@ -2744,12 +2744,6 @@ arches:
     evr: 2:8.2.2637-26.el9_8.23
     sourcerpm: vim-8.2.2637-26.el9_8.23.src.rpm
   source:
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/source/SRPMS/Packages/e/environment-modules-5.3.0-2.el9.src.rpm
-    repoid: ubi-9-for-aarch64-baseos-source-rpms
-    size: 1685315
-    checksum: sha256:f990f48e0cc8aa4322d5b18fb7c548da3ad4fbf79614df275d7603dcfc7e8f5b
-    name: environment-modules
-    evr: 5.3.0-2.el9
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/source/SRPMS/Packages/l/librtas-2.0.6-3.el9.src.rpm
     repoid: ubi-9-for-ppc64le-baseos-source-rpms
     size: 177776
@@ -2912,6 +2906,12 @@ arches:
     checksum: sha256:643279e796ded16c5be5cdc2a91839c787e62e59757008675eb0580a4a42af21
     name: elfutils
     evr: 0.194-1.el9
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/e/environment-modules-5.3.0-2.el9_8.1.src.rpm
+    repoid: ubi-9-for-x86_64-baseos-source-rpms
+    size: 1691907
+    checksum: sha256:3786b3e7ca0917281f4aab45faa8135b479cd8fbd170fa16d0a5cc663113cfab
+    name: environment-modules
+    evr: 5.3.0-2.el9_8.1
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/e/expat-2.5.0-6.el9_8.5.src.rpm
     repoid: ubi-9-for-x86_64-baseos-source-rpms
     size: 8411609
@@ -3689,13 +3689,13 @@ arches:
     name: elfutils-libs
     evr: 0.194-1.el9
     sourcerpm: elfutils-0.194-1.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/e/environment-modules-5.3.0-2.el9.s390x.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/e/environment-modules-5.3.0-2.el9_8.1.s390x.rpm
     repoid: ubi-9-for-s390x-baseos-rpms
-    size: 604248
-    checksum: sha256:170326278e5bf85fb830c599104a92cdcbe096e36608e42cf797c8fd34caf2c4
+    size: 606932
+    checksum: sha256:1408781f93cd140fdc041c126091679e1397ce04615b189af828b0dbf31aad69
     name: environment-modules
-    evr: 5.3.0-2.el9
-    sourcerpm: environment-modules-5.3.0-2.el9.src.rpm
+    evr: 5.3.0-2.el9_8.1
+    sourcerpm: environment-modules-5.3.0-2.el9_8.1.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/e/expat-2.5.0-6.el9_8.5.s390x.rpm
     repoid: ubi-9-for-s390x-baseos-rpms
     size: 125167
@@ -4425,12 +4425,6 @@ arches:
     evr: 2:8.2.2637-26.el9_8.23
     sourcerpm: vim-8.2.2637-26.el9_8.23.src.rpm
   source:
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/source/SRPMS/Packages/e/environment-modules-5.3.0-2.el9.src.rpm
-    repoid: ubi-9-for-aarch64-baseos-source-rpms
-    size: 1685315
-    checksum: sha256:f990f48e0cc8aa4322d5b18fb7c548da3ad4fbf79614df275d7603dcfc7e8f5b
-    name: environment-modules
-    evr: 5.3.0-2.el9
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/source/SRPMS/Packages/c/checkpolicy-3.6-1.el9.src.rpm
     repoid: ubi-9-for-x86_64-appstream-source-rpms
     size: 94887
@@ -4587,6 +4581,12 @@ arches:
     checksum: sha256:643279e796ded16c5be5cdc2a91839c787e62e59757008675eb0580a4a42af21
     name: elfutils
     evr: 0.194-1.el9
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/e/environment-modules-5.3.0-2.el9_8.1.src.rpm
+    repoid: ubi-9-for-x86_64-baseos-source-rpms
+    size: 1691907
+    checksum: sha256:3786b3e7ca0917281f4aab45faa8135b479cd8fbd170fa16d0a5cc663113cfab
+    name: environment-modules
+    evr: 5.3.0-2.el9_8.1
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/e/expat-2.5.0-6.el9_8.5.src.rpm
     repoid: ubi-9-for-x86_64-baseos-source-rpms
     size: 8411609
