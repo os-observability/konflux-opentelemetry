@@ -1069,12 +1069,6 @@ arches:
     evr: 2:8.2.2637-26.el9_8.23
     sourcerpm: vim-8.2.2637-26.el9_8.23.src.rpm
   source:
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/source/SRPMS/Packages/c/curl-7.76.1-40.el9_8.9.src.rpm
-    repoid: ubi-9-for-aarch64-baseos-source-rpms
-    size: 2586626
-    checksum: sha256:5b232294ba008dffd8e36196f1636691c0351a8ad6c9e5d0f8f7f0ee6458ad4b
-    name: curl
-    evr: 7.76.1-40.el9_8.9
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/source/SRPMS/Packages/c/checkpolicy-3.6-1.el9.src.rpm
     repoid: ubi-9-for-x86_64-appstream-source-rpms
     size: 94887
@@ -1189,6 +1183,12 @@ arches:
     checksum: sha256:775d926429179caeade6af8dc7dea15a0bea49102c2592d5b712f996a329ec38
     name: crypto-policies
     evr: 20260224-1.gitea0f072.el9_8
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/c/curl-7.76.1-40.el9_8.9.src.rpm
+    repoid: ubi-9-for-x86_64-baseos-source-rpms
+    size: 2586626
+    checksum: sha256:5b232294ba008dffd8e36196f1636691c0351a8ad6c9e5d0f8f7f0ee6458ad4b
+    name: curl
+    evr: 7.76.1-40.el9_8.9
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/c/cyrus-sasl-2.1.27-22.el9.src.rpm
     repoid: ubi-9-for-x86_64-baseos-source-rpms
     size: 4025677
@@ -1945,13 +1945,13 @@ arches:
     name: cracklib-dicts
     evr: 2.9.6-28.el9
     sourcerpm: cracklib-2.9.6-28.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/c/curl-7.76.1-40.el9_8.8.ppc64le.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/c/curl-7.76.1-40.el9_8.9.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-baseos-rpms
-    size: 310906
-    checksum: sha256:4c09870d9fbe4326476a3527cdff68e49e15f176a6b379a7f6ab921fc31a427b
+    size: 311066
+    checksum: sha256:fa780159dbdedc76ebd8f5b57b2923ccec7754c2420434ec8d15059f70fd6538
     name: curl
-    evr: 7.76.1-40.el9_8.8
-    sourcerpm: curl-7.76.1-40.el9_8.8.src.rpm
+    evr: 7.76.1-40.el9_8.9
+    sourcerpm: curl-7.76.1-40.el9_8.9.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/c/cyrus-sasl-lib-2.1.27-22.el9.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-baseos-rpms
     size: 876118
@@ -2148,13 +2148,13 @@ arches:
     name: libcom_err
     evr: 1.46.5-8.el9
     sourcerpm: e2fsprogs-1.46.5-8.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/l/libcurl-7.76.1-40.el9_8.8.ppc64le.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/l/libcurl-7.76.1-40.el9_8.9.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-baseos-rpms
-    size: 329921
-    checksum: sha256:3398c7352676781afaccc81aeb80925dc9b213c4fdbe6784e0662194931ad948
+    size: 330393
+    checksum: sha256:0993b34a2a85c4b44bc2893e17bdc4ac8c7e0825e03b602f2babffe9c2d6e6e3
     name: libcurl
-    evr: 7.76.1-40.el9_8.8
-    sourcerpm: curl-7.76.1-40.el9_8.8.src.rpm
+    evr: 7.76.1-40.el9_8.9
+    sourcerpm: curl-7.76.1-40.el9_8.9.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/l/libdb-5.3.28-57.el9_6.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-baseos-rpms
     size: 837087
@@ -2864,12 +2864,12 @@ arches:
     checksum: sha256:775d926429179caeade6af8dc7dea15a0bea49102c2592d5b712f996a329ec38
     name: crypto-policies
     evr: 20260224-1.gitea0f072.el9_8
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/c/curl-7.76.1-40.el9_8.8.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/c/curl-7.76.1-40.el9_8.9.src.rpm
     repoid: ubi-9-for-x86_64-baseos-source-rpms
-    size: 2581541
-    checksum: sha256:303a97cbdfaaac1d709ef7621b2b349dc403da6a553ecfe5e3114f76d757d554
+    size: 2586626
+    checksum: sha256:5b232294ba008dffd8e36196f1636691c0351a8ad6c9e5d0f8f7f0ee6458ad4b
     name: curl
-    evr: 7.76.1-40.el9_8.8
+    evr: 7.76.1-40.el9_8.9
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/c/cyrus-sasl-2.1.27-22.el9.src.rpm
     repoid: ubi-9-for-x86_64-baseos-source-rpms
     size: 4025677
@@ -3633,13 +3633,13 @@ arches:
     name: cracklib-dicts
     evr: 2.9.6-28.el9
     sourcerpm: cracklib-2.9.6-28.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/c/curl-7.76.1-40.el9_8.8.s390x.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/c/curl-7.76.1-40.el9_8.9.s390x.rpm
     repoid: ubi-9-for-s390x-baseos-rpms
-    size: 305871
-    checksum: sha256:f716718f72be1af6eeb629f2c85477a1eb04d4c7ab297955044394b8ce549a1a
+    size: 306012
+    checksum: sha256:c8a5ec9fcbecd9ede86316f43cbae7767a4f7b183dac09537e6520f4f7fd049c
     name: curl
-    evr: 7.76.1-40.el9_8.8
-    sourcerpm: curl-7.76.1-40.el9_8.8.src.rpm
+    evr: 7.76.1-40.el9_8.9
+    sourcerpm: curl-7.76.1-40.el9_8.9.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/c/cyrus-sasl-lib-2.1.27-22.el9.s390x.rpm
     repoid: ubi-9-for-s390x-baseos-rpms
     size: 763345
@@ -3836,13 +3836,13 @@ arches:
     name: libcom_err
     evr: 1.46.5-8.el9
     sourcerpm: e2fsprogs-1.46.5-8.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/l/libcurl-7.76.1-40.el9_8.8.s390x.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/l/libcurl-7.76.1-40.el9_8.9.s390x.rpm
     repoid: ubi-9-for-s390x-baseos-rpms
-    size: 292806
-    checksum: sha256:fba30ce3801d491bd946c7df555b671f8973fab988413c006abe5874d5547207
+    size: 293164
+    checksum: sha256:732049a97a784be1bfa9dce6d41a2e6facb1fb32eaf2f6b038a0d43862ff352f
     name: libcurl
-    evr: 7.76.1-40.el9_8.8
-    sourcerpm: curl-7.76.1-40.el9_8.8.src.rpm
+    evr: 7.76.1-40.el9_8.9
+    sourcerpm: curl-7.76.1-40.el9_8.9.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/l/libdb-5.3.28-57.el9_6.s390x.rpm
     repoid: ubi-9-for-s390x-baseos-rpms
     size: 721041
@@ -4539,12 +4539,12 @@ arches:
     checksum: sha256:775d926429179caeade6af8dc7dea15a0bea49102c2592d5b712f996a329ec38
     name: crypto-policies
     evr: 20260224-1.gitea0f072.el9_8
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/c/curl-7.76.1-40.el9_8.8.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/c/curl-7.76.1-40.el9_8.9.src.rpm
     repoid: ubi-9-for-x86_64-baseos-source-rpms
-    size: 2581541
-    checksum: sha256:303a97cbdfaaac1d709ef7621b2b349dc403da6a553ecfe5e3114f76d757d554
+    size: 2586626
+    checksum: sha256:5b232294ba008dffd8e36196f1636691c0351a8ad6c9e5d0f8f7f0ee6458ad4b
     name: curl
-    evr: 7.76.1-40.el9_8.8
+    evr: 7.76.1-40.el9_8.9
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/c/cyrus-sasl-2.1.27-22.el9.src.rpm
     repoid: ubi-9-for-x86_64-baseos-source-rpms
     size: 4025677
@@ -5336,13 +5336,13 @@ arches:
     name: crypto-policies
     evr: 20260224-1.gitea0f072.el9_8
     sourcerpm: crypto-policies-20260224-1.gitea0f072.el9_8.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/c/curl-7.76.1-40.el9_8.8.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/c/curl-7.76.1-40.el9_8.9.x86_64.rpm
     repoid: ubi-9-for-x86_64-baseos-rpms
-    size: 307634
-    checksum: sha256:21ea1af695c0a8cea53ef6403382d4f8be30790dd6a8fe9b46b808e5fd7e0d3c
+    size: 307778
+    checksum: sha256:41f3588e1e68b120c94acc817af08be2f8f021ce534e01f87a1757c497a13515
     name: curl
-    evr: 7.76.1-40.el9_8.8
-    sourcerpm: curl-7.76.1-40.el9_8.8.src.rpm
+    evr: 7.76.1-40.el9_8.9
+    sourcerpm: curl-7.76.1-40.el9_8.9.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/c/cyrus-sasl-lib-2.1.27-22.el9.x86_64.rpm
     repoid: ubi-9-for-x86_64-baseos-rpms
     size: 786202
@@ -5546,13 +5546,13 @@ arches:
     name: libcom_err
     evr: 1.46.5-8.el9
     sourcerpm: e2fsprogs-1.46.5-8.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/l/libcurl-7.76.1-40.el9_8.8.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/l/libcurl-7.76.1-40.el9_8.9.x86_64.rpm
     repoid: ubi-9-for-x86_64-baseos-rpms
-    size: 297409
-    checksum: sha256:cc12ee8e4fb07d93ad55dc59406ff65a3acbb795b3eca30b32195e51b3a12965
+    size: 298266
+    checksum: sha256:0b196b55b1e358e08c7aed3a3eee2af18009dd66c7a73c4f2efc08f18a6b5c63
     name: libcurl
-    evr: 7.76.1-40.el9_8.8
-    sourcerpm: curl-7.76.1-40.el9_8.8.src.rpm
+    evr: 7.76.1-40.el9_8.9
+    sourcerpm: curl-7.76.1-40.el9_8.9.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/l/libdb-5.3.28-57.el9_6.x86_64.rpm
     repoid: ubi-9-for-x86_64-baseos-rpms
     size: 755192
@@ -6193,12 +6193,12 @@ arches:
     checksum: sha256:775d926429179caeade6af8dc7dea15a0bea49102c2592d5b712f996a329ec38
     name: crypto-policies
     evr: 20260224-1.gitea0f072.el9_8
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/c/curl-7.76.1-40.el9_8.8.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/c/curl-7.76.1-40.el9_8.9.src.rpm
     repoid: ubi-9-for-x86_64-baseos-source-rpms
-    size: 2581541
-    checksum: sha256:303a97cbdfaaac1d709ef7621b2b349dc403da6a553ecfe5e3114f76d757d554
+    size: 2586626
+    checksum: sha256:5b232294ba008dffd8e36196f1636691c0351a8ad6c9e5d0f8f7f0ee6458ad4b
     name: curl
-    evr: 7.76.1-40.el9_8.8
+    evr: 7.76.1-40.el9_8.9
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/c/cyrus-sasl-2.1.27-22.el9.src.rpm
     repoid: ubi-9-for-x86_64-baseos-source-rpms
     size: 4025677
