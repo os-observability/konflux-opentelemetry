@@ -15,6 +15,12 @@ jobs:
     name: Verify all images are multi-architecture
 
     steps:
+      - name: Fail early on fork PRs (secrets unavailable)
+        if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
+        run: |
+          echo "::error::This check requires registry credentials, which are unavailable on fork PRs. A maintainer must run it from a branch in this repo."
+          exit 1
+
       - name: Checkout repository
         uses: actions/checkout@v7
 
