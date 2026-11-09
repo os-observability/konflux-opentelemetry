@@ -1,6 +1,6 @@
 # Generate OBI (OpenTelemetry eBPF Instrumentation) artifacts in a dedicated
 # stage so clang/llvm/make stay out of the collector builder and final images.
-FROM registry.redhat.io/ubi9/ubi:latest@sha256:1963e00991088221a3405be7eb315a3dbc0be0f1f7440f0bd537d481cf33c83e as bpf-generator
+FROM registry.redhat.io/ubi9/ubi:latest@sha256:87f66688da4e206d5a1877088626c542288a5ccd97898cf363b588d57817e6be as bpf-generator
 
 WORKDIR /opt/app-root/src
 USER root
@@ -14,7 +14,7 @@ WORKDIR /opt/app-root/src/.obi-src
 
 RUN make generate
 
-FROM registry.redhat.io/ubi9/ubi:latest@sha256:1963e00991088221a3405be7eb315a3dbc0be0f1f7440f0bd537d481cf33c83e as builder
+FROM registry.redhat.io/ubi9/ubi:latest@sha256:87f66688da4e206d5a1877088626c542288a5ccd97898cf363b588d57817e6be as builder
 
 WORKDIR /opt/app-root/src
 USER root
@@ -35,9 +35,9 @@ RUN CGO_ENABLED=0 GOFIPS140=certified go build -C ./_build -mod=mod -tags no_ope
 COPY fips_check_collector.sh .
 RUN ./fips_check_collector.sh
 
-FROM registry.redhat.io/ubi9/ubi-micro:latest@sha256:6d9eff186ce3ccf399c1835265e7fd3f83bd112cc3422da2d39fd44e234aab59 AS target-base
+FROM registry.redhat.io/ubi9/ubi-micro:latest@sha256:d3499a0896e2d6a1642f922615831bc5c2fd513bbb34f3446cabba530d9d54a2 AS target-base
 
-FROM registry.redhat.io/ubi9/ubi:latest@sha256:1963e00991088221a3405be7eb315a3dbc0be0f1f7440f0bd537d481cf33c83e as install-additional-packages
+FROM registry.redhat.io/ubi9/ubi:latest@sha256:87f66688da4e206d5a1877088626c542288a5ccd97898cf363b588d57817e6be as install-additional-packages
 COPY --from=target-base / /mnt/rootfs
 RUN rpm --root /mnt/rootfs --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 # Install the systemd package which provides journalctl required by journald receiver and add user to systemd-journal group.
