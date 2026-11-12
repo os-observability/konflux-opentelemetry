@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi9/ubi:latest@sha256:87f66688da4e206d5a1877088626c542288a5ccd97898cf363b588d57817e6be as builder
+FROM registry.redhat.io/ubi9/ubi:latest@sha256:1e9f0ed9fceafb40878bc1705ff124aa150e3fed873f18c42cdc2dded319e0a8 as builder
 
 WORKDIR /opt/app-root/src
 USER root
@@ -41,7 +41,7 @@ RUN exportOrFail() { echo $1; if [[ $1 == *= ]]; then echo "Error: empty variabl
               -X ${VERSION_PKG}.autoInstrumentationApacheHttpd=${AUTO_INSTRUMENTATION_APACHE_HTTPD_VERSION} \
               -X ${VERSION_PKG}.autoInstrumentationNginx=${AUTO_INSTRUMENTATION_NGINX_VERSION}"
 
-FROM registry.redhat.io/ubi9/ubi-micro:latest@sha256:d3499a0896e2d6a1642f922615831bc5c2fd513bbb34f3446cabba530d9d54a2 AS target-base
+FROM registry.redhat.io/ubi9/ubi-micro:latest@sha256:dbd325b96bcd432dd42816d31412bdf1dc0fb973b79ed310344bc23c76c068db AS target-base
 
 FROM scratch
 WORKDIR /
